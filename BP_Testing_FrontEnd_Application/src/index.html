@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BP User Interface</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <img src="newrelic-logo.png" alt="New Relic" class="logo">
+        <h1>Frameworks BP FastTrack Testing UI</h1>
+
+        <fieldset class="fieldset">
+            <legend>Subscription Type:</legend>
+            <label for="subscription-type">Select Subscription Type:</label>
+            <select id="subscription-type" name="subscription-type">
+                <option value="New">New</option>
+                <option value="Amend">Amend</option>
+                <option value="Cancel">Cancel</option>
+                <option value="R&R">R&R</option>
+            </select>
+        </fieldset>
+
+        <fieldset class="fieldset">
+            <legend>Buying Program:</legend>
+            <label><input type="checkbox" value="PAYG" name="buying-program"> PAYG</label>
+            <label><input type="checkbox" value="Savings Plan" name="buying-program"> Savings Plan</label>
+        </fieldset>
+
+        <div class="side-by-side">
+            <fieldset class="fieldset">
+                <legend>Products:</legend>
+                <label><input type="checkbox" value="Users" name="product" id="user-checkbox"> Users</label>
+                <label><input type="checkbox" value="Data" name="product"> Data</label>
+                <label><input type="checkbox" value="Compute" name="product" id="compute-checkbox"> Compute</label>
+            </fieldset>
+
+            <fieldset class="fieldset">
+                <legend>Region:</legend>
+                <!--label><input type="checkbox" value="Non-Region" name="region"> Non-Region</label-->
+                <label><input type="checkbox" value="US" name="region"> US</label>
+                <label><input type="checkbox" value="EU" name="region"> EU</label>
+            </fieldset>
+        </div>
+
+        <fieldset class="fieldset" id="user-options" style="display: none;">
+            <legend>User Options:</legend>
+            <label><input type="checkbox" value="Core" name="user-option"> Core</label>
+            <label><input type="checkbox" value="Standard FPU" name="user-option"> Standard FPU</label>
+            <label><input type="checkbox" value="Pro FPU" name="user-option"> Pro FPU</label>
+            <label><input type="checkbox" value="Enterprise FPU" name="user-option"> Enterprise FPU</label>
+        </fieldset>
+
+        <fieldset class="fieldset" id="compute-options" style="display: none;">
+            <legend>Compute Options:</legend>
+            <label><input type="checkbox" value="Standard" name="compute-option"> Standard</label>
+            <label><input type="checkbox" value="Pro" name="compute-option"> Pro</label>
+            <label><input type="checkbox" value="Enterprise" name="compute-option"> Enterprise</label>
+        </fieldset>
+
+        <fieldset class="fieldset">
+            <legend>Contract Dates:</legend>
+            <label for="contract-start-date">Contract Start Date:</label>
+            <input type="date" id="contract-start-date" name="contract-start-date">
+            <label for="contract-end-date">Contract End Date:</label>
+            <input type="date" id="contract-end-date" name="contract-end-date">
+        </fieldset>
+
+        <button id="submit">GeneratePlan</button>
+
+        <div id="result" class="selected-options" style="display: none;">
+            <h3 id="account-name"></h3>
+            <table id="result-table">
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>ProdID</th>
+                        <th>Product Name</th>
+                        <th>Rating Method</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Results will be inserted here -->
+                </tbody>
+            </table>
+            <label for="session-id">Enter SessionId:</label>
+            <input type="text" id="session-id" name="session-id"><br>
+            
+            <button id="startButton">Create</button>
+        </div>
+        
+        <div id="result-container" style="display: none;">
+            <h3>Account Details</h3>
+            <table id="result-values-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Values will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+       
+        <div id="result-container1" style="display: none;">
+            <h3>Contract Details</h3>
+            <table id="result-values-table1">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Values will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+       
+        <div id="result-container2" style="display: none;">
+            <h3>ContractRate Details</h3>
+            <table id="result-values-table2">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Values will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div id="result-container3" style="display: none;">
+            <h3>AccountProduct Details</h3>
+            <table id="result-values-table3">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Values will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <p>Server is running...</p>
+    <script type="module" src="app.js"></script>
+</body>
+</html>

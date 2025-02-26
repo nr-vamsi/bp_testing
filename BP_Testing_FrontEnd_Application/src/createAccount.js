@@ -18,11 +18,11 @@ export async function createAccount(sessionId, accountName) {
                 nrAccountNote: '',
                 nrResellerPartnership: '0',
                 nrSalesforceAccountID: `SF_${accountName}`,
-                nrShipToAddress1: 'Sarjapur',
-                nrShipToCity: 'Bangalore',
-                nrShipToCountry: 'India',
-                nrShipToState: 'Karnataka',
-                nrShipToZip: '562125',
+                nrShipToAddress1: '596 Carson Street',
+                nrShipToCity: 'Lexington',
+                nrShipToCountry: 'United States',
+                nrShipToState: 'Kentucky',
+                nrShipToZip: '40509',
                 nrTaxId: '86'
             }
         })

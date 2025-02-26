@@ -26,12 +26,12 @@ my-js-ui-project
 
 1. Clone the repository:
    ```
-   git clone <repository-url>
+   git clone https://github.com/nr-vamsi/bp_testing/tree/main/BP_Testing_FrontEnd_Application
    ```
 
 2. Navigate to the project directory:
    ```
-   cd my-js-ui-project
+   cd BP_Testing_FrontEnd_Application
    ```
 
 3. Install dependencies:

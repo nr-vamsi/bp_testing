@@ -26,7 +26,7 @@ my-js-ui-project
 
 1. Clone the repository:
    ```
-   git clone https://github.com/nr-vamsi/bp_testing/tree/main/BP_Testing_FrontEnd_Application
+   git clone https://github.com/nr-vamsi/bp_testing.git
    ```
 
 2. Navigate to the project directory:

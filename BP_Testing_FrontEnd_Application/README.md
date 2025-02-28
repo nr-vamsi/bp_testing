@@ -9,6 +9,7 @@ my-js-ui-project
 ├── src
 │   ├── index.html      # HTML structure of the user interface
 │   ├── styles.css      # Styles for the user interface
+│   ├── *.js            # Required js files to accomplish the job.
 │   └── app.js          # JavaScript logic for handling user interactions
 ├── server.js           # Node.js server setup
 ├── package.json        # npm configuration file

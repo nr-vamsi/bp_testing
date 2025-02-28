@@ -1,4 +1,11 @@
-export async function createBillingProfile(sessionId, accountId, accountName) {
+export async function createBillingProfile(sessionId, accountId, accountName, sfAccId) {
+    const billToAddress1 = document.getElementById('bill-to-address1').value;
+    const billToCity = document.getElementById('bill-to-city').value;
+    const billToState = document.getElementById('bill-to-state').value;
+    const billToCountry = document.getElementById('bill-to-country').value;
+    const billToZip = document.getElementById('bill-to-zip').value;
+    const billToEmail = document.getElementById('bill-to-email').value;
+
     const response = await fetch('https://sandbox.billingplatform.com/newrelic_dev/rest/2.0/BILLING_PROFILE', {
         method: 'POST',
         headers: {
@@ -12,7 +19,7 @@ export async function createBillingProfile(sessionId, accountId, accountName) {
                 AccountBalanceNumber: '0',
                 AccountId: accountId,
                 AchBankAcctType: 'Business Checking',
-                Address1: '596 Carson Street',
+                Address1: billToAddress1,
                 BillTo: 'Venkata Thota',
                 BillingCycle: 'MONTHLY',
                 BillingEntity: accountName,
@@ -20,12 +27,12 @@ export async function createBillingProfile(sessionId, accountId, accountName) {
                 CalendarClosingMonth: 'January',
                 CalendarClosingWeekday: 'Saturday',
                 CalendarType: '4-5-4',
-                City: 'Lexington',
-                Country: 'United States',
+                City: billToCity,
+                Country: billToCountry,
                 CurrencyCode: 'USD',
                 DisablePDFGenerationOnInvoiceClose: '0',
                 DunningInterval: '21',
-                Email: 'vthota+APITest01@newrelic.com',
+                Email: billToEmail,
                 EventBasedBilling: '0',
                 InvoiceApprovalFlag: '1',
                 InvoiceDeliveryMethod: 'EMAIL',
@@ -35,16 +42,16 @@ export async function createBillingProfile(sessionId, accountId, accountName) {
                 PaymentTermDays: '31',
                 QuarterlyBillingMonth: 'March, June, September, December',
                 SemiAnnualBillingMonth: 'June, December',
-                State: 'Kentucky',
+                State: billToState,
                 StatementApprovalFlag: '0',
                 Status: 'ACTIVE',
                 TimeZoneId: '351',
                 WeeklyBillingDate: 'Monday - Sunday',
                 YearlyBillingMonth: 'January',
-                Zip: '40509',
+                Zip: billToZip,
                 nrBillType: 'Check',
-                nrInvoiceEmail: 'vthota+APITest01@newrelic.com',
-                nrSalesforceAccountId: `SF_${accountName}`
+                nrInvoiceEmail: billToEmail,
+                nrSalesforceAccountId: sfAccId
             }
         })
     });

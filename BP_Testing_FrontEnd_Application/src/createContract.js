@@ -1,4 +1,4 @@
-export async function createContract(sessionId, accountId, accountName, contractStartDateValue) {
+export async function createContract(sessionId, accountId, accountName, contractStartDateValue, contractName) {
     const response = await fetch('https://sandbox.billingplatform.com/newrelic_dev/rest/2.0/CONTRACT', {
         method: 'POST',
         headers: {
@@ -10,11 +10,11 @@ export async function createContract(sessionId, accountId, accountName, contract
                 Id: '',
                 StartDate: contractStartDateValue,
                 AccountId: accountId,
-                ContractNumber: `Contract_${accountName}`,
+                ContractNumber: contractName,
                 ContractStatus: 'ACTIVE',
                 OnEndDate: 'Terminate',
                 nrBillingTerms: 'Monthly in Arrears (No Pre Pay)',
-                nrSfContractId: `SF_Contract_${accountName}`
+                nrSfContractId: `SF_${contractName}`
             }
         })
     });

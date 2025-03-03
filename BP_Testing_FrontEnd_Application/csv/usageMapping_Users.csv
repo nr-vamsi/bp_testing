@@ -1,0 +1,12 @@
+Product,Usage Identifier,SampleUOMField,SampleAttr1
+New Relic - Standard Tiered Full Platform Users (PAYG) UOM,FPU Standard,FPU,Std
+New Relic One - Core Users (PAYG) UOM,Core Users,Core Users,
+New Relic One - Enterprise Full Platform Users (PAYG) UOM,FPU Enterprise,FPU,Enterprise
+New Relic One - Pro Full Platform Users (PAYG) UOM,FPU Pro,FPU,Pro
+New Relic One - Standard Full Platform Users (PAYG) UOM,FPU Standard,FPU,Std
+New Relic Savings Plan - Core Users UOM,Core Users,Core Users,
+New Relic Savings Plan - Enterprise Full Platform Users UOM,FPU Enterprise,FPU,Enterprise
+New Relic Savings Plan - Pro Full Platform Users UOM,FPU Pro,FPU,Pro
+Prototype Users - FPU - Enterprise,FPU Enterprise,FPU,Enterprise
+Prototype Users - FPU - Pro,FPU Pro,FPU,Pro
+Prototype Users - FPU - Standard,FPU Standard,FPU,Std

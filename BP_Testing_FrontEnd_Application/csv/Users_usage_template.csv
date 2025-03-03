@@ -1,0 +1,7 @@
+BillingIdentifier,StartDate,Quantity,UsageIdentifier,Attr1,StartDate,EndDate
+svdemo01,2024-03-02,5,FPU,Enterprise,2024-03-01,2024-03-31
+svdemo01,2024-03-05,7,FPU,Enterprise,2024-03-01,2024-03-31
+svdemo01,2024-03-10,10,FPU,Enterprise,2024-03-01,2024-03-31
+svdemo01,2024-03-12,8,FPU,Enterprise,2024-03-01,2024-03-31
+svdemo01,2024-03-12,8,Core Users,,2024-03-01,2024-03-31
+

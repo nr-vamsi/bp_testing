@@ -18,7 +18,7 @@ app.use(express.json());
 
 let productsList = [];
 
-const csvFilePath = path.join(__dirname, 'src', 'productList.csv');
+const csvFilePath = path.join(__dirname, 'csv', 'productList.csv');
 
 fs.createReadStream(csvFilePath)
   .pipe(csv())
@@ -30,6 +30,7 @@ fs.createReadStream(csvFilePath)
   });
 
 app.use(express.static(path.join(__dirname, 'src')));
+app.use('/csv', express.static(path.join(__dirname, 'csv')));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'src', 'index.html'));

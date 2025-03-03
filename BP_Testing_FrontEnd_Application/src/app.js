@@ -9,6 +9,8 @@ import { createTieredPricing } from './createTieredPricing.js';
 import { createAccountProduct } from './createAccountProduct.js';
 import { createBillingIdentifier } from './createBillingIdentifier.js';
 import { appendResultRow, displayResultContainer } from './handleResults.js';
+import { createUserUsageFile } from './createUsageFiles.js';
+import { createNonUserUsageFile } from './createUsageFiles.js';
 
 let productsList = [];
 let accountName = '';
@@ -24,11 +26,10 @@ let contractStartDateValue = '';
 let contractEndDateValue = '';
 let selectedProductsDetails = [];
 let billingIdentifier = '';
-let randomAddress = '';
 let contractName = '';
 let sfAccId = '';
 
-fetchProducts().then(data => {
+fetchProducts('/csv/productList.csv').then(data => {
     productsList = data;
 }).catch(error => console.error('Error fetching products:', error));
 
@@ -86,18 +87,6 @@ function sequentialSearch(queries, list) {
     });
 }
 
-/* async function generateRandomAddress(state) {
-    try {
-        const response = await fetch(`https://random-data-api.com/api/address/random_address?country_code=us&state=${state}`);
-        const data = await response.json();
-        const address = data;
-        console.log('Generated Address:', address);
-        return `${address.street_address}, ${address.city}, ${state}, ${address.zip_code}`;
-    } catch (error) {
-        console.error('Error generating random address:', error);
-        return '';
-    }
-} */
 
 function handleSameAsBillToChange() {
     const billToFields = {
@@ -157,12 +146,13 @@ async function handleSubmit() {
     contractEndDateValue = contractEndDate.value;
     const selectedSubscriptionType = subscriptionType.value;
 
-    const currentDateTime = new Date().toISOString();
+    const currentDateTime = new Date().toISOString().replace('T', '_').replace('Z', '');
     accountName = `${selectedSubscriptionType}_${selectedBuyingPrograms.join(', ')}_${selectedProducts.join('+')}_${currentDateTime.replace(/[+_\-:.]/g, '')}`;
     contractName = `Contract_${currentDateTime.replace(/[+_\-:.]/g, '')}`;
     sfAccId = `SF_${currentDateTime.replace(/[+_\-:.]/g, '')}`;
     billingIdentifier = `${selectedProducts.join('+')}_${currentDateTime}`.replace(/[+_\-:.]/g, '');
-    console.log('Selected Options:', {
+    
+    /* console.log('Selected Options:', {
         selectedSubscriptionType,
         selectedBuyingPrograms,
         selectedProducts,
@@ -172,13 +162,8 @@ async function handleSubmit() {
         contractStartDateValue,
         contractEndDateValue,
         accountName
-    }); // Debugging information
+    }); */ // Debugging information
 
-    //const selectedState = stateSelect.value;
-    /* if (selectedState) {
-        randomAddress = await generateRandomAddress(selectedState);
-        console.log('Random Address:', randomAddress);
-    } */
 
     let queries = [];
 
@@ -223,12 +208,12 @@ async function handleSubmit() {
         }
     }
 
-    console.log('Queries:', queries); // Debugging information
+    //console.log('Queries:', queries); // Debugging information
 
     let filteredProducts = [];
 
     for (let query of queries) {
-        console.log('Query Array: ', query); // Debugging information
+       // console.log('Query Array: ', query); // Debugging information
         let results = sequentialSearch(query, productsList);
         if (query.includes('Data')) {
             results = results.filter(item => !item['Product Name'].includes('Live') && !item['Product Name'].includes('Compute'));
@@ -236,7 +221,7 @@ async function handleSubmit() {
         filteredProducts = [...filteredProducts, ...results];
     }
 
-    filteredProducts = [...new Set(filteredProducts.map(item => item))]; // Remove duplicates
+    //filteredProducts = [...new Set(filteredProducts.map(item => item))]; // Remove duplicates
 
     // Sort and group products by Usage first and then their corresponding Formula products
     const usageProducts = filteredProducts.filter(item => item['Rating Method'] === 'Usage');
@@ -317,6 +302,32 @@ function addTieredDetailRow(tieredDetailsCell) {
     });
 }
 
+async function readCSV(filePath) {
+    const response = await fetch(filePath);
+    const data = await response.text();
+    const rows = data.split('\n');
+    const headers = rows[0].split(',');
+    return rows.slice(1).map(row => {
+        const values = row.split(',');
+        return headers.reduce((object, header, index) => {
+            object[header] = values[index];
+            return object;
+        }, {});
+    });
+}
+
+async function showCSVResults() {
+    const usersUsageTemplate = await readCSV('/csv/Users_usage_template.csv');
+    const nonUsersUsageTemplate = await readCSV('/csv/NonUser_usage_template.csv');
+    const usageMappingUsers = await readCSV('/csv/usageMapping_Users.csv');
+    const usageMappingNonUsers = await readCSV('/csv/usageMapping_NonUsers.csv');
+
+    console.log('Users Usage Template:', usersUsageTemplate);
+    console.log('Non-Users Usage Template:', nonUsersUsageTemplate);
+    console.log('Usage Mapping Users:', usageMappingUsers);
+    console.log('Usage Mapping Non-Users:', usageMappingNonUsers);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const userCheckbox = document.getElementById('user-checkbox');
     const computeCheckbox = document.getElementById('compute-checkbox');
@@ -381,53 +392,61 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
             });
 
-            console.log('Selected Products Details:', selectedProductsDetails);
+            //console.log('Selected Products Details:', selectedProductsDetails);
 
             try {
                 displayResultContainer(resultContainer);   // Display the result section
                 accountId = await createAccount(sessionId, accountName, sfAccId);
-                console.log('AccountId:', accountId);
+                //console.log('AccountId:', accountId);
                 appendResultRow('AccountId', accountId, resultValuesTableBody);
 
                 bProfileId = await createBillingProfile(sessionId, accountId, accountName, sfAccId);
-                console.log('BillingProfileId:', bProfileId);
+                //console.log('BillingProfileId:', bProfileId);
                 appendResultRow('BillingProfileId', bProfileId, resultValuesTableBody);
 
                 displayResultContainer(resultContainer1);   // Display the result section
                 contractId = await createContract(sessionId, accountId, accountName, contractStartDateValue, contractName);
-                console.log('ContractId:', contractId);
+                //console.log('ContractId:', contractId);
                 appendResultRow('ContractId', contractId, resultValuesTableBody1);
 
                 contractCurrencyId = await createContractCurrency(sessionId, contractId);
-                console.log('ContractCurrencyId:', contractCurrencyId);
+                //console.log('ContractCurrencyId:', contractCurrencyId);
                 appendResultRow('ContractCurrencyId', contractCurrencyId, resultValuesTableBody1);
 
                 displayResultContainer(resultContainer2);   // Display the result section
                 displayResultContainer(resultContainer3);   // Display the result section
                 for (const product of selectedProductsDetails) {
-                    console.log(`ProdID: ${product.ProdID}, ProductName: ${product.ProductName}, Price: ${product.Price}, TieredDetails: ${JSON.stringify(product.TieredDetails)}`);
+                   // console.log(`ProdID: ${product.ProdID}, ProductName: ${product.ProductName}, Price: ${product.Price}, TieredDetails: ${JSON.stringify(product.TieredDetails)}`);
                     contractRateId = await createContractRate(sessionId, contractId, product, contractStartDateValue);
-                    console.log('ContractRateId:', contractRateId);
+                   // console.log('ContractRateId:', contractRateId);
                     appendResultRow(`ContractRateId (${product.ProdID})`, contractRateId, resultValuesTableBody2);
 
                     if (product.TieredDetails.length > 0) {
                         pricingId = await createTieredPricing(sessionId, contractId, contractRateId, product.TieredDetails, contractStartDateValue);
-                        console.log('PricingId:', pricingId);
+                       // console.log('PricingId:', pricingId);
                         appendResultRow(`PricingId (${product.ProdID})`, pricingId, resultValuesTableBody2);
                     } else {
                         pricingId = await createPricing(sessionId, contractId, contractRateId, product, contractStartDateValue);
-                        console.log('PricingId:', pricingId);
+                       // console.log('PricingId:', pricingId);
                         appendResultRow(`PricingId (${product.ProdID})`, pricingId, resultValuesTableBody2);
                     }
 
                     accountProductId = await createAccountProduct(sessionId, accountId, contractId, product, contractStartDateValue);
-                    console.log('AccountProductId:', accountProductId);
+                   // console.log('AccountProductId:', accountProductId);
                     appendResultRow(`AccountProductId (${product.ProdID})`, accountProductId, resultValuesTableBody3);
                 }
 
                 BIaccountProductId = await createBillingIdentifier(sessionId, accountId, billingIdentifier, contractStartDateValue);
-                console.log('BIaccountProductId:', BIaccountProductId);
+              //  console.log('BIaccountProductId:', BIaccountProductId);
                 appendResultRow('BIaccountProductId', BIaccountProductId, resultValuesTableBody3);
+
+                // Show CSV results
+                await showCSVResults();
+
+                // Create usage files
+                await createUserUsageFile(billingIdentifier, contractStartDateValue, selectedProductsDetails);
+                await createNonUserUsageFile(billingIdentifier, contractStartDateValue, selectedProductsDetails);
+
             } catch (error) {
                 console.error('Error during API calls:', error);
             }

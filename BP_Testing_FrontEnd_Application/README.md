@@ -1,4 +1,4 @@
-# My JavaScript UI Project
+# Billingplatform FastTrak Testing tool
 
 This project is a simple user interface built with HTML, CSS, and JavaScript. It allows users to select a plan type, choose products, and specify a region. Upon submission, the selected options are displayed on the screen.
 

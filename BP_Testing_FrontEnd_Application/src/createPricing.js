@@ -1,4 +1,6 @@
-export async function createPricing(sessionId, contractId, contractRateId, product, contractStartDateValue) {
+
+
+export async function createPricing(sessionId, contractId, contractRateId, product, contractStartDateValue, contractEndDateValue) {
     const response = await fetch(
         `https://sandbox.billingplatform.com/newrelic_dev/rest/2.0/PRICING`,
         {
@@ -16,7 +18,7 @@ export async function createPricing(sessionId, contractId, contractRateId, produ
                     UpperBand: '-1',
                     ContractRateId: contractRateId,
                     EffectiveDate: contractStartDateValue,
-                    EndDate: '',
+                    EndDate: contractEndDateValue,
                     RateOrder: '1',
                     CurrencyCode: 'USD'
                 }

@@ -14,25 +14,16 @@ async function readCSV(filePath) {
     });
 }
 
-async function createUserUsageFile(billingIdentifier, contractStartDate, selectedProducts) {
+async function createUserUsageFile(billingIdentifier, contractStartDate, usageProducts) {
     const usersUsageTemplate = await readCSV('/csv/Users_usage_template.csv');
     const usageMappingUsers = await readCSV('/csv/usageMapping_Users.csv');
-
-    //console.log("usersUsageTemplate ", usersUsageTemplate);
-    //console.log("usageMappingUsers ", usageMappingUsers);
-
-    //console.log("billingIdentifier ", billingIdentifier);
-    //console.log("contractStartDate ", contractStartDate);
-    //console.log("selectedProducts ", selectedProducts);
-
     const data = [['BillingIdentifier', 'UsageDate', 'Quantity', 'UsageIdentifier', 'Attr1', 'StartDate', 'EndDate']]; // Header row
-    //console.log("From Create UsageFiles-1: ",data);
     const endDate = new Date(contractStartDate);
     endDate.setMonth(endDate.getMonth() + 1);
     endDate.setDate(0); // Last day of the month
 
-    selectedProducts.forEach(product => {
-        const mapping = usageMappingUsers.find(item => item.Product === product.ProductName);
+    usageProducts.forEach(product => {
+        const mapping = usageMappingUsers.find(item => item.Product === product.ContractRateLabel);
         if (mapping) {
             const quantity = Math.floor(Math.random() * 10);
             data.push({
@@ -50,24 +41,18 @@ async function createUserUsageFile(billingIdentifier, contractStartDate, selecte
     saveCSV('Users.csv', data);
 }
 
-async function createNonUserUsageFile(billingIdentifier, contractStartDate, selectedProducts) {
+async function createNonUserUsageFile(billingIdentifier, contractStartDate, usageProducts) {
     const usersNonUsageTemplate = await readCSV('/csv/NonUser_usage_template.csv');
     const usageNonMappingUsers = await readCSV('/csv/usageMapping_NonUsers.csv');
-
-    //console.log("usersUsageTemplate ", usersNonUsageTemplate);
-    //console.log("usageMappingUsers ", usageNonMappingUsers);
-
-
     const data = [['BillingIdentifier','START_TIME','QUANTITY','UOM']]; // Header row
-    //console.log("From Create UsageFiles-1: ",data);
     const endDate = new Date(contractStartDate);
     endDate.setMonth(endDate.getMonth() + 1);
     endDate.setDate(0); // Last day of the month
 
-    selectedProducts.forEach(product => {
-        const mapping = usageNonMappingUsers.find(item => item.Product === product.ProductName);
+    usageProducts.forEach(product => {
+        const mapping = usageNonMappingUsers.find(item => item.Product === product.ContractRateLabel);
         if (mapping) {
-            const quantity = Math.floor(Math.random() * 10);
+            const quantity = Math.floor(Math.random() * 10000);
             data.push({
                 BillingIdentifier: billingIdentifier,
                 START_TIME: contractStartDate,

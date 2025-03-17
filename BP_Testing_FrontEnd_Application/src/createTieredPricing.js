@@ -1,4 +1,5 @@
-export async function createTieredPricing(sessionId, contractId, contractRateId, tieredDetails, contractStartDateValue) {
+
+export async function createTieredPricing(sessionId, contractId, contractRateId, tieredDetails, contractStartDateValue, contractEndDateValue) {
     const brmObjects = tieredDetails.map((tieredDetail, index) => ({
         ContractId: contractId,
         Id: "",
@@ -8,7 +9,7 @@ export async function createTieredPricing(sessionId, contractId, contractRateId,
         LowerBand: `${tieredDetail.lowerBand}`,
         ContractRateId: contractRateId,
         EffectiveDate: contractStartDateValue,
-        EndDate: '',
+        EndDate: contractEndDateValue,
         RateOrder: `${index + 1}`,
         CurrencyCode: 'USD'
     }));

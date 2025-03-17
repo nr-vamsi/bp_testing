@@ -4,7 +4,8 @@ export async function createBillingProfile(sessionId, accountId, accountName, sf
     const billToState = document.getElementById('bill-to-state').value;
     const billToCountry = document.getElementById('bill-to-country').value;
     const billToZip = document.getElementById('bill-to-zip').value;
-    const billToEmail = document.getElementById('bill-to-email').value;
+    const billToEmail = document.getElementById('bill-to-email').value; 
+
 
     const response = await fetch('https://sandbox.billingplatform.com/newrelic_dev/rest/2.0/BILLING_PROFILE', {
         method: 'POST',
@@ -20,7 +21,7 @@ export async function createBillingProfile(sessionId, accountId, accountName, sf
                 AccountId: accountId,
                 AchBankAcctType: 'Business Checking',
                 Address1: billToAddress1,
-                BillTo: 'Venkata Thota',
+                BillTo: accountName,
                 BillingCycle: 'MONTHLY',
                 BillingEntity: accountName,
                 BillingMethod: 'MAIL',

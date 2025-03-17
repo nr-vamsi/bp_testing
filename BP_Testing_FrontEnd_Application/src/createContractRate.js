@@ -1,5 +1,5 @@
-export async function createContractRate(sessionId, contractId, product, contractStartDateValue) {
-    const response = await fetch('https://sandbox.billingplatform.com/newrelic_dev/rest/2.0/CONTRACT_RATE', {
+export async function createContractRate(sessionId, contractId, product, contractStartDateValue, contractEndDateValue) {
+    const response = await fetch(`https://sandbox.billingplatform.com/newrelic_dev/rest/2.0/CONTRACT_RATE`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',
@@ -7,9 +7,10 @@ export async function createContractRate(sessionId, contractId, product, contrac
         },
         body: JSON.stringify({
             brmObjects: {
-                ContractId: contractId,
                 Id: '',
+                ContractId: contractId,
                 StartDate: contractStartDateValue,
+                EndDate: contractEndDateValue,
                 RatingMethodId: '',
                 ProductId: `${product.ProdID}`,
                 Name: '',
@@ -26,4 +27,3 @@ export async function createContractRate(sessionId, contractId, product, contrac
     return data.createResponse[0].Id;
 }
 
-       

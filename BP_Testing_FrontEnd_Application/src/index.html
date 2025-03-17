@@ -1,11 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BP User Interface</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="nrblogo.png" type="image/png">
+    <style>
+        /* Add styles for the hierarchy tree */
+        #hierarchy-tree-container {
+            margin-top: 20px;
+        }
+
+        #hierarchy-tree-container ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+
+        #hierarchy-tree-container li {
+            margin: 5px 0;
+            position: relative;
+        }
+
+        #hierarchy-tree-container li::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -20px;
+            width: 20px;
+            height: 1px;
+            background: #000;
+        }
+
+        #hierarchy-tree-container li::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -20px;
+            width: 1px;
+            height: 100%;
+            background: #000;
+        }
+
+        #hierarchy-tree-container li:first-child::after {
+            height: 50%;
+            top: 50%;
+        }
+
+        #hierarchy-tree-container li:last-child::after {
+            height: 50%;
+        }
+    </style>
 </head>
+
 <body>
     <div class="container">
         <img src="newrelic-logo.png" alt="New Relic" class="logo">
@@ -22,13 +70,35 @@
             </select>
         </fieldset>
 
-        <fieldset class="fieldset">
-            <legend>Buying Program:</legend>
-            <label><input type="checkbox" value="PAYG" name="buying-program"> PAYG</label>
-            <label><input type="checkbox" value="Savings Plan" name="buying-program"> Savings Plan</label>
+        <fieldset id="account-structure">
+            <legend>Account Structure</legend>
+            <label>
+                <input type="radio" name="account-structure" value="single-ccid">
+                Single CCID
+            </label>
+            <label>
+                <input type="radio" name="account-structure" value="multi-ccid-shared-pool">
+                Multi CCID - Shared Pool
+            </label>
+            <label>
+                <input type="radio" name="account-structure" value="multi-ccid-separate-pool">
+                Multi CCID - Separate Pool
+            </label>
+            <div id="hierarchy-tree-container"></div>
         </fieldset>
 
+
+
+
         <div class="side-by-side">
+
+            <fieldset class="fieldset">
+                <legend>Buying Program:</legend>
+                <label><input type="checkbox" value="PAYG" name="buying-program"> PAYG</label>
+                <label><input type="checkbox" value="Savings Plan" name="buying-program" id="sp-checkbox"> Savings
+                    Plan</label>
+            </fieldset>
+
             <fieldset class="fieldset">
                 <legend>Products:</legend>
                 <label><input type="checkbox" value="Users" name="product" id="user-checkbox"> Users</label>
@@ -42,7 +112,66 @@
                 <label><input type="checkbox" value="US" name="region"> US</label>
                 <label><input type="checkbox" value="EU" name="region"> EU</label>
             </fieldset>
+
         </div>
+
+        <fieldset class="fieldset" id="savings-plan-fields" style="display: none;">
+            <legend>Savings Plan Fields</legend>
+            <div class="savings-plan-container">
+                <div class="savings-plan-column">
+
+                    <label for="total-contract-value">Total Contract Value</label>
+                    <input type="text" id="total-contract-value" name="total-contract-value">
+                    
+                    <label for="billing-terms">Billing Terms</label>
+                    <select id="billing-terms" name="billing-terms">
+                        <option value="Annual Upfront">Annual Upfront</option>
+                        <option value="Quarterly Upfront">Quarterly Upfront</option>
+                        <option value="Flexible Upfront">Flexible Upfront</option>
+                        <option value="Monthly in Arrears (No Pre Pay)">Monthly in Arrears (No Pre Pay)</option>
+                        <option value="Upfront (Full Pre Pay)">Upfront (Full Pre Pay)</option>
+                        <option value="Fixed Recurring">Fixed Recurring</option>
+                    </select>
+
+
+
+                    <label for="last-amendment-number">Last Amendment Number</label>
+                    <input type="text" id="last-amendment-number" name="last-amendment-number">
+
+                    <label for="rollover-funds">Rollover Funds</label>
+                    <input type="text" id="rollover-funds" name="rollover-funds">
+
+                </div>
+
+                <div class="savings-plan-column">
+
+                    <label for="initial-commitment">Initial Commitment</label>
+                    <input type="text" id="initial-commitment" name="initial-commitment">
+
+                    <label for="initial-commitment-credit">Initial Commitment Credit</label>
+                    <input type="text" id="initial-commitment-credit" name="initial-commitment-credit">
+
+                    <label for="initial-prepaid-commitment">Initial Prepaid Commitment</label>
+                    <input type="text" id="initial-prepaid-commitment" name="initial-prepaid-commitment">
+
+                    <label for="rollover-credits">Rollover Credits</label>
+                    <input type="text" id="rollover-credits" name="rollover-credits">
+                </div>
+                <div class="savings-plan-column">
+                    <label for="reseller-fee-renewal-rate">Reseller Fee Renewal Rate</label>
+                    <input type="text" id="reseller-fee-renewal-rate" name="reseller-fee-renewal-rate">
+
+                    <label for="reseller-fee-new-rate">Reseller Fee New Rate</label>
+                    <input type="text" id="reseller-fee-new-rate" name="reseller-fee-new-rate">
+
+                    <label for="reseller-fee-blended-rate">Reseller Fee Blended Rate</label>
+                    <input type="text" id="reseller-fee-blended-rate" name="reseller-fee-blended-rate">
+
+
+
+                </div>
+            </div>
+        </fieldset>
 
         <fieldset class="fieldset" id="user-options" style="display: none;">
             <legend>User Options:</legend>
@@ -186,7 +315,7 @@
             </div>
             <label><input type="checkbox" id="same-as-bill-to"> Bill To is same as Ship To?</label>
         </fieldset>
-<br>
+        <br>
         <button id="submit">GeneratePlan</button>
 
         <div id="result" class="selected-options" style="display: none;">
@@ -212,7 +341,7 @@
             <br>
             <button id="startButton">Create</button>
         </div>
-        
+
         <div id="result-container" style="display: none;">
             <h3>Account Details</h3>
             <table id="result-values-table">
@@ -227,7 +356,7 @@
                 </tbody>
             </table>
         </div>
-       
+
         <div id="result-container1" style="display: none;">
             <h3>Contract Details</h3>
             <table id="result-values-table1">
@@ -242,7 +371,7 @@
                 </tbody>
             </table>
         </div>
-       
+
         <div id="result-container2" style="display: none;">
             <h3>ContractRate Details</h3>
             <table id="result-values-table2">
@@ -257,7 +386,7 @@
                 </tbody>
             </table>
         </div>
-        
+
         <div id="result-container3" style="display: none;">
             <h3>AccountProduct Details</h3>
             <table id="result-values-table3">
@@ -279,4 +408,5 @@
     <script type="module" src="app.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 </body>
+
 </html>

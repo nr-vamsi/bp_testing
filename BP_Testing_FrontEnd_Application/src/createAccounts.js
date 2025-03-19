@@ -76,12 +76,13 @@ async function createAccount(sessionId, accountName, sfAccId, parentAccId, accou
 }
 
 async function createBPAccount(sessionId, accountName, sfAccId, parentAccountId, accountTypeId) {
-    const shipToAddress1 = 'Sarjapur';
-    const shipToCity = 'Bangalore';
-    const shipToState = 'Karnataka';
-    const shipToCountry = 'India';
-    const shipToZip = '562125';
-    const shipToEmail = 'vv@test.com';
+
+    const shipToAddress1 = document.getElementById('ship-to-address1').value;
+    const shipToCity = document.getElementById('ship-to-city').value;
+    const shipToState = document.getElementById('ship-to-state').value;
+    const shipToCountry = document.getElementById('ship-to-country').value;
+    const shipToZip = document.getElementById('ship-to-zip').value;
+    
 
     const response = await fetch('https://sandbox.billingplatform.com/newrelic_dev/rest/2.0/ACCOUNT', {
         method: 'POST',

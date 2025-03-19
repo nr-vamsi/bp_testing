@@ -788,7 +788,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 appendResultRow(`AccountProductId (${product.ProductId})`, accountProductId, resultValuesTableBody3);
                             }
                             billingIdentifier = account.accId;
-                            BIaccountProductId = await createBillingIdentifier(sessionId, account.accId, billingIdentifier, contractStartDateValue, contractEndDateValue);
+                            BIaccountProductId = await createBillingIdentifier(sessionId, account.accId, contractId, billingIdentifier, contractStartDateValue, contractEndDateValue);
                             //console.log('BIaccountProductId:', BIaccountProductId);
                             appendResultRow('BIaccountProductId', BIaccountProductId, resultValuesTableBody3);
 
@@ -880,7 +880,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                                         }
                                         billingIdentifier = orgGrpAccId;
-                                        BIaccountProductId = await createBillingIdentifier(sessionId, orgGrpAccId, billingIdentifier, contractStartDateValue, contractEndDateValue);
+                                        BIaccountProductId = await createBillingIdentifier(sessionId, orgGrpAccId, contractId, billingIdentifier, contractStartDateValue, contractEndDateValue);
                                         //console.log('BIaccountProductId:', BIaccountProductId);
                                         appendResultRow(`${orgGrp} BIaccountProductId`, BIaccountProductId, resultValuesTableBody3);
 

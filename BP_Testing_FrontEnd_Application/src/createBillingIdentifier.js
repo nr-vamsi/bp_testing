@@ -1,6 +1,6 @@
 
 
-export async function createBillingIdentifier(sessionId, accountId, billingIdentifier, contractStartDateValue, contractEndDateValue) {
+export async function createBillingIdentifier(sessionId, accountId, contractId, billingIdentifier, contractStartDateValue, contractEndDateValue) {
     const response = await fetch('https://sandbox.billingplatform.com/newrelic_dev/rest/2.0/ACCOUNT_PRODUCT', {
         method: 'POST',
         headers: {
@@ -16,6 +16,7 @@ export async function createBillingIdentifier(sessionId, accountId, billingIdent
                 EndDate: contractEndDateValue,
                 Status: 'ACTIVE',
                 AccountId: accountId,
+                ContractId: contractId,
                 Name: 'BillingIdentifier',
                 nrBillingIdentifier: billingIdentifier
             }

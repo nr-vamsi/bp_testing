@@ -34,7 +34,7 @@ export async function createBillingProfile(sessionId, accountId, accountName, sf
                 DisablePDFGenerationOnInvoiceClose: '0',
                 DunningInterval: '21',
                 Email: billToEmail,
-                EventBasedBilling: '0',
+                EventBasedBilling: '1',
                 InvoiceApprovalFlag: '1',
                 InvoiceDeliveryMethod: 'EMAIL',
                 InvoiceTemplateId: '127',

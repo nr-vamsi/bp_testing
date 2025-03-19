@@ -12,6 +12,7 @@ import { createUserUsageFile } from './createUsageFiles.js';
 import { createNonUserUsageFile } from './createUsageFiles.js';
 import { createAccounts } from './createAccounts.js';
 import { queryProductsFromContract } from './queryProductsFromContract.js';
+import { createExcel } from './createExcel.js';
 
 let productsList = [];
 let accountName = '';
@@ -755,7 +756,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             contractId = await createContract(sessionId, account.accId, accountName, contractStartDateValue, contractEndDateValue, contractName, contractType, savingsPlanData);
                             appendResultRow('ContractId', contractId, resultValuesTableBody1);
                             contractCurrencyId = await createContractCurrency(sessionId, contractId);
-                            appendResultRow('ContractCurrencyId', contractCurrencyId, resultValuesTableBody1);
+                            //appendResultRow('ContractCurrencyId', contractCurrencyId, resultValuesTableBody1);
                             displayResultContainer(resultContainer2);   // Display the result section
                             displayResultContainer(resultContainer3);   // Display the result section
                             for (const product of selectedProductsDetails) {
@@ -767,11 +768,11 @@ document.addEventListener('DOMContentLoaded', () => {
                                 if (product.TieredDetails.length > 0) {
                                     pricingId = await createTieredPricing(sessionId, contractId, contractRateId, product.TieredDetails, contractStartDateValue, contractEndDateValue);
                                     //console.log('PricingId:', pricingId);
-                                    appendResultRow(`PricingId (${product.ProdID})`, pricingId, resultValuesTableBody2);
+                                    //appendResultRow(`PricingId (${product.ProdID})`, pricingId, resultValuesTableBody2);
                                 } else {
                                     pricingId = await createPricing(sessionId, contractId, contractRateId, product, contractStartDateValue, contractEndDateValue);
                                     //console.log('PricingId:', pricingId);
-                                    appendResultRow(`PricingId (${product.ProdID})`, pricingId, resultValuesTableBody2);
+                                    //appendResultRow(`PricingId (${product.ProdID})`, pricingId, resultValuesTableBody2);
                                 }
 
                             }
@@ -899,8 +900,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 }
+                // Create Excel file with all results
+                   // Convert table data to arrays
+                   const accountDetailsArray = Array.from(resultValuesTableBody.querySelectorAll('tr')).map(row => {
+                    const cells = row.querySelectorAll('td');
+                    return { name: cells[0].textContent, value: cells[1].textContent };
+                });
 
-            } catch (error) {
+                const contractDetailsArray = Array.from(resultValuesTableBody1.querySelectorAll('tr')).map(row => {
+                    const cells = row.querySelectorAll('td');
+                    return { name: cells[0].textContent, value: cells[1].textContent };
+                });
+
+                const contractRateDetailsArray = Array.from(resultValuesTableBody2.querySelectorAll('tr')).map(row => {
+                    const cells = row.querySelectorAll('td');
+                    return { name: cells[0].textContent, value: cells[1].textContent };
+                });
+
+                const accountProductDetailsArray = Array.from(resultValuesTableBody3.querySelectorAll('tr')).map(row => {
+                    const cells = row.querySelectorAll('td');
+                    return { name: cells[0].textContent, value: cells[1].textContent };
+                });
+
+                // Create Excel file with all results
+                console.log('Excel file creation started');
+                await createExcel(accountDetailsArray, contractDetailsArray, contractRateDetailsArray, accountProductDetailsArray);            } catch (error) {
                 console.error('Error during API calls:', error);
             }
         });

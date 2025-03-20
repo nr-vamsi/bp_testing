@@ -745,6 +745,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     resellerFeeNewRate: document.getElementById('reseller-fee-new-rate').value,
                     resellerFeeBlendedRate: document.getElementById('reseller-fee-blended-rate').value
                 };
+                console.log('Savings Plan Data:', savingsPlanData);
                 const contractIds = [];
                 for (const account of accountIds) {
                     appendResultRow(account.level, account.accId, resultValuesTableBody);

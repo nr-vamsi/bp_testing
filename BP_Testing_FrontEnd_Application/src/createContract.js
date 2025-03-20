@@ -1,5 +1,5 @@
 async function createContract(sessionId, accountId, accountName, contractStartDateValue, contractEndDateValue, contractName,contractType, savingsPlanData) {
-
+console.log('Reseller percentage:', savingsPlanData.resellerFeeBlendedRate);
     const response = await fetch('https://sandbox.billingplatform.com/newrelic_dev/rest/2.0/CONTRACT', {
         method: 'POST',
         headers: {
@@ -18,16 +18,17 @@ async function createContract(sessionId, accountId, accountName, contractStartDa
                 nrSfContractId: `SF_${contractName}`,
                 nrContractType: contractType,
                 nrBillingTerms: savingsPlanData.billingTerms,
-                nrLastAmendmentNumber: savingsPlanData.lastAmendmentNumber,
+                nrLastAmendmentNo: savingsPlanData.lastAmendmentNumber,
                 nrTotalContractValue: savingsPlanData.totalContractValue,
                 nrInitialCommitment: savingsPlanData.initialCommitment,
                 nrInitialCommitmentCredit: savingsPlanData.initialCommitmentCredit,
                 nrInitialPrepaidCommitment: savingsPlanData.initialPrepaidCommitment,
                 nrRolloverFunds: savingsPlanData.rolloverFunds,
                 nrRolloverCredits: savingsPlanData.rolloverCredits,
-                nrResellerFeeRenewalRate: savingsPlanData.resellerFeeRenewalRate,
-                nrResellerFeeNewRate: savingsPlanData.resellerFeeNewRate,
-                nrResellerFeeBlendedRate: savingsPlanData.resellerFeeBlendedRate
+                nrResellerRenewalRate: savingsPlanData.resellerFeeRenewalRate,
+                nrResellerNewRate: savingsPlanData.resellerFeeNewRate,
+                nrResellerBlendedRate: savingsPlanData.resellerFeeBlendedRate,
+                nrPartnerCompensationMethod: 'Transaction Based (Method1)'
 
             }
         })

@@ -52,6 +52,8 @@ const computeOptionsFieldset = document.getElementById('compute-options');
 const buyingProgramCheckboxes = document.querySelectorAll('input[name="buying-program"]');
 const contractStartDate = document.getElementById('contract-start-date');
 const contractEndDate = document.getElementById('contract-end-date');
+const subscriptionType = document.getElementById('subscription-type');
+const tcId = document.getElementById('tcid');
 const resultSection = document.getElementById('result');
 const resultTableBody = document.querySelector('#result-table tbody');
 const accountNameElement = document.getElementById('account-name');
@@ -87,6 +89,8 @@ function handleComputeCheckboxChange() {
         computeOptions.forEach(option => option.checked = false);
     }
 }
+
+
 
 function handleSpCheckboxChange() {
     if (spCheckbox.checked) {
@@ -166,12 +170,15 @@ async function handleSubmit() {
 
     contractStartDateValue = contractStartDate.value;
     contractEndDateValue = contractEndDate.value;
+    const selectedSubscriptionType = subscriptionType.value;
+    const selectedTcId = tcId.value;
 
-    const currentDateTime = new Date().toISOString().replace('T', '_').replace('Z', '');
-    accountName = `${selectedBuyingPrograms.join(', ')}_${selectedProducts.join('+')}_${currentDateTime.replace(/[+_\-:.]/g, '')}`;
-    contractName = `Contract_${currentDateTime.replace(/[+_\-:.]/g, '')}`;
-    sfAccId = `SF_${currentDateTime.replace(/[+_\-:.]/g, '')}`;
-    billingIdentifier = `${selectedProducts.join('+')}_${currentDateTime}`.replace(/[+_\-:.]/g, '');
+    //const currentDateTime = new Date().toISOString().replace('T', '_').replace('Z', '');
+    const currentDateTime = new Date().toISOString().replace('Z', '');
+    accountName = `${selectedTcId}_${selectedSubscriptionType}_${selectedBuyingPrograms.join(', ')}_${selectedProducts.join('+')}_${currentDateTime.split('T')[1].replace(/[+_\-:.]/g, '')}`;
+    contractName = `Contract_${currentDateTime.replace(/[+_\-:.Z]/g, '')}`;
+    sfAccId = `SF_${currentDateTime.replace(/[+_\-:.Z]/g, '')}`;
+    billingIdentifier = `${selectedProducts.join('+')}_${currentDateTime}`.replace(/[+_\-:.Z]/g, '');
 
     let queries = [];
 
@@ -204,6 +211,16 @@ async function handleSubmit() {
         ].filter(array => array.length > 0); // Exclude arrays of length 0
 
         combineArrays(arraysListData, 0, []);
+    }
+
+    if (selectedProducts.includes('Synthetics')) {
+        const arraysListSynthetics = [
+            selectedBuyingPrograms,
+            ['Synthetics'],
+            selectedRegions
+        ].filter(array => array.length > 0); // Exclude arrays of length 0
+
+        combineArrays(arraysListSynthetics, 0, []);
     }
 
     function combineArrays(arrays, index, current) {

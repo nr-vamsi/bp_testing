@@ -150,7 +150,7 @@ async function handleSubmit() {
     const selectedProducts = Array.from(productCheckboxes)
         .filter(checkbox => checkbox.checked)
         .map(checkbox => checkbox.value);
-    //console.log('Selected Products:', selectedProducts);
+    console.log('Selected Products:', selectedProducts);
     const selectedRegions = Array.from(regionCheckboxes)
         .filter(checkbox => checkbox.checked)
         .map(checkbox => checkbox.value);
@@ -216,8 +216,7 @@ async function handleSubmit() {
     if (selectedProducts.includes('Synthetics')) {
         const arraysListSynthetics = [
             selectedBuyingPrograms,
-            ['Synthetics'],
-            selectedRegions
+            ['Synthetics']
         ].filter(array => array.length > 0); // Exclude arrays of length 0
 
         combineArrays(arraysListSynthetics, 0, []);

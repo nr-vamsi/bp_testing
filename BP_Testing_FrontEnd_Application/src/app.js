@@ -175,7 +175,7 @@ async function handleSubmit() {
 
     //const currentDateTime = new Date().toISOString().replace('T', '_').replace('Z', '');
     const currentDateTime = new Date().toISOString().replace('Z', '');
-    accountName = `${selectedTcId}_${selectedSubscriptionType}_${selectedBuyingPrograms.join(', ')}_${selectedProducts.join('+')}_${currentDateTime.split('T')[1].replace(/[+_\-:.]/g, '')}`;
+    accountName = `${selectedTcId}_${selectedSubscriptionType}_${selectedBuyingPrograms.join(', ')}_${selectedProducts.join('+')}_${currentDateTime.replace(/[+_\-:.]/g, '')}`;
     contractName = `Contract_${currentDateTime.replace(/[+_\-:.Z]/g, '')}`;
     sfAccId = `SF_${currentDateTime.replace(/[+_\-:.Z]/g, '')}`;
     billingIdentifier = `${selectedProducts.join('+')}_${currentDateTime}`.replace(/[+_\-:.Z]/g, '');
@@ -799,6 +799,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             contractProdIds = await queryProductsFromContract(sessionId, contractId); //Future update here, in case of remove UOM products from the result
                             usageProducts = contractProdIds;
                             contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('UOM'));
+                            contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('SP1.0'));
                             usageProducts = usageProducts.filter(item => item['ContractRateLabel'].includes('UOM'));
                              console.log('ContractProdIds:', contractProdIds);
                             for (const product of contractProdIds) {
@@ -870,6 +871,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 contractProdIds = await queryProductsFromContract(sessionId, contractId);
                                 usageProducts = contractProdIds;
                                 contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('UOM'));
+                                contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('SP1.0'));
                                 usageProducts = usageProducts.filter(item => item['ContractRateLabel'].includes('UOM'));
                                 //console.log('CCID ContractProdIds:', contractProdIds);
                                 for (const orgGrp of orgGrpArray) {

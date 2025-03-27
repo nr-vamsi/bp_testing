@@ -32,6 +32,7 @@ let results = '';
 let contractProdIds = [];
 //let orgGrpArray = [];
 let usageProducts = [];
+let contractAccProd = [];
 let ccidArray = [];
 let orgGrpArray = [];
 
@@ -492,6 +493,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     TieredDetails: tieredDetails
                 };
             });
+ 
             //console.log('Selected Products Details:', selectedProductsDetails);
             // Collect selected products details for CCID1
             selectedProductsDetailsCCID1 = Array.from(document.querySelectorAll('input[name="select-product"]:checked')).filter(checkbox => {
@@ -761,6 +763,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     resellerFeeNewRate: document.getElementById('reseller-fee-new-rate').value,
                     resellerFeeBlendedRate: document.getElementById('reseller-fee-blended-rate').value
                 };
+                if (savingsPlanData.initialPrepaidCommitment !== '') {
+                    console.log('Initial Prepaid Commitment Value Exists:', savingsPlanData.initialPrepaidCommitment);
+                               // Add the specified product details
+            selectedProductsDetails.push({
+                ProdID: '14176',
+                ProductName: 'SP1.0 - Prepaid Commitment',
+                Price: savingsPlanData.initialCommitment,
+                Tier: false,
+                TieredDetails: []
+            });
+                }
                 console.log('Savings Plan Data:', savingsPlanData);
                 const contractIds = [];
                 for (const account of accountIds) {
@@ -776,11 +789,13 @@ document.addEventListener('DOMContentLoaded', () => {
                             //appendResultRow('ContractCurrencyId', contractCurrencyId, resultValuesTableBody1);
                             displayResultContainer(resultContainer2);   // Display the result section
                             displayResultContainer(resultContainer3);   // Display the result section
+                            console.log('Selected Products Details:', selectedProductsDetails);
                             for (const product of selectedProductsDetails) {
                                 //console.log(`ProdID: ${product.ProdID}, ProductName: ${product.ProductName}, Price: ${product.Price}, TieredDetails: ${JSON.stringify(product.TieredDetails)}`);
                                 contractRateId = await createContractRate(sessionId, contractId, product, contractStartDateValue, contractEndDateValue);
                                 //console.log('ContractRateId:', contractRateId);
                                 appendResultRow(`ContractRateId (${product.ProdID})`, contractRateId, resultValuesTableBody2);
+
 
                                 if (product.TieredDetails.length > 0) {
                                     pricingId = await createTieredPricing(sessionId, contractId, contractRateId, product.TieredDetails, contractStartDateValue, contractEndDateValue);
@@ -793,13 +808,19 @@ document.addEventListener('DOMContentLoaded', () => {
                                 }
 
                             }
+                            contractProdIds = await queryProductsFromContract(sessionId, contractId);
+                            contractAccProd = contractProdIds.filter(item => item['ContractRateLabel'].includes('SP1.0 - Prepaid Commitment'));
+                            for (const product of contractAccProd) {
+                            accountProductId = await createAccountProduct(sessionId, account.accId, contractId, product, contractStartDateValue, contractEndDateValue);
+                            }
                         }
                         if (account.level === 'OrgGrp') {
-                            contractProdIds = await queryProductsFromContract(sessionId, contractId); //Future update here, in case of remove UOM products from the result
+                            
                             usageProducts = contractProdIds;
+                            usageProducts = usageProducts.filter(item => item['ContractRateLabel'].includes('UOM'));
                             contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('UOM'));
                             contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('SP1.0'));
-                            usageProducts = usageProducts.filter(item => item['ContractRateLabel'].includes('UOM'));
+                            
                              console.log('ContractProdIds:', contractProdIds);
                             for (const product of contractProdIds) {
                                 accountProductId = await createAccountProduct(sessionId, account.accId, contractId, product, contractStartDateValue, contractEndDateValue);

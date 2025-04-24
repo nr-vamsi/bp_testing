@@ -28,7 +28,9 @@ console.log('Reseller percentage:', savingsPlanData.resellerFeeBlendedRate);
                 nrResellerRenewalRate: savingsPlanData.resellerFeeRenewalRate,
                 nrResellerNewRate: savingsPlanData.resellerFeeNewRate,
                 nrResellerBlendedRate: savingsPlanData.resellerFeeBlendedRate,
-                //nrPartnerCompensationMethod: 'Transaction Based (Method1)'
+                nrPartnerCompensationMethod: savingsPlanData.partnerCompensationMethod,
+                nrBuyingProgram : savingsPlanData.buyingProgram,
+                nrMarketplacePlatformName: savingsPlanData.marketplacePlatformName
 
             }
         })

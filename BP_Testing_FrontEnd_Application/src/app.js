@@ -47,7 +47,6 @@ const productCheckboxes = document.querySelectorAll('input[name="product"]');
 const regionCheckboxes = document.querySelectorAll('input[name="region"]');
 const userCheckbox = document.getElementById('user-checkbox');
 const computeCheckbox = document.getElementById('compute-checkbox');
-const spCheckbox = document.getElementById('sp-checkbox');
 const userOptionsFieldset = document.getElementById('user-options');
 const computeOptionsFieldset = document.getElementById('compute-options');
 const buyingProgramCheckboxes = document.querySelectorAll('input[name="buying-program"]');
@@ -69,6 +68,18 @@ const resultValuesTableBody3 = document.querySelector('#result-values-table3 tbo
 const sameAsBillToCheckbox = document.getElementById('same-as-bill-to');
 const savingsPlanFieldSet = document.getElementById('savings-plan-fields');
 
+const buyingProgramDropdown = document.getElementById('buying-program');
+
+function handleBuyingProgramChange() {
+    if (buyingProgramDropdown.value === 'SAVINGS') {
+        savingsPlanFieldSet.style.display = 'block';
+    } else {
+        savingsPlanFieldSet.style.display = 'none';
+    }
+}
+
+buyingProgramDropdown.addEventListener('change', handleBuyingProgramChange);
+
 function handleUserCheckboxChange() {
     if (userCheckbox.checked) {
         userOptionsFieldset.style.display = 'block';
@@ -88,19 +99,6 @@ function handleComputeCheckboxChange() {
         // Clear compute options
         const computeOptions = document.querySelectorAll('input[name="compute-option"]');
         computeOptions.forEach(option => option.checked = false);
-    }
-}
-
-
-
-function handleSpCheckboxChange() {
-    if (spCheckbox.checked) {
-        savingsPlanFieldSet.style.display = 'block';
-    } else {
-        savingsPlanFieldSet.style.display = 'none';
-        // Clear compute options
-        const spOptions = document.querySelectorAll('input[name="partner-compensation-method"]');
-        spOptions.forEach(option => option.checked = false);
     }
 }
 
@@ -148,6 +146,8 @@ sameAsBillToCheckbox.addEventListener('change', handleSameAsBillToChange);
 async function handleSubmit() {
     const accountStructure = document.querySelector('input[name="account-structure"]:checked').value;
 
+
+
     const selectedProducts = Array.from(productCheckboxes)
         .filter(checkbox => checkbox.checked)
         .map(checkbox => checkbox.value);
@@ -164,10 +164,13 @@ async function handleSubmit() {
         .filter(checkbox => checkbox.checked)
         .map(checkbox => checkbox.value);
     //console.log('Selected Compute Options:', selectedComputeOptions);
-    const selectedBuyingPrograms = Array.from(buyingProgramCheckboxes)
-        .filter(checkbox => checkbox.checked)
-        .map(checkbox => checkbox.value);
-    //console.log('Selected Buying Programs:', selectedBuyingPrograms);
+    let selectedBuyingPrograms = [buyingProgramDropdown.value];
+    console.log('Selected Buying Programs:', selectedBuyingPrograms);
+  
+   if (selectedBuyingPrograms[0] === 'SAVINGS') {
+        selectedBuyingPrograms[0] = 'Savings Plan';
+}
+
 
     contractStartDateValue = contractStartDate.value;
     contractEndDateValue = contractEndDate.value;
@@ -176,7 +179,7 @@ async function handleSubmit() {
 
     //const currentDateTime = new Date().toISOString().replace('T', '_').replace('Z', '');
     const currentDateTime = new Date().toISOString().replace('Z', '');
-    accountName = `${selectedTcId}_${selectedSubscriptionType}_${selectedBuyingPrograms.join(', ')}_${selectedProducts.join('+')}_${currentDateTime.replace(/[+_\-:.]/g, '')}`;
+    accountName = `${selectedTcId}_${selectedSubscriptionType}_${selectedBuyingPrograms[0]}_${selectedProducts.join('+')}_${currentDateTime.replace(/[+_\-:.]/g, '')}`;
     contractName = `Contract_${currentDateTime.replace(/[+_\-:.Z]/g, '')}`;
     sfAccId = `SF_${currentDateTime.replace(/[+_\-:.Z]/g, '')}`;
     billingIdentifier = `${selectedProducts.join('+')}_${currentDateTime}`.replace(/[+_\-:.Z]/g, '');
@@ -418,7 +421,6 @@ async function showCSVResults() {
 document.addEventListener('DOMContentLoaded', () => {
     const userCheckbox = document.getElementById('user-checkbox');
     const computeCheckbox = document.getElementById('compute-checkbox');
-    const spCheckbox = document.getElementById('sp-checkbox');
     const submitButton = document.getElementById('submit');
     const startButton = document.getElementById('startButton');
     const generatePlanButton = document.getElementById('generatePlanButton');
@@ -441,12 +443,6 @@ document.addEventListener('DOMContentLoaded', () => {
         computeCheckbox.addEventListener('change', handleComputeCheckboxChange);
     } else {
         console.error('Compute checkbox not found');
-    }
-
-    if (spCheckbox) {
-        spCheckbox.addEventListener('change', handleSpCheckboxChange);
-    } else {
-        console.error('Savings Plan checkbox not found');
     }
 
     if (submitButton) {
@@ -761,7 +757,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     rolloverCredits: document.getElementById('rollover-credits').value,
                     resellerFeeRenewalRate: document.getElementById('reseller-fee-renewal-rate').value,
                     resellerFeeNewRate: document.getElementById('reseller-fee-new-rate').value,
-                    resellerFeeBlendedRate: document.getElementById('reseller-fee-blended-rate').value
+                    resellerFeeBlendedRate: document.getElementById('reseller-fee-blended-rate').value,
+                    marketplacePlatformName: document.getElementById('marketplace-platform-name').value,
+                    partnerCompensationMethod: document.getElementById('partner-compensation-method').value,
+                    buyingProgram: document.getElementById('buying-program').value
                 };
                 if (savingsPlanData.initialPrepaidCommitment !== '') {
                     console.log('Initial Prepaid Commitment Value Exists:', savingsPlanData.initialPrepaidCommitment);

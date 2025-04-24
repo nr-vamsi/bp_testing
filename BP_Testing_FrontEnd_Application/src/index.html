@@ -51,6 +51,11 @@
         #hierarchy-tree-container li:last-child::after {
             height: 50%;
         }
+
+        .savings-plan-container input[type="text"] {
+            width: 100%;
+            box-sizing: border-box;
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.2.1/exceljs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
@@ -72,6 +77,17 @@
             </select>
             <label for="tcid">TC#</label>
             <input type="text" id="tcid" name="tcid">
+
+            <label for="buying-program">Buying Program</label>
+            <select id="buying-program" name="buying-program" onchange="handleBuyingProgramChange()">
+                <option value="" selected disabled>Select a Buying Program</option>
+                <option value="SAVINGS">SAVINGS</option>
+                <option value="VOLUME">VOLUME</option>
+                <option value="PAYG">PAYG</option>
+                <option value="LEGACY">LEGACY</option>
+                <option value="APOF">APOF</option>
+            </select>
+
         </fieldset>
 
         <fieldset id="account-structure">
@@ -97,13 +113,6 @@
         <div class="side-by-side">
 
             <fieldset class="fieldset">
-                <legend>Buying Program:</legend>
-                <label><input type="checkbox" value="PAYG" name="buying-program"> PAYG</label>
-                <label><input type="checkbox" value="Savings Plan" name="buying-program" id="sp-checkbox"> Savings
-                    Plan</label>
-            </fieldset>
-
-            <fieldset class="fieldset">
                 <legend>Products:</legend>
                 <label><input type="checkbox" value="Users" name="product" id="user-checkbox"> Users</label>
                 <label><input type="checkbox" value="Data" name="product"> Data</label>
@@ -120,16 +129,28 @@
 
         </div>
 
-        <fieldset class="fieldset" id="savings-plan-fields" style="display: none;">
-            <legend>Savings Plan Fields</legend>
-            <div class="savings-plan-container">
-                <div class="savings-plan-column">
-
+        <fieldset class="fieldset">
+            <legend>Contract Fields</legend>
+            <div class="savings-plan-container" style="display: flex; gap: 20px;">
+                <div class="savings-plan-column" id="savings-plan-fields" style="flex: 1; display: none;">
                     <label for="total-contract-value">Total Contract Value</label>
                     <input type="text" id="total-contract-value" name="total-contract-value">
+                    <label for="initial-commitment">Initial Commitment</label>
+                    <input type="text" id="initial-commitment" name="initial-commitment">
+                    <label for="initial-commitment-credit">Initial Commitment Credit</label>
+                    <input type="text" id="initial-commitment-credit" name="initial-commitment-credit">
+                    <label for="initial-prepaid-commitment">Initial Prepaid Commitment</label>
+                    <input type="text" id="initial-prepaid-commitment" name="initial-prepaid-commitment">
+                    <label for="rollover-credits">Rollover Credits</label>
+                    <input type="text" id="rollover-credits" name="rollover-credits">
+                    <label for="rollover-funds">Rollover Funds</label>
+                    <input type="text" id="rollover-funds" name="rollover-funds">
+                </div>
 
+                <div class="savings-plan-column" style="flex: 1;">
                     <label for="billing-terms">Billing Terms</label>
                     <select id="billing-terms" name="billing-terms">
+                        <option value="" selected disabled>Select a Billing Term</option>
                         <option value="Annual Upfront">Annual Upfront</option>
                         <option value="Quarterly Upfront">Quarterly Upfront</option>
                         <option value="Flexible Upfront">Flexible Upfront</option>
@@ -138,42 +159,29 @@
                         <option value="Fixed Recurring">Fixed Recurring</option>
                     </select>
 
-
-
                     <label for="last-amendment-number">Last Amendment Number</label>
                     <input type="text" id="last-amendment-number" name="last-amendment-number">
-
-                    <label for="rollover-funds">Rollover Funds</label>
-                    <input type="text" id="rollover-funds" name="rollover-funds">
-
                 </div>
-
-                <div class="savings-plan-column">
-
-                    <label for="initial-commitment">Initial Commitment</label>
-                    <input type="text" id="initial-commitment" name="initial-commitment">
-
-                    <label for="initial-commitment-credit">Initial Commitment Credit</label>
-                    <input type="text" id="initial-commitment-credit" name="initial-commitment-credit">
-
-                    <label for="initial-prepaid-commitment">Initial Prepaid Commitment</label>
-                    <input type="text" id="initial-prepaid-commitment" name="initial-prepaid-commitment">
-
-                    <label for="rollover-credits">Rollover Credits</label>
-                    <input type="text" id="rollover-credits" name="rollover-credits">
-                </div>
-                <div class="savings-plan-column">
-                    <label for="reseller-fee-renewal-rate">Reseller Fee Renewal Rate</label>
-                    <input type="text" id="reseller-fee-renewal-rate" name="reseller-fee-renewal-rate">
-
-                    <label for="reseller-fee-new-rate">Reseller Fee New Rate</label>
-                    <input type="text" id="reseller-fee-new-rate" name="reseller-fee-new-rate">
-
+                <div class="savings-plan-column" style="flex: 1;">
+                    <label for="marketplace-platform-name">Marketplace Platform Name</label>                    
+                    <select id="marketplace-platform-name" name="marketplace-platform-name">
+                        <option value="" selected disabled>Select a MP</option>
+                        <option value="AWS">AWS</option>
+                        <option value="AZURE">AZURE</option>
+                        <option value="GCP">GCP</option>
+                    </select>
+                    <label for="partner-compensation-method">Partner Compensation Method</label>                    
+                    <select id="partner-compensation-method" name="partner-compensation-method">
+                        <option value="" selected disabled>Select a PCM</option>
+                        <option value="Transaction Based (Method1)">Transaction Based (Method1)</option>
+                        <option value="Period Based (Method2)">Period Based (Method2)</option>
+                    </select>
                     <label for="reseller-fee-blended-rate">Reseller Fee Blended Rate</label>
                     <input type="text" id="reseller-fee-blended-rate" name="reseller-fee-blended-rate">
-
-
-
+                    <label for="reseller-fee-renewal-rate">Reseller Fee Renewal Rate</label>
+                    <input type="text" id="reseller-fee-renewal-rate" name="reseller-fee-renewal-rate">
+                    <label for="reseller-fee-new-rate">Reseller Fee New Rate</label>
+                    <input type="text" id="reseller-fee-new-rate" name="reseller-fee-new-rate">
                 </div>
             </div>
         </fieldset>
@@ -411,6 +419,18 @@
 
     <!--p>Server is running...</p-->
     <script type="module" src="app.js"></script>
+    <script>
+        function handleBuyingProgramChange() {
+            const buyingProgram = document.getElementById('buying-program').value;
+            const savingsPlanFieldSet = document.getElementById('savings-plan-fields');
+
+            if (buyingProgram === 'SAVINGS') {
+                savingsPlanFieldSet.style.display = 'block';
+            } else {
+                savingsPlanFieldSet.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 
 </html>

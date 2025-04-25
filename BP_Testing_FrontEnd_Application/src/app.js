@@ -965,7 +965,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Create Excel file with all results
                 console.log('Excel file creation started');
-                await createExcel(accountDetailsArray, contractDetailsArray, contractRateDetailsArray, accountProductDetailsArray);            } catch (error) {
+                await createExcel(accountDetailsArray, contractDetailsArray, contractRateDetailsArray, accountProductDetailsArray, TCId);            } catch (error) {
                 console.error('Error during API calls:', error);
             }
         });

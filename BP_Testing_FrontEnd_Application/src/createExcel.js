@@ -1,4 +1,4 @@
-export async function createExcel(accountDetailsArray, contractDetailsArray, contractRateDetailsArray, accountProductDetailsArray) {
+export async function createExcel(accountDetailsArray, contractDetailsArray, contractRateDetailsArray, accountProductDetailsArray, TCId) {
     const workbook = new ExcelJS.Workbook();
     const accountSheet = workbook.addWorksheet('Account Details');
     const contractSheet = workbook.addWorksheet('Contract Details');
@@ -40,5 +40,5 @@ export async function createExcel(accountDetailsArray, contractDetailsArray, con
     // Save the workbook
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-    saveAs(blob, 'Results.xlsx');
+    saveAs(blob, TCId+'Results.xlsx');
 }

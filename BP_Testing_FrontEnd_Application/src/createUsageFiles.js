@@ -14,7 +14,7 @@ async function readCSV(filePath) {
     });
 }
 
-async function createUserUsageFile(billingIdentifier, contractStartDate, usageProducts) {
+async function createUserUsageFile(billingIdentifier, contractStartDate, usageProducts, selectedTcId) {
     const usersUsageTemplate = await readCSV('/csv/Users_usage_template.csv');
     const usageMappingUsers = await readCSV('/csv/usageMapping_Users.csv');
     const data = [['BillingIdentifier', 'UsageDate', 'Quantity', 'UsageIdentifier', 'Attr1', 'StartDate', 'EndDate']]; // Header row
@@ -38,10 +38,10 @@ async function createUserUsageFile(billingIdentifier, contractStartDate, usagePr
         }
     });
 
-    saveCSV('Users.csv', data);
+    saveCSV(selectedTcId+'Users.csv', data);
 }
 
-async function createNonUserUsageFile(billingIdentifier, contractStartDate, usageProducts) {
+async function createNonUserUsageFile(billingIdentifier, contractStartDate, usageProducts, selectedTcId) {
     const usersNonUsageTemplate = await readCSV('/csv/NonUser_usage_template.csv');
     const usageNonMappingUsers = await readCSV('/csv/usageMapping_NonUsers.csv');
     const data = [['BillingIdentifier','START_TIME','QUANTITY','UOM']]; // Header row
@@ -62,7 +62,7 @@ async function createNonUserUsageFile(billingIdentifier, contractStartDate, usag
         }
     });
 
-    saveCSV('NonUsers.csv', data);
+    saveCSV(selectedTcId+'NonUsers.csv', data);
 }
 
 function saveCSV(filePath, data) {

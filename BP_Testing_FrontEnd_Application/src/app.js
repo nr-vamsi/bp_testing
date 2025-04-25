@@ -35,6 +35,7 @@ let usageProducts = [];
 let contractAccProd = [];
 let ccidArray = [];
 let orgGrpArray = [];
+let TCId = '';
 
 ccidArray = ['All', 'CCID1', 'CCID2'];
 orgGrpArray = ['OrgGrp11', 'OrgGrp12', 'OrgGrp21', 'OrgGrp22'];
@@ -176,6 +177,7 @@ async function handleSubmit() {
     contractEndDateValue = contractEndDate.value;
     const selectedSubscriptionType = subscriptionType.value;
     const selectedTcId = tcId.value;
+    TCId = selectedTcId;
 
     //const currentDateTime = new Date().toISOString().replace('T', '_').replace('Z', '');
     const currentDateTime = new Date().toISOString().replace('Z', '');
@@ -833,8 +835,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                             await showCSVResults();
                             //Create usage files
-                            await createUserUsageFile(billingIdentifier, contractStartDateValue, usageProducts);
-                            await createNonUserUsageFile(billingIdentifier, contractStartDateValue, usageProducts);
+                            await createUserUsageFile(billingIdentifier, contractStartDateValue, usageProducts, TCId);
+                            await createNonUserUsageFile(billingIdentifier, contractStartDateValue, usageProducts, TCId);
                         }
 
                     }
@@ -926,8 +928,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                                         await showCSVResults();
                                         //Create usage files
-                                        await createUserUsageFile(billingIdentifier, contractStartDateValue, usageProducts);
-                                        await createNonUserUsageFile(billingIdentifier, contractStartDateValue, usageProducts);
+                                        await createUserUsageFile(billingIdentifier, contractStartDateValue, usageProducts, TCId);
+                                        await createNonUserUsageFile(billingIdentifier, contractStartDateValue, usageProducts, TCId);
                                     }
                                 }
 

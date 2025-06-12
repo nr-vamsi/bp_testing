@@ -393,11 +393,13 @@ function addTieredDetailRow(tieredDetailsCell) {
         <button type="button" class="add-tier-row">+</button>
     `;
     tieredDetailsCell.appendChild(tieredDetailRow);
+    
 
     tieredDetailRow.querySelector('.add-tier-row').addEventListener('click', function () {
         addTieredDetailRow(tieredDetailsCell);
     });
 }
+
 
 async function readCSV(filePath) {
     const response = await fetch(filePath);

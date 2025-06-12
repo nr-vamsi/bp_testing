@@ -1,3 +1,4 @@
+import CONFIG from './config.js';
 export async function createBillingProfile(sessionId, accountId, accountName, sfAccId) {
     const billToAddress1 = document.getElementById('bill-to-address1').value;
     const billToCity = document.getElementById('bill-to-city').value;
@@ -7,7 +8,7 @@ export async function createBillingProfile(sessionId, accountId, accountName, sf
     const billToEmail = document.getElementById('bill-to-email').value; 
 
 
-    const response = await fetch('https://sandbox.billingplatform.com/newrelic_dev/rest/2.0/BILLING_PROFILE', {
+    const response = await fetch(`${CONFIG.HOSTNAME}/rest/2.0/BILLING_PROFILE`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',

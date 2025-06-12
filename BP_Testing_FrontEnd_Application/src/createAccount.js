@@ -1,3 +1,4 @@
+import CONFIG from './config.js';
 export async function createAccount(sessionId, accountName, sfAccId) {
     const shipToAddress1 = document.getElementById('ship-to-address1').value;
     const shipToCity = document.getElementById('ship-to-city').value;
@@ -6,7 +7,7 @@ export async function createAccount(sessionId, accountName, sfAccId) {
     const shipToZip = document.getElementById('ship-to-zip').value;
     const shipToEmail = document.getElementById('ship-to-email').value;
 
-    const response = await fetch('https://sandbox.billingplatform.com/newrelic_dev/rest/2.0/ACCOUNT', {
+    const response = await fetch(`${CONFIG.HOSTNAME}/rest/2.0/ACCOUNT`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',

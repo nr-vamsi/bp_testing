@@ -1,4 +1,5 @@
 import { createBillingProfile } from './createBillingProfile.js';
+import CONFIG from './config.js';
 
 async function createAccounts(sessionId, accountName, sfAccId, hierarchy) {
     const parentIds = [];
@@ -41,7 +42,7 @@ async function createAccounts(sessionId, accountName, sfAccId, hierarchy) {
 }
 
 async function createAccount(sessionId, accountName, sfAccId, parentAccId, accountTypeId, customerContractId = '', orgGroupId = '') {
-    const response = await fetch('https://sandbox.billingplatform.com/newrelic_dev/rest/2.0/ACCOUNT', {
+    const response = await fetch(`${CONFIG.HOSTNAME}/rest/2.0/ACCOUNT`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',
@@ -84,7 +85,7 @@ async function createBPAccount(sessionId, accountName, sfAccId, parentAccountId,
     const shipToZip = document.getElementById('ship-to-zip').value;
     
 
-    const response = await fetch('https://sandbox.billingplatform.com/newrelic_dev/rest/2.0/ACCOUNT', {
+    const response = await fetch(`${CONFIG.HOSTNAME}/rest/2.0/ACCOUNT`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',

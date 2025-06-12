@@ -1,6 +1,7 @@
+import CONFIG from './config.js';
 async function createContract(sessionId, accountId, accountName, contractStartDateValue, contractEndDateValue, contractName,contractType, savingsPlanData) {
 console.log('Reseller percentage:', savingsPlanData.resellerFeeBlendedRate);
-    const response = await fetch('https://sandbox.billingplatform.com/newrelic_dev/rest/2.0/CONTRACT', {
+    const response = await fetch(`${CONFIG.HOSTNAME}/rest/2.0/CONTRACT`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',
@@ -46,7 +47,7 @@ console.log('Reseller percentage:', savingsPlanData.resellerFeeBlendedRate);
 
 async function createContract1(sessionId, accountId, accountName, contractStartDateValue, contractEndDateValue, contractName,contractType, billingTerms) {
 
-    const response = await fetch('https://sandbox.billingplatform.com/newrelic_dev/rest/2.0/CONTRACT', {
+    const response = await fetch(`${CONFIG.HOSTNAME}/rest/2.0/CONTRACT`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',

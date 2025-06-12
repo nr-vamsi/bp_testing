@@ -1,8 +1,8 @@
 
-
+import CONFIG from './config.js';
 export async function createPricing(sessionId, contractId, contractRateId, product, contractStartDateValue, contractEndDateValue) {
     const response = await fetch(
-        `https://sandbox.billingplatform.com/newrelic_dev/rest/2.0/PRICING`,
+        `${CONFIG.HOSTNAME}/rest/2.0/PRICING`,
         {
             method: 'POST',
             headers: {

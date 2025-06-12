@@ -1,7 +1,7 @@
 
-
+import CONFIG from './config.js';
 export async function createContractCurrency(sessionId, contractId) {
-    const response = await fetch(`https://sandbox.billingplatform.com/newrelic_dev/rest/2.0/CONTRACT_CURRENCY`, {
+    const response = await fetch(`${CONFIG.HOSTNAME}/rest/2.0/CONTRACT_CURRENCY`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',

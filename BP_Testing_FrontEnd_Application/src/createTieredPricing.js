@@ -1,4 +1,5 @@
 
+import CONFIG from './config.js';
 export async function createTieredPricing(sessionId, contractId, contractRateId, tieredDetails, contractStartDateValue, contractEndDateValue) {
     const brmObjects = tieredDetails.map((tieredDetail, index) => ({
         ContractId: contractId,
@@ -19,7 +20,7 @@ export async function createTieredPricing(sessionId, contractId, contractRateId,
     console.log('Payload:', JSON.stringify(payload, null, 2));
 
     const response = await fetch(
-        `https://sandbox.billingplatform.com/newrelic_dev/rest/2.0/PRICING`,
+        `${CONFIG.HOSTNAME}/rest/2.0/PRICING`,
         {
             method: 'POST',
             headers: {

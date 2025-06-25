@@ -18,6 +18,7 @@ console.log('Reseller percentage:', savingsPlanData.resellerFeeBlendedRate);
                 OnEndDate: 'Terminate',
                 nrSfContractId: `SF_${contractName}`,
                 nrContractType: contractType,
+                nrCCIDCount: 1,
                 nrBillingTerms: savingsPlanData.billingTerms,
                 nrLastAmendmentNo: savingsPlanData.lastAmendmentNumber,
                 nrTotalContractValue: savingsPlanData.totalContractValue,
@@ -63,8 +64,8 @@ async function createContract1(sessionId, accountId, accountName, contractStartD
                 ContractStatus: 'ACTIVE',
                 OnEndDate: 'Terminate',
                 nrContractType: contractType,
+                nrCCIDCount: 2,
                 nrSfContractId: `SF_${contractName}`,
-                nrContractType: 'Rate Plan',
                 nrBillingTerms: billingTerms
 
             }

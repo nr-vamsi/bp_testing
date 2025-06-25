@@ -13,6 +13,7 @@ import { createNonUserUsageFile } from './createUsageFiles.js';
 import { createAccounts } from './createAccounts.js';
 import { queryProductsFromContract } from './queryProductsFromContract.js';
 import { createExcel } from './createExcel.js';
+import CONFIG from './config.js';
 
 let productsList = [];
 let accountName = '';
@@ -184,7 +185,7 @@ async function handleSubmit() {
     accountName = `${selectedTcId}_${selectedSubscriptionType}_${selectedBuyingPrograms[0]}_${selectedProducts.join('+')}_${currentDateTime.replace(/[+_\-:.]/g, '')}`;
     contractName = `Contract_${currentDateTime.replace(/[+_\-:.Z]/g, '')}`;
     sfAccId = `SF_${currentDateTime.replace(/[+_\-:.Z]/g, '')}`;
-    billingIdentifier = `${selectedProducts.join('+')}_${currentDateTime}`.replace(/[+_\-:.Z]/g, '');
+    //billingIdentifier = `${selectedProducts.join('+')}_${currentDateTime}`.replace(/[+_\-:.Z]/g, '');
 
     let queries = [];
 
@@ -831,13 +832,32 @@ document.addEventListener('DOMContentLoaded', () => {
                                 //console.log('AccountProductId:', accountProductId);
                                 appendResultRow(`AccountProductId (${product.ProductId})`, accountProductId, resultValuesTableBody3);
                             }
-                            billingIdentifier = account.accId;
-                            BIaccountProductId = await createBillingIdentifier(sessionId, account.accId, contractId, billingIdentifier, contractStartDateValue, contractEndDateValue);
+                            //billingIdentifier = account.accId;
+                            const orgGrpAccId = account.accId;
+                            console.log('OrgGrp Account Id:', orgGrpAccId);
+                            //BIaccountProductId = await createBillingIdentifier(sessionId, account.accId, contractId, billingIdentifier, contractStartDateValue, contractEndDateValue);
                             //console.log('BIaccountProductId:', BIaccountProductId);
-                            appendResultRow('BIaccountProductId', BIaccountProductId, resultValuesTableBody3);
+                            //appendResultRow('BIaccountProductId', BIaccountProductId, resultValuesTableBody3);
+                                    const response = await fetch(`${CONFIG.HOSTNAME}//rest/2.0/query?sql=select nrBillingIdentifier from ACCOUNT_PRODUCT where accountid = '${orgGrpAccId}' and name='BillingIdentifier'`, {
+                                        method: 'GET',
+                                        headers: {
+                                            'Content-Type': 'application/json; charset=utf-8',
+                                            sessionId: `${sessionId}`
+                                        }
+                                    });
+                                    const data = await response.json();
+                                    const biData = data.queryResponse;
+                                    let billingIdentifier = '';
+                                    if (biData && biData.length > 0) {
+                                        console.log('Billing Identifier found:', biData[0].nrBillingIdentifier);
+                                        billingIdentifier = biData[0].nrBillingIdentifier;
+                                    }
+                
 
                             await showCSVResults();
                             //Create usage files
+                            
+                            console.log('Billing Identifier found:', billingIdentifier);
                             await createUserUsageFile(billingIdentifier, contractStartDateValue, usageProducts, TCId);
                             await createNonUserUsageFile(billingIdentifier, contractStartDateValue, usageProducts, TCId);
                         }
@@ -917,6 +937,21 @@ document.addEventListener('DOMContentLoaded', () => {
                                     }
                                     const orgGrpEntry = accountIds.find(entry => entry.level === orgGrp);
                                     const orgGrpAccId = orgGrpEntry ? orgGrpEntry.accId : null;
+                                    const response = await fetch(`${CONFIG.HOSTNAME}//rest/2.0/query?sql=select nrBillingIdentifier from ACCOUNT_PRODUCT where accountid = '${orgGrpAccId}' and name='BillingIdentifier'`, {
+                                        method: 'GET',
+                                        headers: {
+                                            'Content-Type': 'application/json; charset=utf-8',
+                                            sessionId: `${sessionId}`
+                                        }
+                                    });
+                                    const data = await response.json();
+                                    const biData = data.queryResponse;
+                                    let billingIdentifier = '';
+                                    if (biData && biData.length > 0) {
+                                        console.log('Billing Identifier found:', biData[0].nrBillingIdentifier);
+                                        billingIdentifier = biData[0].nrBillingIdentifier;
+                                    }
+
                                     if (contractProdIds.length > 0) {
                                         for (const product of contractProdIds) {
                                             accountProductId = await createAccountProduct(sessionId, orgGrpAccId, contractId, product, contractStartDateValue, contractEndDateValue);
@@ -924,13 +959,14 @@ document.addEventListener('DOMContentLoaded', () => {
                                             appendResultRow(`${orgGrp} AccountProductId (${product.ProdID})`, accountProductId, resultValuesTableBody3);
 
                                         }
-                                        billingIdentifier = orgGrpAccId;
-                                        BIaccountProductId = await createBillingIdentifier(sessionId, orgGrpAccId, contractId, billingIdentifier, contractStartDateValue, contractEndDateValue);
+                                        //billingIdentifier = orgGrpAccId;
+                                        //BIaccountProductId = await createBillingIdentifier(sessionId, orgGrpAccId, contractId, billingIdentifier, contractStartDateValue, contractEndDateValue);
                                         //console.log('BIaccountProductId:', BIaccountProductId);
-                                        appendResultRow(`${orgGrp} BIaccountProductId`, BIaccountProductId, resultValuesTableBody3);
+                                        //appendResultRow(`${orgGrp} BIaccountProductId`, BIaccountProductId, resultValuesTableBody3);
 
                                         await showCSVResults();
                                         //Create usage files
+                                        
                                         await createUserUsageFile(billingIdentifier, contractStartDateValue, usageProducts, TCId);
                                         await createNonUserUsageFile(billingIdentifier, contractStartDateValue, usageProducts, TCId);
                                     }

@@ -790,7 +790,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             const contractType = 'Commitment';
                             contractId = await createContract(sessionId, account.accId, accountName, contractStartDateValue, contractEndDateValue, contractName, contractType, savingsPlanData);
                             appendResultRow('ContractId', contractId, resultValuesTableBody1);
-                            contractCurrencyId = await createContractCurrency(sessionId, contractId);
+                            //contractCurrencyId = await createContractCurrency(sessionId, contractId);
                             //appendResultRow('ContractCurrencyId', contractCurrencyId, resultValuesTableBody1);
                             displayResultContainer(resultContainer2);   // Display the result section
                             displayResultContainer(resultContainer3);   // Display the result section
@@ -870,7 +870,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             const contractType = 'Commitment';
                             contractId = await createContract(sessionId, account.accId, accountName, contractStartDateValue, contractEndDateValue, contractName, contractType, savingsPlanData);
                             appendResultRow(`Contract Id for Account: ${account.accId} `, contractId, resultValuesTableBody1);
-                            contractCurrencyId = await createContractCurrency(sessionId, contractId);
+                            //contractCurrencyId = await createContractCurrency(sessionId, contractId);
                             //appendResultRow('ContractCurrencyId', contractCurrencyId, resultValuesTableBody1);
                         }
                         if (account.level === 'CCID1' || account.level === 'CCID2') {
@@ -880,7 +880,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             const contractType = 'Rate Plan';
                             const billingTerms = savingsPlanData.billingTerms;
                             contractId = await createContract1(sessionId, account.accId, accountName, contractStartDateValue, contractEndDateValue, contractName, contractType, billingTerms);
-                            contractCurrencyId = await createContractCurrency(sessionId, contractId);
+                            //contractCurrencyId = await createContractCurrency(sessionId, contractId);
                             if (account.level === 'CCID1') {
                                 selectedProductsDetails = selectedProductsDetailsCCID1;
                             }

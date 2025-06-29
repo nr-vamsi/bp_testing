@@ -31,7 +31,7 @@ async function createAccounts(sessionId, accountName, sfAccId, hierarchy) {
         } else if (level.startsWith('OrgGrp')) {
             const latestCCID = parentIds.filter(id => id.level.startsWith('CCID')).slice(-1)[0].level;
             parentAccId = parentIds.filter(id => id.level.startsWith('CCID')).slice(-1)[0].accId;
-            accId = await createAccount(sessionId, `${level}_${accountName}`, `${level}_${sfAccId}`, parentAccId, 681, latestCCID, level+currentDateTime);
+            accId = await createAccount(sessionId, `${level}_${accountName}`, `${level}_${sfAccId}`, parentAccId, 681, latestCCID+currentDateTime, level+currentDateTime);
             console.log(`Created OrgGrp Account: ${accId}`);
         }
 

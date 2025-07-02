@@ -768,7 +768,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     partnerCompensationMethod: document.getElementById('partner-compensation-method').value,
                     buyingProgram: document.getElementById('buying-program').value
                 };
-                if (savingsPlanData.initialPrepaidCommitment !== '') {
+               /* if (savingsPlanData.initialPrepaidCommitment !== '') {
                     console.log('Initial Prepaid Commitment Value Exists:', savingsPlanData.initialPrepaidCommitment);
                                // Add the specified product details
             selectedProductsDetails.push({
@@ -778,7 +778,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 Tier: false,
                 TieredDetails: []
             });
-                }
+                } */
                 console.log('Savings Plan Data:', savingsPlanData);
                 const contractIds = [];
                 for (const account of accountIds) {

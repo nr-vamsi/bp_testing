@@ -824,7 +824,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             usageProducts = contractProdIds;
                             usageProducts = usageProducts.filter(item => item['ContractRateLabel'].includes('UOM'));
                             contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('UOM'));
-                            contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('SP1.0'));
+                            //contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('SP1.0'));
                             
                              console.log('ContractProdIds:', contractProdIds);
                             for (const product of contractProdIds) {
@@ -915,7 +915,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 contractProdIds = await queryProductsFromContract(sessionId, contractId);
                                 usageProducts = contractProdIds;
                                 contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('UOM'));
-                                contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('SP1.0'));
+                                //contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('SP1.0'));
                                 usageProducts = usageProducts.filter(item => item['ContractRateLabel'].includes('UOM'));
                                 //console.log('CCID ContractProdIds:', contractProdIds);
                                 for (const orgGrp of orgGrpArray) {

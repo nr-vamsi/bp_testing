@@ -768,17 +768,29 @@ document.addEventListener('DOMContentLoaded', () => {
                     partnerCompensationMethod: document.getElementById('partner-compensation-method').value,
                     buyingProgram: document.getElementById('buying-program').value
                 };
-               /* if (savingsPlanData.initialPrepaidCommitment !== '') {
+                if (savingsPlanData.initialPrepaidCommitment !== '') {
                     console.log('Initial Prepaid Commitment Value Exists:', savingsPlanData.initialPrepaidCommitment);
                                // Add the specified product details
             selectedProductsDetails.push({
                 ProdID: '14176',
                 ProductName: 'SP1.0 - Prepaid Commitment',
-                Price: savingsPlanData.initialCommitment,
+                Price: savingsPlanData.initialPrepaidCommitment,
                 Tier: false,
                 TieredDetails: []
             });
-                } */
+                } 
+                    if (savingsPlanData.resellerFeeBlendedRate !== '') {
+                    console.log('Reseller Fee Blended Rate Value Exists:', savingsPlanData.resellerFeeBlendedRate);
+                
+                               // Add the specified product details
+            selectedProductsDetails.push({
+                ProdID: '14178',
+                ProductName: 'New Relic Reseller Fee',
+                Price: '',
+                Tier: false,
+                TieredDetails: []
+            });
+                } 
                 console.log('Savings Plan Data:', savingsPlanData);
                 const contractIds = [];
                 for (const account of accountIds) {
@@ -815,6 +827,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
                             contractProdIds = await queryProductsFromContract(sessionId, contractId);
                             contractAccProd = contractProdIds.filter(item => item['ContractRateLabel'].includes('SP1.0 - Prepaid Commitment'));
+                            //contractAccProd = contractProdIds.filter(item => item['ContractRateLabel'].includes('New Relic Reseller Fee'));
                             for (const product of contractAccProd) {
                             accountProductId = await createAccountProduct(sessionId, account.accId, contractId, product, contractStartDateValue, contractEndDateValue);
                             }

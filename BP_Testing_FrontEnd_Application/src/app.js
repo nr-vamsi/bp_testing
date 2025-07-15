@@ -840,6 +840,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('UOM'));
                             contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('SP1.0'));
                             contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('SP 1.0'));
+                            contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('New Relic Reseller Fee'));
                             
                              console.log('ContractProdIds:', contractProdIds);
                             for (const product of contractProdIds) {

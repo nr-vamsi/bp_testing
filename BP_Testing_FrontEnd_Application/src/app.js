@@ -37,6 +37,7 @@ let contractAccProd = [];
 let ccidArray = [];
 let orgGrpArray = [];
 let TCId = '';
+let ccidCount = 0;
 
 ccidArray = ['All', 'CCID1', 'CCID2'];
 orgGrpArray = ['OrgGrp11', 'OrgGrp12', 'OrgGrp21', 'OrgGrp22'];
@@ -774,7 +775,7 @@ document.addEventListener('DOMContentLoaded', () => {
             selectedProductsDetails.push({
                 ProdID: '14176',
                 ProductName: 'SP1.0 - Prepaid Commitment',
-                Price: savingsPlanData.initialPrepaidCommitment,
+                Price: savingsPlanData.initialCommitment,
                 Tier: false,
                 TieredDetails: []
             });
@@ -798,9 +799,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     ///////////////////////////////////////////////////////////////////////////////////////////////////
                     if (accountStructure === 'single-ccid') {
                         if (account.level === 'BillingPortfolio') {
+                            ccidCount = 1;
                             displayResultContainer(resultContainer1);   // Display the result section
                             const contractType = 'Commitment';
-                            contractId = await createContract(sessionId, account.accId, accountName, contractStartDateValue, contractEndDateValue, contractName, contractType, savingsPlanData);
+                            contractId = await createContract(sessionId, account.accId, accountName, contractStartDateValue, contractEndDateValue, contractName, contractType, savingsPlanData, ccidCount);
                             appendResultRow('ContractId', contractId, resultValuesTableBody1);
                             //contractCurrencyId = await createContractCurrency(sessionId, contractId);
                             //appendResultRow('ContractCurrencyId', contractCurrencyId, resultValuesTableBody1);
@@ -833,7 +835,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
                         }
                         if (account.level === 'OrgGrp') {
-                            
                             usageProducts = contractProdIds;
                             usageProducts = usageProducts.filter(item => item['ContractRateLabel'].includes('UOM'));
                             contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('UOM'));
@@ -879,10 +880,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                     if (accountStructure === 'multi-ccid-shared-pool') {
+                        ccidCount = 2;
                         if (account.level === 'BillingPortfolio') {
                             displayResultContainer(resultContainer1);   // Display the result section
                             const contractType = 'Commitment';
-                            contractId = await createContract(sessionId, account.accId, accountName, contractStartDateValue, contractEndDateValue, contractName, contractType, savingsPlanData);
+                            contractId = await createContract(sessionId, account.accId, accountName, contractStartDateValue, contractEndDateValue, contractName, contractType, savingsPlanData, ccidCount);
                             appendResultRow(`Contract Id for Account: ${account.accId} `, contractId, resultValuesTableBody1);
                             //contractCurrencyId = await createContractCurrency(sessionId, contractId);
                             //appendResultRow('ContractCurrencyId', contractCurrencyId, resultValuesTableBody1);
@@ -893,7 +895,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             displayResultContainer(resultContainer3);   // Display the result section
                             const contractType = 'Rate Plan';
                             const billingTerms = savingsPlanData.billingTerms;
-                            contractId = await createContract1(sessionId, account.accId, accountName, contractStartDateValue, contractEndDateValue, contractName, contractType, billingTerms);
+                            contractId = await createContract1(sessionId, account.accId, accountName, contractStartDateValue, contractEndDateValue, contractName, contractType, savingsPlanData, ccidCount);
                             //contractCurrencyId = await createContractCurrency(sessionId, contractId);
                             if (account.level === 'CCID1') {
                                 selectedProductsDetails = selectedProductsDetailsCCID1;

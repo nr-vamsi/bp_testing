@@ -1,5 +1,5 @@
 import CONFIG from './config.js';
-async function createContract(sessionId, accountId, accountName, contractStartDateValue, contractEndDateValue, contractName,contractType, savingsPlanData) {
+async function createContract(sessionId, accountId, accountName, contractStartDateValue, contractEndDateValue, contractName,contractType, savingsPlanData, ccidCount) {
 console.log('Reseller percentage:', savingsPlanData.resellerFeeBlendedRate);
     const response = await fetch(`${CONFIG.HOSTNAME}/rest/2.0/CONTRACT`, {
         method: 'POST',
@@ -7,6 +7,7 @@ console.log('Reseller percentage:', savingsPlanData.resellerFeeBlendedRate);
             'Content-Type': 'application/json; charset=utf-8',
             sessionId: `${sessionId}`
         },
+
         body: JSON.stringify({
             brmObjects: {
                 Id: '',
@@ -18,7 +19,7 @@ console.log('Reseller percentage:', savingsPlanData.resellerFeeBlendedRate);
                 OnEndDate: 'Terminate',
                 nrSfContractId: `SF_${contractName}`,
                 nrContractType: contractType,
-                nrCCIDCount: 1,
+                nrCCIDCount: ccidCount,
                 nrBillingTerms: savingsPlanData.billingTerms,
                 nrLastAmendmentNo: savingsPlanData.lastAmendmentNumber,
                 nrTotalContractValue: savingsPlanData.totalContractValue,
@@ -46,7 +47,7 @@ console.log('Reseller percentage:', savingsPlanData.resellerFeeBlendedRate);
     return data.createResponse[0].Id;
 }
 
-async function createContract1(sessionId, accountId, accountName, contractStartDateValue, contractEndDateValue, contractName,contractType, billingTerms) {
+async function createContract1(sessionId, accountId, accountName, contractStartDateValue, contractEndDateValue, contractName,contractType, savingsPlanData, ccidCount) {
 
     const response = await fetch(`${CONFIG.HOSTNAME}/rest/2.0/CONTRACT`, {
         method: 'POST',
@@ -64,9 +65,10 @@ async function createContract1(sessionId, accountId, accountName, contractStartD
                 ContractStatus: 'ACTIVE',
                 OnEndDate: 'Terminate',
                 nrContractType: contractType,
-                nrCCIDCount: 2,
+                nrCCIDCount: ccidCount,
                 nrSfContractId: `SF_${contractName}`,
-                nrBillingTerms: billingTerms
+                nrBillingTerms: savingsPlanData.billingTerms,
+                nrBuyingProgram: savingsPlanData.buyingProgram
 
             }
         })

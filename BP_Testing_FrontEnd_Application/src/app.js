@@ -829,7 +829,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
                             contractProdIds = await queryProductsFromContract(sessionId, contractId);
                             contractAccProd = contractProdIds.filter(item => item['ContractRateLabel'].includes('SP1.0 - Prepaid Commitment'));
-                            //contractAccProd = contractProdIds.filter(item => item['ContractRateLabel'].includes('New Relic Reseller Fee'));
+                            contractAccProd = contractProdIds.filter(item => item['ContractRateLabel'].includes('New Relic Reseller Fee'));
                             for (const product of contractAccProd) {
                             accountProductId = await createAccountProduct(sessionId, account.accId, contractId, product, contractStartDateValue, contractEndDateValue);
                             }

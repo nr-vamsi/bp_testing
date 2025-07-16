@@ -383,22 +383,44 @@ function updateOrgGrpCheckboxes() {
 }
 
 function addTieredDetailRow(tieredDetailsCell) {
-    // Remove existing '+' buttons
-    const existingAddButtons = tieredDetailsCell.querySelectorAll('.add-tier-row');
-    existingAddButtons.forEach(button => button.remove());
-
     const tieredDetailRow = document.createElement('div');
     tieredDetailRow.classList.add('tiered-detail-row');
     tieredDetailRow.innerHTML = `
+        <button type="button" class="remove-tier-row" style="display:none;">-</button>
         <input type="text" name="upper-band" placeholder="Upper Band">
         <input type="text" name="tier-price" placeholder="Price">
-        <button type="button" class="add-tier-row">+</button>
+        <button type="button" class="add-tier-row" style="display:none;">+</button>
     `;
     tieredDetailsCell.appendChild(tieredDetailRow);
-    
 
+    // Add event for remove button
+    tieredDetailRow.querySelector('.remove-tier-row').addEventListener('click', function () {
+        tieredDetailRow.remove();
+        updateTierRowButtons(tieredDetailsCell);
+    });
+
+    // Add event for add button
     tieredDetailRow.querySelector('.add-tier-row').addEventListener('click', function () {
         addTieredDetailRow(tieredDetailsCell);
+        updateTierRowButtons(tieredDetailsCell);
+    });
+
+    updateTierRowButtons(tieredDetailsCell);
+}
+
+function updateTierRowButtons(tieredDetailsCell) {
+    const rows = tieredDetailsCell.querySelectorAll('.tiered-detail-row');
+    rows.forEach((row, idx) => {
+        const addBtn = row.querySelector('.add-tier-row');
+        const removeBtn = row.querySelector('.remove-tier-row');
+        if (idx === rows.length - 1) {
+            // Only last row gets both buttons
+            addBtn.style.display = '';
+            removeBtn.style.display = '';
+        } else {
+            addBtn.style.display = 'none';
+            removeBtn.style.display = 'none';
+        }
     });
 }
 

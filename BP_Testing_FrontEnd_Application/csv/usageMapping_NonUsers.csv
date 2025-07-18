@@ -1,65 +1,83 @@
-Product,Usage Identifier,SampleUOMField,SampleAttr1
-Prototype SP1.0 - Additional Synthetics Checks,Checks,Checks,
-New Relic - Additional Synthetics Checks (PAYG) UOM,Checks,Checks,
-New Relic Savings Plan - Additional Synthetics Checks UOM,Checks,Checks,
-New Relic Savings Plan - Advanced Compute (EU DC) UOM,EU Advanced CCU,EU Advanced CCU,
-New Relic Savings Plan - Enterprise Advanced Compute (EU DC) UOM,EU Advanced CCU,EU Advanced CCU,
-New Relic PAYG - Standard Compute Add On (EU DC) UOM,EU CCU,EU CCU,
-New Relic PAYG - Standard Compute - Additional CCU (EU Data Center) UOM,EU CCU,EU CCU,
-New Relic PAYG - Pro Compute (EU Data Center) UOM,EU CCU,EU CCU,
-New Relic PAYG - Pro Compute Add On (EU DC) UOM,EU CCU,EU CCU,
-New Relic PAYG - Pro Compute - Additional CCU (EU Data Center) UOM,EU CCU,EU CCU,
-New Relic PAYG - Enterprise Compute (EU Data Center) UOM,EU CCU,EU CCU,
-New Relic PAYG - Enterprise Compute Add On (EU DC) UOM,EU CCU,EU CCU,
-New Relic PAYG - Enterprise Compute - Additional CCU (EU Data Center) UOM,EU CCU,EU CCU,
-New Relic Savings Plan - Enterprise Compute (EU Data Center) UOM,EU CCU,EU CCU,
-New Relic Savings Plan - Pro Compute (EU Data Center) UOM,EU CCU,EU CCU,
-New Relic Savings Plan - Enterprise Compute Add On (EU DC) UOM,EU CCU,EU CCU,
-New Relic Savings Plan - Pro Compute Add On (EU DC) UOM,EU CCU,EU CCU,
-New Relic Savings Plan - Pro Core Compute (EU DC) UOM,EU Core CCU,EU Core CCU,
-New Relic Savings Plan - Enterprise Core Compute (EU DC) UOM,EU Core CCU,EU Core CCU,
-New Relic PAYG - Data (EU Data Center) UOM,EU GB Ingested,EU GB Ingested,
-New Relic PAYG - Data Plus (EU Data Center) UOM,EU GB Ingested,EU GB Ingested,
-New Relic Savings Plan - Data (EU Data Center) UOM,EU GB Ingested,EU GB Ingested,
-New Relic Savings Plan - Data Plus (EU Data Center) UOM,EU GB Ingested,EU GB Ingested,
-New Relic Savings Plan - Vulnerability Management (EU Data Center) UOM,EU GB Ingested,EU GB Ingested,
-New Relic PAYG - Live Archives (EU Data Center) UOM,EU GB Months,EU GB Months,
-New Relic Savings Plan - Live Archives (EU Data Center) UOM,EU GB Months,EU GB Months,
-Prototype SP1.0 - Data,GB Ingested,GB Ingested,
-New Relic One - Data (PAYG) UOM,GB Ingested,GB Ingested,
-New Relic One - Data Nonprofit (PAYG) UOM,GB Ingested,GB Ingested,
-New Relic - Data Plus (PAYG) UOM,GB Ingested,GB Ingested,
-New Relic Savings Plan - Data UOM,GB Ingested,GB Ingested,
-New Relic Savings Plan - Data Plus UOM,GB Ingested,GB Ingested,
-New Relic Savings Plan - Vulnerability Management UOM,GB Ingested,GB Ingested,
-New Relic PAYG - Standard Queries UOM,Scanned Events (in Billions),Scanned Events (in Billions),
-New Relic PAYG - Pro Queries UOM,Scanned Events (in Billions),Scanned Events (in Billions),
-New Relic PAYG - Enterprise Queries UOM,Scanned Events (in Billions),Scanned Events (in Billions),
-New Relic Savings Plan - Enterprise Queries UOM,Scanned Events (in Billions),Scanned Events (in Billions),
-New Relic Savings Plan - Pro Queries UOM,Scanned Events (in Billions),Scanned Events (in Billions),
-New Relic Savings Plan - Standard Queries UOM,Scanned Events (in Billions),Scanned Events (in Billions),
-New Relic Savings Plan - Advanced Compute (US DC) UOM,US Advanced CCU,US Advanced CCU,
-New Relic Savings Plan - Enterprise Advanced Compute (US DC) UOM,US Advanced CCU,US Advanced CCU,
-New Relic PAYG - Standard Compute Add On (US DC) UOM,US CCU,US CCU,
-New Relic PAYG - Standard Compute - Additional CCU (US Data Center) UOM,US CCU,US CCU,
-New Relic PAYG - Pro Compute (US Data Center) UOM,US CCU,US CCU,
-New Relic PAYG - Pro Compute Add On (US DC) UOM,US CCU,US CCU,
-New Relic PAYG - Pro Compute - Additional CCU (US Data Center) UOM,US CCU,US CCU,
-New Relic PAYG - Enterprise Compute (US Data Center) UOM,US CCU,US CCU,
-New Relic PAYG - Enterprise Compute Add On (US DC) UOM,US CCU,US CCU,
-New Relic PAYG - Enterprise Compute - Additional CCU (US Data Center) UOM,US CCU,US CCU,
-New Relic Savings Plan - Enterprise Compute (US Data Center) UOM,US CCU,US CCU,
-New Relic Savings Plan - Pro Compute (US Data Center) UOM,US CCU,US CCU,
-New Relic Savings Plan - Enterprise Compute Add On (US DC) UOM,US CCU,US CCU,
-New Relic Savings Plan - Pro Compute Add On (US DC) UOM,US CCU,US CCU,
-New Relic Savings Plan - Pro Core Compute (US DC) UOM,US Core CCU,US Core CCU,
-New Relic Savings Plan - Enterprise Core Compute (US DC) UOM,US Core CCU,US Core CCU,
-New Relic PAYG - Data (US Data Center) UOM,US GB Ingested,US GB Ingested,
-New Relic PAYG - Data Plus (US Data Center) UOM,US GB Ingested,US GB Ingested,
-New Relic Savings Plan - Vulnerability Management (US Data Center) UOM,US GB Ingested,US GB Ingested,
-New Relic Savings Plan - Data (US Data Center) UOM,US GB Ingested,US GB Ingested,
-New Relic Savings Plan - Data Plus (US Data Center) UOM,US GB Ingested,US GB Ingested,
-New Relic PAYG - Live Archives (US Data Center) UOM,US GB Months,US GB Months,
-New Relic Savings Plan - Live Archives (US Data Center) UOM,US GB Months,US GB Months,
-New Relic Pilot Pricing (PAYG) UOM,Units,Units,
-New Relic Savings Plan - Pilot Pricing UOM,Units,Units,
+Product,Usage Identifier,nrFpuEdition,nrUnitOfMeasure
+New Relic - Additional Synthetics Checks (PAYG) UOM,Checks,,Checks
+New Relic - Data Plus (PAYG) UOM,GB Ingested,,GB Ingested
+New Relic One - Data (PAYG) UOM,GB Ingested,,GB Ingested
+New Relic One - Data Nonprofit (PAYG) UOM,GB Ingested,,GB Ingested
+New Relic One - Enterprise Users (PAYG) UOM,MPU Enterprise,Enterprise,MPU
+New Relic One - Pro Users (PAYG) UOM,MPU Pro,Pro,MPU
+New Relic One - Pro Users Nonprofit (PAYG) UOM,MPU Pro,Pro,MPU
+New Relic One - Standard Users (PAYG) UOM,MPU Standard,Std,MPU
+New Relic One - Standard Users Nonprofit (PAYG) UOM,MPU Standard,Std,MPU
+New Relic PAYG - Advanced Compute (EU DC) UOM,EU Advanced CCU,,EU Advanced CCU
+New Relic PAYG - Advanced Compute (US DC) UOM,US Advanced CCU,,US Advanced CCU
+New Relic PAYG - Data (EU Data Center) UOM,EU GB Ingested,,EU GB Ingested
+New Relic PAYG - Data (US Data Center) UOM,US GB Ingested,,US GB Ingested
+New Relic PAYG - Data Plus (EU Data Center) UOM,EU GB Ingested,,EU GB Ingested
+New Relic PAYG - Data Plus (US Data Center) UOM,US GB Ingested,,US GB Ingested
+New Relic PAYG - Enterprise Compute (EU Data Center) UOM,EU CCU,,EU CCU
+New Relic PAYG - Enterprise Compute (US Data Center) UOM,US CCU,,US CCU
+New Relic PAYG - Enterprise Compute - Additional CCU (EU Data Center) UOM,EU CCU,,EU CCU
+New Relic PAYG - Enterprise Compute - Additional CCU (US Data Center) UOM,US CCU,,US CCU
+New Relic PAYG - Enterprise Compute Add On (EU DC) UOM,EU CCU,,EU CCU
+New Relic PAYG - Enterprise Compute Add On (US DC) UOM,US CCU,,US CCU
+New Relic PAYG - Enterprise Core Compute (EU DC) UOM,EU Core CCU,,EU Core CCU
+New Relic PAYG - Enterprise Queries UOM,Scanned Events (in Billions),,Scanned Events (in Billions)
+New Relic PAYG - Live Archives (EU Data Center) UOM,EU GB Months,,EU GB Months
+New Relic PAYG - Live Archives (US Data Center) UOM,US GB Months,,US GB Months
+New Relic PAYG - Pro Compute (EU Data Center) UOM,EU CCU,,EU CCU
+New Relic PAYG - Pro Compute (US Data Center) UOM,US CCU,,US CCU
+New Relic PAYG - Pro Compute - Additional CCU (EU Data Center) UOM,EU CCU,,EU CCU
+New Relic PAYG - Pro Compute - Additional CCU (US Data Center) UOM,US CCU,,US CCU
+New Relic PAYG - Pro Compute Add On (EU DC) UOM,EU CCU,,EU CCU
+New Relic PAYG - Pro Compute Add On (US DC) UOM,US CCU,,US CCU
+New Relic PAYG - Pro Core Compute (EU DC) UOM,EU Core CCU,,EU Core CCU
+New Relic PAYG - Pro Core Compute (US DC) UOM,US Core CCU,,US Core CCU
+New Relic PAYG - Pro O11y For All (EU DC) UOM,EU Core CCU,,EU Core CCU
+New Relic PAYG - Pro O11y For All (US DC) UOM,US Core CCU,,US Core CCU
+New Relic PAYG - Pro Queries UOM,Scanned Events (in Billions),,Scanned Events (in Billions)
+New Relic PAYG - Standard Compute (EU Data Center) UOM,EU CCU,,EU CCU
+New Relic PAYG - Standard Compute (US Data Center) UOM,US CCU,,US CCU
+New Relic PAYG - Standard Compute - Additional CCU (EU Data Center) UOM,EU CCU,,EU CCU
+New Relic PAYG - Standard Compute - Additional CCU (US Data Center) UOM,US CCU,,US CCU
+New Relic PAYG - Standard Compute Add On (EU DC) UOM,EU CCU,,EU CCU
+New Relic PAYG - Standard Compute Add On (US DC) UOM,US CCU,,US CCU
+New Relic PAYG - Standard Core Compute (EU DC) UOM,EU Core CCU,,EU Core CCU
+New Relic PAYG - Standard Core Compute (US DC) UOM,US Core CCU,,US Core CCU
+New Relic PAYG - Standard O11y For All (EU DC) UOM,EU Core CCU,,EU Core CCU
+New Relic PAYG - Standard O11y For All (US DC) UOM,US Core CCU,,US Core CCU
+New Relic PAYG - Standard Queries UOM,Scanned Events (in Billions),,Scanned Events (in Billions)
+New Relic Pilot Pricing (PAYG) UOM,Units,,Units
+New Relic Savings Plan - Additional Synthetics Checks UOM,Checks,,Checks
+New Relic Savings Plan - Advanced Compute (EU DC) UOM,EU Advanced CCU,,EU Advanced CCU
+New Relic Savings Plan - Advanced Compute (US DC) UOM,US Advanced CCU,,US Advanced CCU
+New Relic Savings Plan - Data (EU Data Center) UOM,EU GB Ingested,,EU GB Ingested
+New Relic Savings Plan - Data (US Data Center) UOM,US GB Ingested,,US GB Ingested
+New Relic Savings Plan - Data Plus (EU Data Center) UOM,EU GB Ingested,,EU GB Ingested
+New Relic Savings Plan - Data Plus (US Data Center) UOM,US GB Ingested,,US GB Ingested
+New Relic Savings Plan - Data Plus UOM,GB Ingested,,GB Ingested
+New Relic Savings Plan - Data UOM,GB Ingested,,GB Ingested
+New Relic Savings Plan - Enterprise Advanced Compute (EU DC) UOM,EU Advanced CCU,,EU Advanced CCU
+New Relic Savings Plan - Enterprise Advanced Compute (US DC) UOM,US Advanced CCU,,US Advanced CCU
+New Relic Savings Plan - Enterprise Compute (EU Data Center) UOM,EU CCU,,EU CCU
+New Relic Savings Plan - Enterprise Compute (US Data Center) UOM,US CCU,,US CCU
+New Relic Savings Plan - Enterprise Compute Add On (EU DC) UOM,EU CCU,,EU CCU
+New Relic Savings Plan - Enterprise Compute Add On (US DC) UOM,US CCU,,US CCU
+New Relic Savings Plan - Enterprise Core Compute (EU DC) UOM,EU Core CCU,,EU Core CCU
+New Relic Savings Plan - Enterprise Core Compute (US DC) UOM,US Core CCU,,US Core CCU
+New Relic Savings Plan - Enterprise Queries UOM,Scanned Events (in Billions),,Scanned Events (in Billions)
+New Relic Savings Plan - Live Archives (EU Data Center) UOM,EU GB Months,,EU GB Months
+New Relic Savings Plan - Live Archives (US Data Center) UOM,US GB Months,,US GB Months
+New Relic Savings Plan - Pilot Pricing UOM,Units,,Units
+New Relic Savings Plan - Pro Compute (EU Data Center) UOM,EU CCU,,EU CCU
+New Relic Savings Plan - Pro Compute (US Data Center) UOM,US CCU,,US CCU
+New Relic Savings Plan - Pro Compute Add On (EU DC) UOM,EU CCU,,EU CCU
+New Relic Savings Plan - Pro Compute Add On (US DC) UOM,US CCU,,US CCU
+New Relic Savings Plan - Pro Core Compute (EU DC) UOM,EU Core CCU,,EU Core CCU
+New Relic Savings Plan - Pro Core Compute (US DC) UOM,US Core CCU,,US Core CCU
+New Relic Savings Plan - Pro Queries UOM,Scanned Events (in Billions),,Scanned Events (in Billions)
+New Relic Savings Plan - Standard Queries UOM,Scanned Events (in Billions),,Scanned Events (in Billions)
+New Relic Savings Plan - Vulnerability Management (EU Data Center) UOM,EU GB Ingested,,EU GB Ingested
+New Relic Savings Plan - Vulnerability Management (US Data Center) UOM,US GB Ingested,,US GB Ingested
+New Relic Savings Plan - Vulnerability Management UOM,GB Ingested,,GB Ingested
+Prototype SP1.0 - Additional Synthetics Checks,Checks,,Checks
+Prototype SP1.0 - Data,GB Ingested,,GB Ingested

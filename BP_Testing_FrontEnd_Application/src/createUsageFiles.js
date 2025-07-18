@@ -15,9 +15,9 @@ async function readCSV(filePath) {
 }
 
 async function createUserUsageFile(billingIdentifier, contractStartDate, usageProducts, selectedTcId) {
-    const usersUsageTemplate = await readCSV('/csv/Users_usage_template.csv');
+    //const usersUsageTemplate = await readCSV('/csv/Users_usage_template.csv');
     const usageMappingUsers = await readCSV('/csv/usageMapping_Users.csv');
-    const data = [['BillingIdentifier', 'UsageDate', 'Quantity', 'UsageIdentifier', 'Attr1', 'StartDate', 'EndDate']]; // Header row
+    const data = [['BillingIdentifier', 'UsageDate', 'Quantity', 'UsageIdentifier', 'UnitOfMeasure', 'StartDate', 'EndDate']]; // Header row
     const endDate = new Date(contractStartDate);
     endDate.setMonth(endDate.getMonth() + 1);
     endDate.setDate(0); // Last day of the month
@@ -30,8 +30,9 @@ async function createUserUsageFile(billingIdentifier, contractStartDate, usagePr
                 BillingIdentifier: billingIdentifier,
                 UsageDate: contractStartDate,
                 Quantity: quantity,
-                UsageIdentifier: mapping.SampleUOMField,
-                Attr1: mapping.SampleAttr1,
+                UsageIdentifier: mapping.nrFpuEdition,
+                UnitOfMeasure: mapping.nrUnitOfMeasure,
+
                 StartDate: contractStartDate,
                 EndDate: endDate.toISOString().split('T')[0]
             });
@@ -42,7 +43,7 @@ async function createUserUsageFile(billingIdentifier, contractStartDate, usagePr
 }
 
 async function createNonUserUsageFile(billingIdentifier, contractStartDate, usageProducts, selectedTcId) {
-    const usersNonUsageTemplate = await readCSV('/csv/NonUser_usage_template.csv');
+    //const usersNonUsageTemplate = await readCSV('/csv/NonUser_usage_template.csv');
     const usageNonMappingUsers = await readCSV('/csv/usageMapping_NonUsers.csv');
     const data = [['BillingIdentifier','START_TIME','QUANTITY','UOM']]; // Header row
     const endDate = new Date(contractStartDate);
@@ -57,7 +58,7 @@ async function createNonUserUsageFile(billingIdentifier, contractStartDate, usag
                 BillingIdentifier: billingIdentifier,
                 START_TIME: contractStartDate,
                 QUANTITY: quantity,
-                UOM: mapping.SampleUOMField
+                UOM: mapping.nrUnitOfMeasure
             });
         }
     });

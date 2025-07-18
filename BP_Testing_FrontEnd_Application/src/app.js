@@ -782,6 +782,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     initialCommitmentCredit: document.getElementById('initial-commitment-credit').value,
                     initialPrepaidCommitment: document.getElementById('initial-prepaid-commitment').value,
                     initialFlexiPrepaidCommitment: document.getElementById('initial-flexi-prepaid-commitment').value,
+                    initialFlexiCredit: document.getElementById('initial-flexi-credit').value,
                     rolloverFunds: document.getElementById('rollover-funds').value,
                     rolloverCredits: document.getElementById('rollover-credits').value,
                     resellerFeeRenewalRate: document.getElementById('reseller-fee-renewal-rate').value,

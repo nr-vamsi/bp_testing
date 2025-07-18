@@ -27,6 +27,7 @@ console.log('Reseller percentage:', savingsPlanData.resellerFeeBlendedRate);
                 nrInitialCommitmentCredit: savingsPlanData.initialCommitmentCredit,
                 nrInitialPrepaidCommitment: savingsPlanData.initialPrepaidCommitment,
                 nrFlexBillingCommitment: savingsPlanData.initialFlexiPrepaidCommitment,
+                nrFlexCredit: savingsPlanData.initialFlexiCredit,
                 nrRolloverFunds: savingsPlanData.rolloverFunds,
                 nrRolloverCredits: savingsPlanData.rolloverCredits,
                 nrResellerRenewalRate: savingsPlanData.resellerFeeRenewalRate,

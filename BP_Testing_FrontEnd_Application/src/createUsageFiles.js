@@ -30,8 +30,8 @@ async function createUserUsageFile(billingIdentifier, contractStartDate, usagePr
                 BillingIdentifier: billingIdentifier,
                 UsageDate: contractStartDate,
                 Quantity: quantity,
-                UsageIdentifier: mapping.nrFpuEdition,
-                UnitOfMeasure: mapping.nrUnitOfMeasure,
+                UnitOfMeasure : mapping.nrUnitOfMeasure,
+                UsageIdentifier : mapping.nrFpuEdition,
 
                 StartDate: contractStartDate,
                 EndDate: endDate.toISOString().split('T')[0]

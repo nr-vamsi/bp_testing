@@ -31,7 +31,6 @@ let contractName = '';
 let sfAccId = '';
 let results = '';
 let contractProdIds = [];
-//let orgGrpArray = [];
 let usageProducts = [];
 let contractAccProd = [];
 let ccidArray = [];
@@ -251,7 +250,7 @@ async function handleSubmit() {
             results = results.filter(item => !item['Product Name'].includes('Live') && !item['Product Name'].includes('Compute'));
         }
         //console.log('Results:', results); // Debugging information
-        results = results.filter(item => !item['Product Name'].includes('UOM'));
+        results = results.filter(item => !item['Product Name'].includes('Usage Quantity'));
         filteredProducts = [...filteredProducts, ...results];
 
     }
@@ -793,12 +792,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     buyingProgram: document.getElementById('buying-program').value
                 };
                 if (savingsPlanData.initialPrepaidCommitment !== '') {
+                    let commitmentPrice = 0;
                     console.log('Initial Prepaid Commitment Value Exists:', savingsPlanData.initialPrepaidCommitment);
+                    if( savingsPlanData.initialFlexiPrepaidCommitment !== '') {
+                        commitmentPrice = savingsPlanData.initialFlexiPrepaidCommitment;
+
+                    }else{
+                        commitmentPrice = savingsPlanData.initialCommitment;
+                    }
                                // Add the specified product details
             selectedProductsDetails.push({
                 ProdID: '14176',
                 ProductName: 'SP1.0 - Prepaid Commitment',
-                Price: savingsPlanData.initialCommitment,
+                Price: commitmentPrice,
                 Tier: false,
                 TieredDetails: []
             });
@@ -856,13 +862,14 @@ document.addEventListener('DOMContentLoaded', () => {
                             console.log('ContractProdIds:', contractProdIds);
                             console.log('ContractAccProd:', contractAccProd);
                             for (const product of contractAccProd) {
+                                
                             accountProductId = await createAccountProduct(sessionId, account.accId, contractId, product, contractStartDateValue, contractEndDateValue);
                             }
                         }
                         if (account.level === 'OrgGrp') {
                             usageProducts = contractProdIds;
-                            usageProducts = usageProducts.filter(item => item['ContractRateLabel'].includes('UOM'));
-                            contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('UOM'));
+                            usageProducts = usageProducts.filter(item => item['ContractRateLabel'].includes('Usage Quantity'));
+                            contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('Usage Quantity'));
                             contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('SP1.0'));
                             contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('SP 1.0'));
                             contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('New Relic Reseller Fee'));
@@ -956,9 +963,9 @@ document.addEventListener('DOMContentLoaded', () => {
                                 }
                                 contractProdIds = await queryProductsFromContract(sessionId, contractId);
                                 usageProducts = contractProdIds;
-                                contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('UOM'));
+                                contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('Usage Quantity'));
                                 //contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('SP1.0'));
-                                usageProducts = usageProducts.filter(item => item['ContractRateLabel'].includes('UOM'));
+                                usageProducts = usageProducts.filter(item => item['ContractRateLabel'].includes('Usage Quantity'));
                                 //console.log('CCID ContractProdIds:', contractProdIds);
                                 for (const orgGrp of orgGrpArray) {
                                     if (orgGrp === 'OrgGrp11') {

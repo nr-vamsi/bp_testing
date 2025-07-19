@@ -1,12 +1,12 @@
 Product,Usage Identifier,nrFpuEdition,nrUnitOfMeasure
-New Relic - Standard Tiered Full Platform Users (PAYG) UOM,FPU Standard,Std,FPU
-New Relic One - Core Users (PAYG) UOM,Core Users,,Core Users
-New Relic One - Enterprise Full Platform Users (PAYG) UOM,FPU Enterprise,Enterprise,FPU
-New Relic One - Pro Full Platform Users (PAYG) UOM,FPU Pro,Pro,FPU
-New Relic One - Standard Full Platform Users (PAYG) UOM,FPU Standard,Std,FPU
-New Relic Savings Plan - Core Users UOM,Core Users,,Core Users
-New Relic Savings Plan - Enterprise Full Platform Users UOM,FPU Enterprise,Enterprise,FPU
-New Relic Savings Plan - Pro Full Platform Users UOM,FPU Pro,Pro,FPU
+New Relic - Standard Tiered Full Platform Users (PAYG) Usage Quantity,FPU Standard,Std,FPU
+New Relic One - Core Users (PAYG) Usage Quantity,Core Users,,Core Users
+New Relic One - Enterprise Full Platform Users (PAYG) Usage Quantity,FPU Enterprise,Enterprise,FPU
+New Relic One - Pro Full Platform Users (PAYG) Usage Quantity,FPU Pro,Pro,FPU
+New Relic One - Standard Full Platform Users (PAYG) Usage Quantity,FPU Standard,Std,FPU
+New Relic Savings Plan - Core Users Usage Quantity,Core Users,,Core Users
+New Relic Savings Plan - Enterprise Full Platform Users Usage Quantity,FPU Enterprise,Enterprise,FPU
+New Relic Savings Plan - Pro Full Platform Users Usage Quantity,FPU Pro,Pro,FPU
 Prototype Users - FPU - Enterprise,FPU Enterprise,Enterprise,FPU
 Prototype Users - FPU - Pro,FPU Pro,Pro,FPU
 Prototype Users - FPU - Standard,FPU Standard,Std,FPU

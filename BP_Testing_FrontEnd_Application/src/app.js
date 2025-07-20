@@ -67,6 +67,8 @@ const resultContainer2 = document.getElementById('result-container2');
 const resultValuesTableBody2 = document.querySelector('#result-values-table2 tbody');
 const resultContainer3 = document.getElementById('result-container3');
 const resultValuesTableBody3 = document.querySelector('#result-values-table3 tbody');
+const resultContainer4 = document.getElementById('result-container4');
+const resultValuesTableBody4 = document.querySelector('#result-values-table4 tbody');
 const sameAsBillToCheckbox = document.getElementById('same-as-bill-to');
 const savingsPlanFieldSet = document.getElementById('savings-plan-fields');
 
@@ -168,10 +170,10 @@ async function handleSubmit() {
     //console.log('Selected Compute Options:', selectedComputeOptions);
     let selectedBuyingPrograms = [buyingProgramDropdown.value];
     console.log('Selected Buying Programs:', selectedBuyingPrograms);
-  
-   if (selectedBuyingPrograms[0] === 'SAVINGS') {
+
+    if (selectedBuyingPrograms[0] === 'SAVINGS') {
         selectedBuyingPrograms[0] = 'Savings Plan';
-}
+    }
 
 
     contractStartDateValue = contractStartDate.value;
@@ -516,7 +518,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     TieredDetails: tieredDetails
                 };
             });
- 
+
             //console.log('Selected Products Details:', selectedProductsDetails);
             // Collect selected products details for CCID1
             selectedProductsDetailsCCID1 = Array.from(document.querySelectorAll('input[name="select-product"]:checked')).filter(checkbox => {
@@ -791,36 +793,58 @@ document.addEventListener('DOMContentLoaded', () => {
                     partnerCompensationMethod: document.getElementById('partner-compensation-method').value,
                     buyingProgram: document.getElementById('buying-program').value
                 };
+                //
                 if (savingsPlanData.initialPrepaidCommitment !== '') {
                     let commitmentPrice = 0;
                     console.log('Initial Prepaid Commitment Value Exists:', savingsPlanData.initialPrepaidCommitment);
-                    if( savingsPlanData.initialFlexiPrepaidCommitment !== '') {
+                    if (savingsPlanData.initialFlexiPrepaidCommitment || savingsPlanData.initialFlexiPrepaidCommitment !== '') {
                         commitmentPrice = savingsPlanData.initialFlexiPrepaidCommitment;
 
-                    }else{
+                    } else {
                         commitmentPrice = savingsPlanData.initialCommitment;
                     }
-                               // Add the specified product details
-            selectedProductsDetails.push({
-                ProdID: '14176',
-                ProductName: 'SP1.0 - Prepaid Commitment',
-                Price: commitmentPrice,
-                Tier: false,
-                TieredDetails: []
-            });
-                } 
-                    if (savingsPlanData.resellerFeeBlendedRate !== '') {
+                    // Add the specified product details
+                    selectedProductsDetails.push({
+                        ProdID: '14176',
+                        ProductName: 'SP1.0 - Prepaid Commitment',
+                        Price: commitmentPrice,
+                        Tier: false,
+                        TieredDetails: []
+                    });
+                }
+                //
+                /*if (savingsPlanData.initialCommitmentCredit !== '') {
+                    let commitmentCreditPrice = 0;
+                    console.log('Initial Credit Commitment Value Exists:', savingsPlanData.initialCommitmentCredit);
+                    console.log('Initial Credit Flex Value Exists:', savingsPlanData.initialFlexiCredit);
+                    if (savingsPlanData.initialFlexiCredit || savingsPlanData.initialFlexiCredit !== '') {
+                        commitmentCreditPrice = savingsPlanData.initialFlexiCredit;
+
+                    } else {
+                        commitmentCreditPrice = savingsPlanData.initialCommitmentCredit;
+                    }
+                    // Add the specified product details
+                    selectedProductsDetails.push({
+                        ProdID: '14120',
+                        ProductName: 'SP1.0 - Commitment Credits',
+                        Price: commitmentCreditPrice,
+                        Tier: false,
+                        TieredDetails: []
+                    });
+                }*/
+                //
+                if (savingsPlanData.resellerFeeBlendedRate !== '') {
                     console.log('Reseller Fee Blended Rate Value Exists:', savingsPlanData.resellerFeeBlendedRate);
-                
-                               // Add the specified product details
-            selectedProductsDetails.push({
-                ProdID: '14178',
-                ProductName: 'New Relic Reseller Fee',
-                Price: '',
-                Tier: false,
-                TieredDetails: []
-            });
-                } 
+
+                    // Add the specified product details
+                    selectedProductsDetails.push({
+                        ProdID: '14178',
+                        ProductName: 'New Relic Reseller Fee',
+                        Price: '',
+                        Tier: false,
+                        TieredDetails: []
+                    });
+                }
                 console.log('Savings Plan Data:', savingsPlanData);
                 const contractIds = [];
                 for (const account of accountIds) {
@@ -836,12 +860,14 @@ document.addEventListener('DOMContentLoaded', () => {
                             //contractCurrencyId = await createContractCurrency(sessionId, contractId);
                             //appendResultRow('ContractCurrencyId', contractCurrencyId, resultValuesTableBody1);
                             displayResultContainer(resultContainer2);   // Display the result section
+                            displayResultContainer(resultContainer4); 
                             displayResultContainer(resultContainer3);   // Display the result section
                             console.log('Selected Products Details:', selectedProductsDetails);
                             for (const product of selectedProductsDetails) {
                                 //console.log(`ProdID: ${product.ProdID}, ProductName: ${product.ProductName}, Price: ${product.Price}, TieredDetails: ${JSON.stringify(product.TieredDetails)}`);
                                 contractRateId = await createContractRate(sessionId, contractId, product, contractStartDateValue, contractEndDateValue);
                                 //console.log('ContractRateId:', contractRateId);
+                                appendResultRow(`${product.ProductName}`, `${product.ProdID}`, resultValuesTableBody4);
                                 appendResultRow(`ContractRateId (${product.ProdID})`, contractRateId, resultValuesTableBody2);
 
 
@@ -850,6 +876,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     //console.log('PricingId:', pricingId);
                                     //appendResultRow(`PricingId (${product.ProdID})`, pricingId, resultValuesTableBody2);
                                 } else {
+                                    console.log(`ProdID: ${product.ProdID}, ProductName: ${product.ProductName}, Price: ${product.Price}, TieredDetails: ${JSON.stringify(product.TieredDetails)}`);
                                     pricingId = await createPricing(sessionId, contractId, contractRateId, product, contractStartDateValue, contractEndDateValue);
                                     //console.log('PricingId:', pricingId);
                                     //appendResultRow(`PricingId (${product.ProdID})`, pricingId, resultValuesTableBody2);
@@ -858,12 +885,78 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
                             contractProdIds = await queryProductsFromContract(sessionId, contractId);
                             contractAccProd = contractProdIds.filter(item => item['ContractRateLabel'].includes('SP1.0 - Prepaid Commitment'));
+                            //contractAccProd = contractProdIds.filter(item => item['ContractRateLabel'].includes('SP1.0 - Commitment Credits'));
                             //contractAccProd = contractProdIds.filter(item => item['ContractRateLabel'].includes('New Relic Reseller Fee'));
                             console.log('ContractProdIds:', contractProdIds);
                             console.log('ContractAccProd:', contractAccProd);
                             for (const product of contractAccProd) {
-                                
-                            accountProductId = await createAccountProduct(sessionId, account.accId, contractId, product, contractStartDateValue, contractEndDateValue);
+                                // --- Custom logic for SP1.0 - Prepaid Commitment ---
+                                let productName = product.ContractRateLabel ? product.ContractRateLabel : product.ProductName;
+                                console.log('Product Name:///////////////', productName);
+
+                                if (
+                                    productName === "SP1.0 - Prepaid Commitment" &&
+                                    (savingsPlanData.initialFlexiPrepaidCommitment ||
+                                        savingsPlanData.initialFlexiPrepaidCommitment !== '')
+                                ) {
+                                    const billingTerms = savingsPlanData.billingTerms;
+                                    const start = new Date(contractStartDateValue);
+                                    const end = new Date(contractEndDateValue);
+
+                                    if (billingTerms === "Quarterly") {
+                                        let tempStart = new Date(start);
+                                        for (let i = 0; i < 4; i++) {
+                                            let tempEnd = new Date(tempStart);
+                                            tempEnd.setMonth(tempEnd.getMonth() + 3);
+                                            if (tempEnd > end) tempEnd = new Date(end);
+                                            await createAccountProduct(
+                                                sessionId,
+                                                account.accId,
+                                                contractId,
+                                                product,
+                                                tempStart.toISOString().slice(0, 10),
+                                                tempEnd.toISOString().slice(0, 10)
+                                            );
+                                            tempStart = new Date(tempEnd);
+                                        }
+                                    } else if (billingTerms === "SemiAnnual") {
+                                        let tempStart = new Date(start);
+                                        for (let i = 0; i < 2; i++) {
+                                            let tempEnd = new Date(tempStart);
+                                            tempEnd.setMonth(tempEnd.getMonth() + 6);
+                                            if (tempEnd > end) tempEnd = new Date(end);
+                                            await createAccountProduct(
+                                                sessionId,
+                                                account.accId,
+                                                contractId,
+                                                product,
+                                                tempStart.toISOString().slice(0, 10),
+                                                tempEnd.toISOString().slice(0, 10)
+                                            );
+                                            tempStart = new Date(tempEnd);
+                                        }
+                                    } else {
+                                        // Default: just one call for the full period
+                                        await createAccountProduct(
+                                            sessionId,
+                                            account.accId,
+                                            contractId,
+                                            product,
+                                            contractStartDateValue,
+                                            contractEndDateValue
+                                        );
+                                    }
+                                } else {
+                                    // Default behavior for other products
+                                    await createAccountProduct(
+                                        sessionId,
+                                        account.accId,
+                                        contractId,
+                                        product,
+                                        contractStartDateValue,
+                                        contractEndDateValue
+                                    );
+                                }
                             }
                         }
                         if (account.level === 'OrgGrp') {
@@ -873,12 +966,12 @@ document.addEventListener('DOMContentLoaded', () => {
                             contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('SP1.0'));
                             contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('SP 1.0'));
                             contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('New Relic Reseller Fee'));
-                            
-                             console.log('ContractProdIds:', contractProdIds);
+
+                            console.log('ContractProdIds:', contractProdIds);
                             for (const product of contractProdIds) {
                                 accountProductId = await createAccountProduct(sessionId, account.accId, contractId, product, contractStartDateValue, contractEndDateValue);
                                 //console.log('AccountProductId:', accountProductId);
-                                appendResultRow(`AccountProductId (${product.ProductId})`, accountProductId, resultValuesTableBody3);
+                                appendResultRow(`AccountProductId (${product.Id})`, accountProductId, resultValuesTableBody3);
                             }
                             //billingIdentifier = account.accId;
                             const orgGrpAccId = account.accId;
@@ -886,25 +979,25 @@ document.addEventListener('DOMContentLoaded', () => {
                             //BIaccountProductId = await createBillingIdentifier(sessionId, account.accId, contractId, billingIdentifier, contractStartDateValue, contractEndDateValue);
                             //console.log('BIaccountProductId:', BIaccountProductId);
                             //appendResultRow('BIaccountProductId', BIaccountProductId, resultValuesTableBody3);
-                                    const response = await fetch(`${CONFIG.HOSTNAME}//rest/2.0/query?sql=select nrBillingIdentifier from ACCOUNT_PRODUCT where accountid = '${orgGrpAccId}' and name='BillingIdentifier'`, {
-                                        method: 'GET',
-                                        headers: {
-                                            'Content-Type': 'application/json; charset=utf-8',
-                                            sessionId: `${sessionId}`
-                                        }
-                                    });
-                                    const data = await response.json();
-                                    const biData = data.queryResponse;
-                                    let billingIdentifier = '';
-                                    if (biData && biData.length > 0) {
-                                        console.log('Billing Identifier found:', biData[0].nrBillingIdentifier);
-                                        billingIdentifier = biData[0].nrBillingIdentifier;
-                                    }
-                
+                            const response = await fetch(`${CONFIG.HOSTNAME}//rest/2.0/query?sql=select nrBillingIdentifier from ACCOUNT_PRODUCT where accountid = '${orgGrpAccId}' and name='BillingIdentifier'`, {
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json; charset=utf-8',
+                                    sessionId: `${sessionId}`
+                                }
+                            });
+                            const data = await response.json();
+                            const biData = data.queryResponse;
+                            let billingIdentifier = '';
+                            if (biData && biData.length > 0) {
+                                console.log('Billing Identifier found:', biData[0].nrBillingIdentifier);
+                                billingIdentifier = biData[0].nrBillingIdentifier;
+                            }
+
 
                             await showCSVResults();
                             //Create usage files
-                            
+
                             console.log('Billing Identifier found:', billingIdentifier);
                             await createUserUsageFile(billingIdentifier, contractStartDateValue, usageProducts, TCId);
                             await createNonUserUsageFile(billingIdentifier, contractStartDateValue, usageProducts, TCId);
@@ -1015,7 +1108,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                                         await showCSVResults();
                                         //Create usage files
-                                        
+
                                         await createUserUsageFile(billingIdentifier, contractStartDateValue, usageProducts, TCId);
                                         await createNonUserUsageFile(billingIdentifier, contractStartDateValue, usageProducts, TCId);
                                     }
@@ -1030,8 +1123,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 }
                 // Create Excel file with all results
-                   // Convert table data to arrays
-                   const accountDetailsArray = Array.from(resultValuesTableBody.querySelectorAll('tr')).map(row => {
+                // Convert table data to arrays
+                const accountDetailsArray = Array.from(resultValuesTableBody.querySelectorAll('tr')).map(row => {
                     const cells = row.querySelectorAll('td');
                     return { name: cells[0].textContent, value: cells[1].textContent };
                 });
@@ -1053,7 +1146,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Create Excel file with all results
                 console.log('Excel file creation started');
-                await createExcel(accountDetailsArray, contractDetailsArray, contractRateDetailsArray, accountProductDetailsArray, TCId);            } catch (error) {
+                await createExcel(accountDetailsArray, contractDetailsArray, contractRateDetailsArray, accountProductDetailsArray, TCId);
+            } catch (error) {
                 console.error('Error during API calls:', error);
             }
         });

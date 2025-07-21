@@ -30,5 +30,11 @@ export async function createPricing(sessionId, contractId, contractRateId, produ
     if (!response.ok) {
         throw new Error('Error creating contract');
     }
-    return data.createResponse[0].Id;
+                                        // To get the Id from the response:
+    let pricingRecordId = null;
+    if (data.createResponse[0].ErrorCode !== '0' && `${product.ProductName}` === 'SP1.0 - Commitment Credits') {
+        console.log('Error creating pricing record:', data.createResponse[0].ErrorText);
+    }
+
+    return data;
 }

@@ -4,6 +4,7 @@ import { createContract1 } from './createContract.js';
 import { createContractCurrency } from './createContractCurrency.js';
 import { createContractRate } from './createContractRate.js';
 import { createPricing } from './createPricing.js';
+import { queryPrice } from './queryPrice.js';
 import { createTieredPricing } from './createTieredPricing.js';
 import { createAccountProduct } from './createAccountProduct.js';
 import { createBillingIdentifier } from './createBillingIdentifier.js';
@@ -14,6 +15,7 @@ import { createAccounts } from './createAccounts.js';
 import { queryProductsFromContract } from './queryProductsFromContract.js';
 import { createExcel } from './createExcel.js';
 import CONFIG from './config.js';
+import { updatePricing } from './updatePricing.js';
 
 let productsList = [];
 let accountName = '';
@@ -813,7 +815,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 }
                 //
-                /*if (savingsPlanData.initialCommitmentCredit !== '') {
+                if (savingsPlanData.initialCommitmentCredit !== '') {
                     let commitmentCreditPrice = 0;
                     console.log('Initial Credit Commitment Value Exists:', savingsPlanData.initialCommitmentCredit);
                     console.log('Initial Credit Flex Value Exists:', savingsPlanData.initialFlexiCredit);
@@ -831,7 +833,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         Tier: false,
                         TieredDetails: []
                     });
-                }*/
+                }
                 //
                 if (savingsPlanData.resellerFeeBlendedRate !== '') {
                     console.log('Reseller Fee Blended Rate Value Exists:', savingsPlanData.resellerFeeBlendedRate);
@@ -878,8 +880,15 @@ document.addEventListener('DOMContentLoaded', () => {
                                 } else {
                                     console.log(`ProdID: ${product.ProdID}, ProductName: ${product.ProductName}, Price: ${product.Price}, TieredDetails: ${JSON.stringify(product.TieredDetails)}`);
                                     pricingId = await createPricing(sessionId, contractId, contractRateId, product, contractStartDateValue, contractEndDateValue);
-                                    //console.log('PricingId:', pricingId);
-                                    //appendResultRow(`PricingId (${product.ProdID})`, pricingId, resultValuesTableBody2);
+                                    if( pricingId.createResponse[0].ErrorCode !== '0' && `${product.ProductName}` === 'SP1.0 - Commitment Credits') {
+                                        pricingId = await queryPrice(sessionId, contractRateId);
+                                        if( pricingId && pricingId.length > 0) {
+                                            pricingId = await updatePricing(sessionId,pricingId,product);
+                                            console.log('Updated PricingId:', pricingId);
+                                        }
+                                        
+                                    }
+                                  //appendResultRow(`PricingId (${product.ProdID})`, pricingId, resultValuesTableBody2);
                                 }
 
                             }

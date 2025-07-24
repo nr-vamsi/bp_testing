@@ -901,7 +901,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             for (const product of contractAccProd) {
                                 // --- Custom logic for SP1.0 - Prepaid Commitment ---
                                 let productName = product.ContractRateLabel ? product.ContractRateLabel : product.ProductName;
-                                console.log('Product Name:///////////////', productName);
+                                //console.log('Product Name:///////////////', productName);
 
                                 if (
                                     productName === "SP1.0 - Prepaid Commitment" &&
@@ -1020,14 +1020,16 @@ document.addEventListener('DOMContentLoaded', () => {
                             displayResultContainer(resultContainer1);   // Display the result section
                             const contractType = 'Commitment';
                             contractId = await createContract(sessionId, account.accId, accountName, contractStartDateValue, contractEndDateValue, contractName, contractType, savingsPlanData, ccidCount);
-                            appendResultRow(`Contract Id for Account: ${account.accId} `, contractId, resultValuesTableBody1);
+                            appendResultRow('ContractId', contractId, resultValuesTableBody1);
+                            //appendResultRow(`Contract Id for Account: ${account.accId} `, contractId, resultValuesTableBody1);
                             //contractCurrencyId = await createContractCurrency(sessionId, contractId);
                             //appendResultRow('ContractCurrencyId', contractCurrencyId, resultValuesTableBody1);
                         }
                         if (account.level === 'CCID1' || account.level === 'CCID2') {
-                            displayResultContainer(resultContainer1);
+                            //displayResultContainer(resultContainer1);
                             displayResultContainer(resultContainer2);   // Display the result section
-                            displayResultContainer(resultContainer3);   // Display the result section
+                            displayResultContainer(resultContainer4); 
+                            displayResultContainer(resultContainer3);  
                             const contractType = 'Rate Plan';
                             const billingTerms = savingsPlanData.billingTerms;
                             contractId = await createContract1(sessionId, account.accId, accountName, contractStartDateValue, contractEndDateValue, contractName, contractType, savingsPlanData, ccidCount);
@@ -1043,8 +1045,9 @@ document.addEventListener('DOMContentLoaded', () => {
                                 // console.log(`ProdID: ${product.ProdID}, ProductName: ${product.ProductName}, Price: ${product.Price}, TieredDetails: ${JSON.stringify(product.TieredDetails)}`);
                                 contractRateId = await createContractRate(sessionId, contractId, product, contractStartDateValue, contractEndDateValue);
                                 // console.log('ContractRateId:', contractRateId);
-                                appendResultRow(`Contract: ${contractId} ContractRateId)`, contractRateId, resultValuesTableBody2);
-
+                               // appendResultRow(`Contract: ${contractId} ContractRateId)`, contractRateId, resultValuesTableBody2);
+                                appendResultRow(`${product.ProductName}`, `${product.ProdID}`, resultValuesTableBody4);
+                                appendResultRow(`ContractRateId (${product.ProdID})`, contractRateId, resultValuesTableBody2);
                                 if (product.TieredDetails.length > 0) {
                                     pricingId = await createTieredPricing(sessionId, contractId, contractRateId, product.TieredDetails, contractStartDateValue, contractEndDateValue);
                                     // console.log('PricingId:', pricingId);
@@ -1107,7 +1110,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                         for (const product of contractProdIds) {
                                             accountProductId = await createAccountProduct(sessionId, orgGrpAccId, contractId, product, contractStartDateValue, contractEndDateValue);
                                             //console.log('AccountProductId:', accountProductId);
-                                            appendResultRow(`${orgGrp} AccountProductId (${product.ProdID})`, accountProductId, resultValuesTableBody3);
+                                            //appendResultRow(`${orgGrp} AccountProductId (${product.ProdID})`, accountProductId, resultValuesTableBody3);
+                                            appendResultRow(`AccountProductId (${product.Id})`, accountProductId, resultValuesTableBody3);
 
                                         }
                                         //billingIdentifier = orgGrpAccId;

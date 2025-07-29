@@ -609,6 +609,8 @@ for (const orgGrp of orgGrpArray) {
 }
             //console.log('Selected Products Details for OrgGrp22:', selectedProductsDetailsOrgGrp22);
             //console.log('Selected Products Details:', selectedProductsDetails);
+            console.log('Selected Products Details by CCID:', selectedProductsDetailsByCCID);
+            console.log('Selected Products Details by OrgGrp:', selectedProductsDetailsByOrgGrp);   
 
             try {
                 const accountStructure = document.querySelector('input[name="account-structure"]:checked').value;
@@ -657,7 +659,7 @@ for (const orgGrp of orgGrpArray) {
                 //
                 if (savingsPlanData.initialPrepaidCommitment !== '') {
                     let commitmentPrice = 0;
-                    console.log('Initial Prepaid Commitment Value Exists:', savingsPlanData.initialPrepaidCommitment);
+                    //console.log('Initial Prepaid Commitment Value Exists:', savingsPlanData.initialPrepaidCommitment);
                     if (savingsPlanData.initialFlexiPrepaidCommitment || savingsPlanData.initialFlexiPrepaidCommitment !== '') {
                         commitmentPrice = savingsPlanData.initialFlexiPrepaidCommitment;
 
@@ -676,8 +678,8 @@ for (const orgGrp of orgGrpArray) {
                 //
                 if (savingsPlanData.initialCommitmentCredit !== '') {
                     let commitmentCreditPrice = 0;
-                    console.log('Initial Credit Commitment Value Exists:', savingsPlanData.initialCommitmentCredit);
-                    console.log('Initial Credit Flex Value Exists:', savingsPlanData.initialFlexiCredit);
+                    //console.log('Initial Credit Commitment Value Exists:', savingsPlanData.initialCommitmentCredit);
+                    //console.log('Initial Credit Flex Value Exists:', savingsPlanData.initialFlexiCredit);
                     if (savingsPlanData.initialFlexiCredit || savingsPlanData.initialFlexiCredit !== '') {
                         commitmentCreditPrice = savingsPlanData.initialFlexiCredit;
 
@@ -875,20 +877,117 @@ for (const orgGrp of orgGrpArray) {
                     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                     if (accountStructure === 'multi-ccid-shared-pool') {
                         ccidCount = 2;
+ 
                         if (account.level === 'BillingPortfolio') {
                             displayResultContainer(resultContainer1);   // Display the result section
+                            displayResultContainer(resultContainer2);   // Display the result section
+                            displayResultContainer(resultContainer4); 
+                            displayResultContainer(resultContainer3); 
                             const contractType = 'Commitment';
                             contractId = await createContract(sessionId, account.accId, accountName, contractStartDateValue, contractEndDateValue, contractName, contractType, savingsPlanData, ccidCount);
                             appendResultRow('ContractId', contractId, resultValuesTableBody1);
                             //appendResultRow(`Contract Id for Account: ${account.accId} `, contractId, resultValuesTableBody1);
                             //contractCurrencyId = await createContractCurrency(sessionId, contractId);
                             //appendResultRow('ContractCurrencyId', contractCurrencyId, resultValuesTableBody1);
+                          for (const product of selectedProductsDetails) {
+                                if( `${product.ProductName}` === 'SP1.0 - Prepaid Commitment' || `${product.ProductName}` === 'SP1.0 - Commitment Credits') {
+                                //console.log(`ProdID: ${product.ProdID}, ProductName: ${product.ProductName}, Price: ${product.Price}, TieredDetails: ${JSON.stringify(product.TieredDetails)}`);
+                                contractRateId = await createContractRate(sessionId, contractId, product, contractStartDateValue, contractEndDateValue);
+                                //console.log('ContractRateId:', contractRateId);
+                                appendResultRow(`${product.ProductName}`, `${product.ProdID}`, resultValuesTableBody4);
+                                appendResultRow(`ContractRateId (${product.ProdID})`, contractRateId, resultValuesTableBody2);
+                                    pricingId = await createPricing(sessionId, contractId, contractRateId, product, contractStartDateValue, contractEndDateValue);
+                                    if( pricingId.createResponse[0].ErrorCode !== '0' && `${product.ProductName}` === 'SP1.0 - Commitment Credits') {
+                                        pricingId = await queryPrice(sessionId, contractRateId);
+                                        if( pricingId && pricingId.length > 0) {
+                                            pricingId = await updatePricing(sessionId,pricingId,product);
+                                            console.log('Updated PricingId:', pricingId);
+                                        }
+                                        
+                                    }
+                            }
                         }
-                        if (account.level === 'CCID1' || account.level === 'CCID2') {
+
+                            contractProdIds = await queryProductsFromContract(sessionId, contractId);
+                            contractAccProd = contractProdIds.filter(item => item['ContractRateLabel'].includes('SP1.0 - Prepaid Commitment'));
+                            //contractAccProd = contractProdIds.filter(item => item['ContractRateLabel'].includes('SP1.0 - Commitment Credits'));
+                            //contractAccProd = contractProdIds.filter(item => item['ContractRateLabel'].includes('New Relic Reseller Fee'));
+                            console.log('ContractProdIds:', contractProdIds);
+                            console.log('ContractAccProd:', contractAccProd);
+                            for (const product of contractAccProd) {
+                                // --- Custom logic for SP1.0 - Prepaid Commitment ---
+                                let productName = product.ContractRateLabel ? product.ContractRateLabel : product.ProductName;
+                                //console.log('Product Name:///////////////', productName);
+
+                                if (
+                                    productName === "SP1.0 - Prepaid Commitment" &&
+                                    (savingsPlanData.initialFlexiPrepaidCommitment ||
+                                        savingsPlanData.initialFlexiPrepaidCommitment !== '')
+                                ) {
+                                    const billingTerms = savingsPlanData.billingTerms;
+                                    const start = new Date(contractStartDateValue);
+                                    const end = new Date(contractEndDateValue);
+
+                                    if (billingTerms === "Quarterly") {
+                                        let tempStart = new Date(start);
+                                        for (let i = 0; i < 4; i++) {
+                                            let tempEnd = new Date(tempStart);
+                                            tempEnd.setMonth(tempEnd.getMonth() + 3);
+                                            if (tempEnd > end) tempEnd = new Date(end);
+                                            await createAccountProduct(
+                                                sessionId,
+                                                account.accId,
+                                                contractId,
+                                                product,
+                                                tempStart.toISOString().slice(0, 10),
+                                                tempEnd.toISOString().slice(0, 10)
+                                            );
+                                            tempStart = new Date(tempEnd);
+                                        }
+                                    } else if (billingTerms === "SemiAnnual") {
+                                        let tempStart = new Date(start);
+                                        for (let i = 0; i < 2; i++) {
+                                            let tempEnd = new Date(tempStart);
+                                            tempEnd.setMonth(tempEnd.getMonth() + 6);
+                                            if (tempEnd > end) tempEnd = new Date(end);
+                                            await createAccountProduct(
+                                                sessionId,
+                                                account.accId,
+                                                contractId,
+                                                product,
+                                                tempStart.toISOString().slice(0, 10),
+                                                tempEnd.toISOString().slice(0, 10)
+                                            );
+                                            tempStart = new Date(tempEnd);
+                                        }
+                                    } else {
+                                        // Default: just one call for the full period
+                                        await createAccountProduct(
+                                            sessionId,
+                                            account.accId,
+                                            contractId,
+                                            product,
+                                            contractStartDateValue,
+                                            contractEndDateValue
+                                        );
+                                    }
+                                } else {
+                                    // Default behavior for other products
+                                    await createAccountProduct(
+                                        sessionId,
+                                        account.accId,
+                                        contractId,
+                                        product,
+                                        contractStartDateValue,
+                                        contractEndDateValue
+                                    );
+                                }
+                            }
+
+                        }
+                        if (account.level.startsWith('CCID')) {
                             //displayResultContainer(resultContainer1);
-                            displayResultContainer(resultContainer2);   // Display the result section
-                            displayResultContainer(resultContainer4); 
-                            displayResultContainer(resultContainer3);  
+
                             const contractType = 'Rate Plan';
                             const billingTerms = savingsPlanData.billingTerms;
                             contractId = await createContract1(sessionId, account.accId, accountName, contractStartDateValue, contractEndDateValue, contractName, contractType, savingsPlanData, ccidCount);
@@ -915,8 +1014,9 @@ for (const orgGrp of orgGrpArray) {
                                 }
 
                             }
-                            if (account.level.startsWith('CCID')) {
-                                const ccidIndex = ccidArray.indexOf(account.level);
+                          console.log('CCID Array:', ccidArray);
+                                const ccidIndex = ccidArray.indexOf(account.level)+1;
+                                console.log('CCID Account Level:', account.level, 'CCID Index:', ccidIndex);
                                 if (ccidIndex > 0) { // skip 'All'
                                     const ccidNum = ccidIndex; // CCID1 is index 1, CCID2 is index 2, etc.
                                     orgGrpArray = [];
@@ -924,6 +1024,7 @@ for (const orgGrp of orgGrpArray) {
                                         orgGrpArray.push(`OrgGrp${ccidNum}${j}`);
                                     }
                                 }
+                                console.log('OrgGrpArray:', orgGrpArray);
                                 contractProdIds = await queryProductsFromContract(sessionId, contractId);
                                 usageProducts = contractProdIds;
                                 contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('Usage Quantity'));
@@ -971,7 +1072,7 @@ for (const orgGrp of orgGrpArray) {
                                     }
                                 }
 
-                            }
+                            
 
                         }
 

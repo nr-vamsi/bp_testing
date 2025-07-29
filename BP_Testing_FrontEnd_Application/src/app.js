@@ -38,10 +38,11 @@ let contractAccProd = [];
 let ccidArray = [];
 let orgGrpArray = [];
 let TCId = '';
-let ccidCount = 0;
+let ccidCount = 2; // or get from user input/config
+let orgGrpPerCcid = 2; // or get from user input/config
 
-ccidArray = ['All', 'CCID1', 'CCID2'];
-orgGrpArray = ['OrgGrp11', 'OrgGrp12', 'OrgGrp21', 'OrgGrp22'];
+ccidArray = ['All', ...generateCCIDArray(ccidCount)];
+orgGrpArray = generateOrgGrpArray(ccidCount, orgGrpPerCcid);
 
 fetchProducts('/csv/productList.csv').then(data => {
     productsList = data;
@@ -329,11 +330,13 @@ function generateOrgGrpCheckboxes() {
     let orgGrpOptions = [];
 
     if (selectedCcid === 'All') {
-        orgGrpOptions = ['OrgGrp11', 'OrgGrp12', 'OrgGrp21', 'OrgGrp22'];
-    } else if (selectedCcid === 'CCID1') {
-        orgGrpOptions = ['OrgGrp11', 'OrgGrp12'];
-    } else if (selectedCcid === 'CCID2') {
-        orgGrpOptions = ['OrgGrp21', 'OrgGrp22'];
+        orgGrpOptions = generateOrgGrpArray(ccidCount, orgGrpPerCcid);
+    } else if (selectedCcid.startsWith('CCID')) {
+        const ccidNum = selectedCcid.replace('CCID', '');
+        orgGrpOptions = [];
+        for (let j = 1; j <= orgGrpPerCcid; j++) {
+            orgGrpOptions.push(`OrgGrp${ccidNum}${j}`);
+        }
     }
 
     return generateCheckboxes(orgGrpOptions, 'orgGrp');
@@ -366,11 +369,13 @@ function updateOrgGrpCheckboxes() {
             let orgGrpOptions = [];
 
             if (selectedCcid === 'All') {
-                orgGrpOptions = ['OrgGrp11', 'OrgGrp12', 'OrgGrp21', 'OrgGrp22'];
-            } else if (selectedCcid === 'CCID1') {
-                orgGrpOptions = ['OrgGrp11', 'OrgGrp12'];
-            } else if (selectedCcid === 'CCID2') {
-                orgGrpOptions = ['OrgGrp21', 'OrgGrp22'];
+                orgGrpOptions = generateOrgGrpArray(ccidCount, orgGrpPerCcid);
+            } else if (selectedCcid.startsWith('CCID')) {
+                const ccidNum = selectedCcid.replace('CCID', '');
+                orgGrpOptions = [];
+                for (let j = 1; j <= orgGrpPerCcid; j++) {
+                    orgGrpOptions.push(`OrgGrp${ccidNum}${j}`);
+                }
             }
 
             const existingSelections = Array.from(orgGrpCell.querySelectorAll('input[name="orgGrp"]:checked')).map(checkbox => checkbox.value);
@@ -457,12 +462,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const generatePlanButton = document.getElementById('generatePlanButton');
     const accountStructureFieldset = document.getElementById('account-structure');
 
-    let selectedProductsDetailsCCID1 = [];
-    let selectedProductsDetailsCCID2 = [];
-    let selectedProductsDetailsOrgGrp11 = [];
-    let selectedProductsDetailsOrgGrp12 = [];
-    let selectedProductsDetailsOrgGrp21 = [];
-    let selectedProductsDetailsOrgGrp22 = [];
+    let selectedProductsDetailsByCCID = {};
+    let selectedProductsDetailsByOrgGrp = {};
 
     if (userCheckbox) {
         userCheckbox.addEventListener('change', handleUserCheckboxChange);
@@ -523,241 +524,89 @@ document.addEventListener('DOMContentLoaded', () => {
 
             //console.log('Selected Products Details:', selectedProductsDetails);
             // Collect selected products details for CCID1
-            selectedProductsDetailsCCID1 = Array.from(document.querySelectorAll('input[name="select-product"]:checked')).filter(checkbox => {
-                const row = checkbox.closest('tr');
-                const ccidSelect = row.querySelector('select[name="ccid"]');
-                return ccidSelect && (ccidSelect.value === 'CCID1' || ccidSelect.value === 'All');
-            }).map(checkbox => {
-                const row = checkbox.closest('tr');
-                const tierCheckbox = row.querySelector('input[name="tier"]');
-                const tieredDetails = Array.from(row.querySelectorAll('.tiered-detail-row')).map(detailRow => ({
-                    upperBand: detailRow.querySelector('input[name="upper-band"]').value,
-                    price: detailRow.querySelector('input[name="tier-price"]').value
-                }));
+           selectedProductsDetailsByCCID = {};
+for (const ccid of ccidArray) {
+    if (ccid === 'All') continue; // skip 'All' option
+    selectedProductsDetailsByCCID[ccid] = Array.from(document.querySelectorAll('input[name="select-product"]:checked')).filter(checkbox => {
+        const row = checkbox.closest('tr');
+        const ccidSelect = row.querySelector('select[name="ccid"]');
+        return ccidSelect && (ccidSelect.value === ccid || ccidSelect.value === 'All');
+    }).map(checkbox => {
+        const row = checkbox.closest('tr');
+        const tierCheckbox = row.querySelector('input[name="tier"]');
+        const tieredDetails = Array.from(row.querySelectorAll('.tiered-detail-row')).map(detailRow => ({
+            upperBand: detailRow.querySelector('input[name="upper-band"]').value,
+            price: detailRow.querySelector('input[name="tier-price"]').value
+        }));
 
-                // Add lowerBand values
-                tieredDetails.forEach((detail, index) => {
-                    if (index === 0) {
-                        detail.lowerBand = '0';
-                    } else {
-                        const previousUpperBand = parseFloat(tieredDetails[index - 1]?.upperBand || '0');
-                        detail.lowerBand = (previousUpperBand + 0.0000000001).toString();
-                    }
-                });
+        // Add lowerBand values
+        tieredDetails.forEach((detail, index) => {
+            if (index === 0) {
+                detail.lowerBand = '0';
+            } else {
+                const previousUpperBand = parseFloat(tieredDetails[index - 1]?.upperBand || '0');
+                detail.lowerBand = (previousUpperBand + 0.0000000001).toString();
+            }
+        });
 
-                // Handle the last element's upperBand
-                tieredDetails.forEach(detail => {
-                    if (!detail.upperBand) {
-                        detail.upperBand = '-1';
-                    }
-                });
+        // Handle the last element's upperBand
+        tieredDetails.forEach(detail => {
+            if (!detail.upperBand) {
+                detail.upperBand = '-1';
+            }
+        });
 
-                return {
-                    ProdID: row.cells[1].textContent,
-                    ProductName: row.cells[2].textContent,
-                    Price: row.querySelector('input[name="price"]').value || '0',
-                    Tier: tierCheckbox ? tierCheckbox.checked : false,
-                    TieredDetails: tieredDetails
-                };
-            });
-
-
-            // console.log('Selected Products Details for CCID1:', selectedProductsDetailsCCID1); 
-
-            // Collect selected products details for CCID2
-            selectedProductsDetailsCCID2 = Array.from(document.querySelectorAll('input[name="select-product"]:checked')).filter(checkbox => {
-                const row = checkbox.closest('tr');
-                const ccidSelect = row.querySelector('select[name="ccid"]');
-                return ccidSelect && (ccidSelect.value === 'CCID2' || ccidSelect.value === 'All');
-            }).map(checkbox => {
-                const row = checkbox.closest('tr');
-                const tierCheckbox = row.querySelector('input[name="tier"]');
-                const tieredDetails = Array.from(row.querySelectorAll('.tiered-detail-row')).map(detailRow => ({
-                    upperBand: detailRow.querySelector('input[name="upper-band"]').value,
-                    price: detailRow.querySelector('input[name="tier-price"]').value
-                }));
-
-                // Add lowerBand values
-                tieredDetails.forEach((detail, index) => {
-                    if (index === 0) {
-                        detail.lowerBand = '0';
-                    } else {
-                        const previousUpperBand = parseFloat(tieredDetails[index - 1]?.upperBand || '0');
-                        detail.lowerBand = (previousUpperBand + 0.0000000001).toString();
-                    }
-                });
-
-                // Handle the last element's upperBand
-                tieredDetails.forEach(detail => {
-                    if (!detail.upperBand) {
-                        detail.upperBand = '-1';
-                    }
-                });
-
-                return {
-                    ProdID: row.cells[1].textContent,
-                    ProductName: row.cells[2].textContent,
-                    Price: row.querySelector('input[name="price"]').value || '0',
-                    Tier: tierCheckbox ? tierCheckbox.checked : false,
-                    TieredDetails: tieredDetails
-                };
-            });
+        return {
+            ProdID: row.cells[1].textContent,
+            ProductName: row.cells[2].textContent,
+            Price: row.querySelector('input[name="price"]').value || '0',
+            Tier: tierCheckbox ? tierCheckbox.checked : false,
+            TieredDetails: tieredDetails
+        };
+    });
+}
             //console.log('Selected Products Details for CCID2:', selectedProductsDetailsCCID2);
             // Collect selected products details for OrgGrp11
-            selectedProductsDetailsOrgGrp11 = Array.from(document.querySelectorAll('input[name="select-product"]:checked')).filter(checkbox => {
-                const row = checkbox.closest('tr');
-                const orgGrpCheckbox = row.querySelector('input[name="orgGrp"][value="OrgGrp11"]');
-                return orgGrpCheckbox && orgGrpCheckbox.checked;
-            }).map(checkbox => {
-                const row = checkbox.closest('tr');
-                const tierCheckbox = row.querySelector('input[name="tier"]');
-                const tieredDetails = Array.from(row.querySelectorAll('.tiered-detail-row')).map(detailRow => ({
-                    upperBand: detailRow.querySelector('input[name="upper-band"]').value,
-                    price: detailRow.querySelector('input[name="tier-price"]').value
-                }));
+selectedProductsDetailsByOrgGrp = {};
+for (const orgGrp of orgGrpArray) {
+    selectedProductsDetailsByOrgGrp[orgGrp] = Array.from(document.querySelectorAll('input[name="select-product"]:checked')).filter(checkbox => {
+        const row = checkbox.closest('tr');
+        const orgGrpCheckbox = row.querySelector(`input[name="orgGrp"][value="${orgGrp}"]`);
+        return orgGrpCheckbox && orgGrpCheckbox.checked;
+    }).map(checkbox => {
+        const row = checkbox.closest('tr');
+        const tierCheckbox = row.querySelector('input[name="tier"]');
+        const tieredDetails = Array.from(row.querySelectorAll('.tiered-detail-row')).map(detailRow => ({
+            upperBand: detailRow.querySelector('input[name="upper-band"]').value,
+            price: detailRow.querySelector('input[name="tier-price"]').value
+        }));
 
-                // Add lowerBand values
-                tieredDetails.forEach((detail, index) => {
-                    if (index === 0) {
-                        detail.lowerBand = '0';
-                    } else {
-                        const previousUpperBand = parseFloat(tieredDetails[index - 1]?.upperBand || '0');
-                        detail.lowerBand = (previousUpperBand + 0.0000000001).toString();
-                    }
-                });
+        // Add lowerBand values
+        tieredDetails.forEach((detail, index) => {
+            if (index === 0) {
+                detail.lowerBand = '0';
+            } else {
+                const previousUpperBand = parseFloat(tieredDetails[index - 1]?.upperBand || '0');
+                detail.lowerBand = (previousUpperBand + 0.0000000001).toString();
+            }
+        });
 
-                // Handle the last element's upperBand
-                tieredDetails.forEach(detail => {
-                    if (!detail.upperBand) {
-                        detail.upperBand = '-1';
-                    }
-                });
+        // Handle the last element's upperBand
+        tieredDetails.forEach(detail => {
+            if (!detail.upperBand) {
+                detail.upperBand = '-1';
+            }
+        });
 
-                return {
-                    ProdID: row.cells[1].textContent,
-                    ProductName: row.cells[2].textContent,
-                    Price: row.querySelector('input[name="price"]').value || '0',
-                    Tier: tierCheckbox ? tierCheckbox.checked : false,
-                    TieredDetails: tieredDetails
-                };
-            });
-            //console.log('Selected Products Details for OrgGrp11:', selectedProductsDetailsOrgGrp11);
-            // Collect selected products details for OrgGrp12
-            selectedProductsDetailsOrgGrp12 = Array.from(document.querySelectorAll('input[name="select-product"]:checked')).filter(checkbox => {
-                const row = checkbox.closest('tr');
-                const orgGrpCheckbox = row.querySelector('input[name="orgGrp"][value="OrgGrp12"]');
-                return orgGrpCheckbox && orgGrpCheckbox.checked;
-            }).map(checkbox => {
-                const row = checkbox.closest('tr');
-                const tierCheckbox = row.querySelector('input[name="tier"]');
-                const tieredDetails = Array.from(row.querySelectorAll('.tiered-detail-row')).map(detailRow => ({
-                    upperBand: detailRow.querySelector('input[name="upper-band"]').value,
-                    price: detailRow.querySelector('input[name="tier-price"]').value
-                }));
-
-                // Add lowerBand values
-                tieredDetails.forEach((detail, index) => {
-                    if (index === 0) {
-                        detail.lowerBand = '0';
-                    } else {
-                        const previousUpperBand = parseFloat(tieredDetails[index - 1]?.upperBand || '0');
-                        detail.lowerBand = (previousUpperBand + 0.0000000001).toString();
-                    }
-                });
-
-                // Handle the last element's upperBand
-                tieredDetails.forEach(detail => {
-                    if (!detail.upperBand) {
-                        detail.upperBand = '-1';
-                    }
-                });
-
-                return {
-                    ProdID: row.cells[1].textContent,
-                    ProductName: row.cells[2].textContent,
-                    Price: row.querySelector('input[name="price"]').value || '0',
-                    Tier: tierCheckbox ? tierCheckbox.checked : false,
-                    TieredDetails: tieredDetails
-                };
-            });
-            //console.log('Selected Products Details for OrgGrp12:', selectedProductsDetailsOrgGrp12);
-            // Collect selected products details for OrgGrp21
-            selectedProductsDetailsOrgGrp21 = Array.from(document.querySelectorAll('input[name="select-product"]:checked')).filter(checkbox => {
-                const row = checkbox.closest('tr');
-                const orgGrpCheckbox = row.querySelector('input[name="orgGrp"][value="OrgGrp21"]');
-                return orgGrpCheckbox && orgGrpCheckbox.checked;
-            }).map(checkbox => {
-                const row = checkbox.closest('tr');
-                const tierCheckbox = row.querySelector('input[name="tier"]');
-                const tieredDetails = Array.from(row.querySelectorAll('.tiered-detail-row')).map(detailRow => ({
-                    upperBand: detailRow.querySelector('input[name="upper-band"]').value,
-                    price: detailRow.querySelector('input[name="tier-price"]').value
-                }));
-
-                // Add lowerBand values
-                tieredDetails.forEach((detail, index) => {
-                    if (index === 0) {
-                        detail.lowerBand = '0';
-                    } else {
-                        const previousUpperBand = parseFloat(tieredDetails[index - 1]?.upperBand || '0');
-                        detail.lowerBand = (previousUpperBand + 0.0000000001).toString();
-                    }
-                });
-
-                // Handle the last element's upperBand
-                tieredDetails.forEach(detail => {
-                    if (!detail.upperBand) {
-                        detail.upperBand = '-1';
-                    }
-                });
-
-                return {
-                    ProdID: row.cells[1].textContent,
-                    ProductName: row.cells[2].textContent,
-                    Price: row.querySelector('input[name="price"]').value || '0',
-                    Tier: tierCheckbox ? tierCheckbox.checked : false,
-                    TieredDetails: tieredDetails
-                };
-            });
-            //console.log('Selected Products Details for OrgGrp21:', selectedProductsDetailsOrgGrp21);
-            // Collect selected products details for OrgGrp22
-            selectedProductsDetailsOrgGrp22 = Array.from(document.querySelectorAll('input[name="select-product"]:checked')).filter(checkbox => {
-                const row = checkbox.closest('tr');
-                const orgGrpCheckbox = row.querySelector('input[name="orgGrp"][value="OrgGrp22"]');
-                return orgGrpCheckbox && orgGrpCheckbox.checked;
-            }).map(checkbox => {
-                const row = checkbox.closest('tr');
-                const tierCheckbox = row.querySelector('input[name="tier"]');
-                const tieredDetails = Array.from(row.querySelectorAll('.tiered-detail-row')).map(detailRow => ({
-                    upperBand: detailRow.querySelector('input[name="upper-band"]').value,
-                    price: detailRow.querySelector('input[name="tier-price"]').value
-                }));
-
-                // Add lowerBand values
-                tieredDetails.forEach((detail, index) => {
-                    if (index === 0) {
-                        detail.lowerBand = '0';
-                    } else {
-                        const previousUpperBand = parseFloat(tieredDetails[index - 1]?.upperBand || '0');
-                        detail.lowerBand = (previousUpperBand + 0.0000000001).toString();
-                    }
-                });
-
-                // Handle the last element's upperBand
-                tieredDetails.forEach(detail => {
-                    if (!detail.upperBand) {
-                        detail.upperBand = '-1';
-                    }
-                });
-
-                return {
-                    ProdID: row.cells[1].textContent,
-                    ProductName: row.cells[2].textContent,
-                    Price: row.querySelector('input[name="price"]').value || '0',
-                    Tier: tierCheckbox ? tierCheckbox.checked : false,
-                    TieredDetails: tieredDetails
-                };
-            });
+        return {
+            ProdID: row.cells[1].textContent,
+            ProductName: row.cells[2].textContent,
+            Price: row.querySelector('input[name="price"]').value || '0',
+            Tier: tierCheckbox ? tierCheckbox.checked : false,
+            TieredDetails: tieredDetails
+        };
+    });
+}
             //console.log('Selected Products Details for OrgGrp22:', selectedProductsDetailsOrgGrp22);
             //console.log('Selected Products Details:', selectedProductsDetails);
 
@@ -765,13 +614,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 const accountStructure = document.querySelector('input[name="account-structure"]:checked').value;
                 let accountHierarchy = [];
                 if (accountStructure === 'single-ccid') {
-                    accountHierarchy = ['UltimateParent', 'Parent', 'BillingPortfolio', 'CCID', 'OrgGrp'];
+                    accountHierarchy = generateAccountHierarchy(accountStructure);
+                    ccidArray = ['CCID'];
+                    orgGrpArray = ['OrgGrp'];
                 } else if (accountStructure === 'multi-ccid-shared-pool') {
-                    accountHierarchy = ['UltimateParent', 'Parent', 'BillingPortfolio', 'CCID1', 'OrgGrp11', 'OrgGrp12', 'CCID2', 'OrgGrp21', 'OrgGrp22'];
-                    ccidArray = ['CCID1', 'CCID2'];
-                    orgGrpArray = ['OrgGrp11', 'OrgGrp12', 'OrgGrp21', 'OrgGrp22'];
+                    accountHierarchy = generateAccountHierarchy(accountStructure, ccidCount, orgGrpPerCcid);
+                    ccidArray = generateCCIDArray(ccidCount);
+                    orgGrpArray = generateOrgGrpArray(ccidCount, orgGrpPerCcid);
                 } else if (accountStructure === 'multi-ccid-separate-pool') {
-                    accountHierarchy = ['UltimateParent', 'ParentA', 'BillingPortfolioA', 'CCID1A', 'OrgGrp11A', 'OrgGrp12A', 'CCID2A', 'OrgGrp21A', 'OrgGrp22A', 'BillingPortfolioB', 'CCID1B', 'OrgGrp11B', 'OrgGrp12B', 'CCID2B', 'OrgGrp21B', 'OrgGrp22B'];
+                    accountHierarchy = generateAccountHierarchy(accountStructure, ccidCount, orgGrpPerCcid);
+                    ccidArray = [
+                        ...generateCCIDArray(ccidCount).map(ccid => ccid + 'A'),
+                        ...generateCCIDArray(ccidCount).map(ccid => ccid + 'B')
+                    ];
+                    orgGrpArray = [
+                        ...generateOrgGrpArray(ccidCount, orgGrpPerCcid).map(orgGrp => orgGrp + 'A'),
+                        ...generateOrgGrpArray(ccidCount, orgGrpPerCcid).map(orgGrp => orgGrp + 'B')
+                    ];
                 }
                 //displayHierarchyTree(accountHierarchy);
                 displayResultContainer(resultContainer);
@@ -1008,8 +867,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             //Create usage files
 
                             console.log('Billing Identifier found:', billingIdentifier);
-                            await createUserUsageFile(billingIdentifier, contractStartDateValue, usageProducts, TCId);
-                            await createNonUserUsageFile(billingIdentifier, contractStartDateValue, usageProducts, TCId);
+                            await createUserUsageFile(billingIdentifier, contractStartDateValue, usageProducts, TCId, account.level);
+                            await createNonUserUsageFile(billingIdentifier, contractStartDateValue, usageProducts, TCId, account.level);
                         }
 
                     }
@@ -1034,11 +893,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             const billingTerms = savingsPlanData.billingTerms;
                             contractId = await createContract1(sessionId, account.accId, accountName, contractStartDateValue, contractEndDateValue, contractName, contractType, savingsPlanData, ccidCount);
                             //contractCurrencyId = await createContractCurrency(sessionId, contractId);
-                            if (account.level === 'CCID1') {
-                                selectedProductsDetails = selectedProductsDetailsCCID1;
-                            }
-                            if (account.level === 'CCID2') {
-                                selectedProductsDetails = selectedProductsDetailsCCID2;
+                            if (ccidArray.includes(account.level)) {
+                                selectedProductsDetails = selectedProductsDetailsByCCID[account.level] || [];
                             }
                             appendResultRow(`${account.level} ContractId`, contractId, resultValuesTableBody1);
                             for (const product of selectedProductsDetails) {
@@ -1060,11 +916,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
                             }
                             if (account.level.startsWith('CCID')) {
-                                if (account.level === 'CCID1') {
-                                    orgGrpArray = ['OrgGrp11', 'OrgGrp12'];
-                                }
-                                if (account.level === 'CCID2') {
-                                    orgGrpArray = ['OrgGrp21', 'OrgGrp22'];
+                                const ccidIndex = ccidArray.indexOf(account.level);
+                                if (ccidIndex > 0) { // skip 'All'
+                                    const ccidNum = ccidIndex; // CCID1 is index 1, CCID2 is index 2, etc.
+                                    orgGrpArray = [];
+                                    for (let j = 1; j <= orgGrpPerCcid; j++) {
+                                        orgGrpArray.push(`OrgGrp${ccidNum}${j}`);
+                                    }
                                 }
                                 contractProdIds = await queryProductsFromContract(sessionId, contractId);
                                 usageProducts = contractProdIds;
@@ -1073,22 +931,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                 usageProducts = usageProducts.filter(item => item['ContractRateLabel'].includes('Usage Quantity'));
                                 //console.log('CCID ContractProdIds:', contractProdIds);
                                 for (const orgGrp of orgGrpArray) {
-                                    if (orgGrp === 'OrgGrp11') {
-                                        contractProdIds = selectedProductsDetailsOrgGrp11;
-                                        console.log('OrgGrp11 ContractProdIds:', contractProdIds);
-                                    }
-                                    if (orgGrp === 'OrgGrp12') {
-                                        contractProdIds = selectedProductsDetailsOrgGrp12;
-                                        console.log('OrgGrp12 ContractProdIds:', contractProdIds);
-                                    }
-                                    if (orgGrp === 'OrgGrp21') {
-                                        contractProdIds = selectedProductsDetailsOrgGrp21;
-                                        console.log('OrgGrp21 ContractProdIds:', contractProdIds);
-                                    }
-                                    if (orgGrp === 'OrgGrp22') {
-                                        contractProdIds = selectedProductsDetailsOrgGrp22;
-                                        console.log('OrgGrp22 ContractProdIds:', contractProdIds);
-                                    }
+                                    contractProdIds = selectedProductsDetailsByOrgGrp[orgGrp] || [];
+                                    console.log(`${orgGrp} ContractProdIds:`, contractProdIds);
                                     const orgGrpEntry = accountIds.find(entry => entry.level === orgGrp);
                                     const orgGrpAccId = orgGrpEntry ? orgGrpEntry.accId : null;
                                     const response = await fetch(`${CONFIG.HOSTNAME}//rest/2.0/query?sql=select nrBillingIdentifier from ACCOUNT_PRODUCT where accountid = '${orgGrpAccId}' and name='BillingIdentifier'`, {
@@ -1111,7 +955,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                             accountProductId = await createAccountProduct(sessionId, orgGrpAccId, contractId, product, contractStartDateValue, contractEndDateValue);
                                             //console.log('AccountProductId:', accountProductId);
                                             //appendResultRow(`${orgGrp} AccountProductId (${product.ProdID})`, accountProductId, resultValuesTableBody3);
-                                            appendResultRow(`AccountProductId (${product.Id})`, accountProductId, resultValuesTableBody3);
+                                            appendResultRow(`AccountProductId (${product.ProdID})`, accountProductId, resultValuesTableBody3);
 
                                         }
                                         //billingIdentifier = orgGrpAccId;
@@ -1122,8 +966,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                         await showCSVResults();
                                         //Create usage files
 
-                                        await createUserUsageFile(billingIdentifier, contractStartDateValue, usageProducts, TCId);
-                                        await createNonUserUsageFile(billingIdentifier, contractStartDateValue, usageProducts, TCId);
+                                        await createUserUsageFile(billingIdentifier, contractStartDateValue, usageProducts, TCId, orgGrp);
+                                        await createNonUserUsageFile(billingIdentifier, contractStartDateValue, usageProducts, TCId, orgGrp);
                                     }
                                 }
 
@@ -1173,3 +1017,47 @@ export { handleSubmit };
 
 // Define the updateOrgGrpCheckboxes function
 window.updateOrgGrpCheckboxes = updateOrgGrpCheckboxes;
+
+function generateAccountHierarchy(accountStructure, ccidCount = 2, orgGrpPerCcid = 2) {
+    let hierarchy = ['UltimateParent', 'Parent'];
+    if (accountStructure === 'single-ccid') {
+        hierarchy.push('BillingPortfolio', 'CCID', 'OrgGrp');
+    } else if (accountStructure === 'multi-ccid-shared-pool') {
+        hierarchy.push('BillingPortfolio');
+        for (let i = 1; i <= ccidCount; i++) {
+            hierarchy.push(`CCID${i}`);
+            for (let j = 1; j <= orgGrpPerCcid; j++) {
+                hierarchy.push(`OrgGrp${i}${j}`);
+            }
+        }
+    } else if (accountStructure === 'multi-ccid-separate-pool') {
+        for (let pool of ['A', 'B']) {
+            hierarchy.push(`BillingPortfolio${pool}`);
+            for (let i = 1; i <= ccidCount; i++) {
+                hierarchy.push(`CCID${i}${pool}`);
+                for (let j = 1; j <= orgGrpPerCcid; j++) {
+                    hierarchy.push(`OrgGrp${i}${j}${pool}`);
+                }
+            }
+        }
+    }
+    return hierarchy;
+}
+
+function generateCCIDArray(ccidCount = 2) {
+    let arr = [];
+    for (let i = 1; i <= ccidCount; i++) {
+        arr.push(`CCID${i}`);
+    }
+    return arr;
+}
+
+function generateOrgGrpArray(ccidCount = 2, orgGrpPerCcid = 2) {
+    let arr = [];
+    for (let i = 1; i <= ccidCount; i++) {
+        for (let j = 1; j <= orgGrpPerCcid; j++) {
+            arr.push(`OrgGrp${i}${j}`);
+        }
+    }
+    return arr;
+}

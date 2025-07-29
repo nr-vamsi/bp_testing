@@ -52,7 +52,7 @@ export async function createBillingProfile(sessionId, accountId, accountName, sf
                 WeeklyBillingDate: 'Monday - Sunday',
                 YearlyBillingMonth: 'January',
                 Zip: billToZip,
-                nrBillType: 'Check',
+                nrBillType: 'Invoice',
                 nrInvoiceEmail: billToEmail,
                 nrSalesforceAccountId: sfAccId
             }

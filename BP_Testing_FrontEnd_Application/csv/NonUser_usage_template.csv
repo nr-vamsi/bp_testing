@@ -1,4 +1,4 @@
-BillingIdentifier,START_TIME,QUANTITY,UOM
-svdemo01,2024-03-06,3000,US GB Ingested
-svdemo01,2024-03-08,5000,US GB Ingested
-svdemo01,2024-03-10,9000,US GB Ingested
+BillingIdentifier,START_TIME,QUANTITY,UOM,FPUEdition
+svdemo01,2024-03-06,3000,US GB Ingested,
+svdemo01,2024-03-08,5000,US GB Ingested,
+svdemo01,2024-03-10,9000,US GB Ingested,

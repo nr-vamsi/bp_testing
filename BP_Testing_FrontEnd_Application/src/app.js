@@ -694,7 +694,7 @@ for (const orgGrp of orgGrpArray) {
                     });
                 }
                 //
-                if (savingsPlanData.resellerFeeBlendedRate !== '') {
+                /*if (savingsPlanData.resellerFeeBlendedRate !== '') {
                     console.log('Reseller Fee Blended Rate Value Exists:', savingsPlanData.resellerFeeBlendedRate);
 
                     // Add the specified product details
@@ -705,7 +705,7 @@ for (const orgGrp of orgGrpArray) {
                         Tier: false,
                         TieredDetails: []
                     });
-                }
+                }*/
                 console.log('Savings Plan Data:', savingsPlanData);
                 const contractIds = [];
                 for (const account of accountIds) {

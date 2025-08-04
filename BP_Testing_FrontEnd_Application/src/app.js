@@ -1465,7 +1465,6 @@ let selectedProductsDetailsByBillingProfile = {};
 export { handleSubmit };
 
 // Define the updateOrgGrpCheckboxes function
-window.updateOrgGrpCheckboxes = updateOrgGrpCheckboxes;
 
 function generateAccountHierarchy(accountStructure, ccidCount = 2, orgGrpPerCcid = 2) {
     let hierarchy = ['UltimateParent', 'Parent'];

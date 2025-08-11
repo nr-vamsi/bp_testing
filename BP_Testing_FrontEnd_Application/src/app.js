@@ -846,7 +846,7 @@ let selectedProductsDetailsByBillingProfile = {};
                     });
                 }
                 //
-               if (savingsPlanData.initialCommitmentCredit !== '') {
+               if (savingsPlanData.initialCommitmentCredit !== '' && savingsPlanData.billingTerms !== "Monthly In Arrears (No Pre Pay)") {
                     let commitmentCreditPrice = 0;
 
                     if (savingsPlanData.initialFlexiCredit || savingsPlanData.initialFlexiCredit !== '') {

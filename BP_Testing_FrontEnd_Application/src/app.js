@@ -180,7 +180,9 @@ async function handleSubmit() {
     if (selectedBuyingPrograms[0] === 'SAVINGS') {
         selectedBuyingPrograms[0] = 'Savings Plan';
     }
-
+    if (selectedBuyingPrograms[0] === 'VOLUME') {
+        selectedBuyingPrograms[0] = 'Volume Plan';
+    }
 
     contractStartDateValue = contractStartDate.value;
     contractEndDateValue = contractEndDate.value;
@@ -237,6 +239,15 @@ async function handleSubmit() {
         combineArrays(arraysListSynthetics, 0, []);
     }
 
+    if (selectedProducts.includes('Discount')) {
+    const arraysListDiscount = [
+        selectedBuyingPrograms,
+        ['Discount']
+    ].filter(array => array.length > 0); // Exclude arrays of length 0
+
+    combineArrays(arraysListDiscount, 0, []);
+}
+
     function combineArrays(arrays, index, current) {
         if (index === arrays.length) {
             queries.push(current);
@@ -284,20 +295,20 @@ sortedProducts.forEach(item => {
     if (accountStructure === 'multi-ccid-separate-pool') {
         ccidArray = ['All', ...generateCCIDArray(ccidCount).map(ccid => ccid + 'A'), ...generateCCIDArray(ccidCount).map(ccid => ccid + 'B')];
     }
-    row.innerHTML = `
-        <td><input type="checkbox" name="select-product" value="${item['ProdID']}"></td>
-        <td>${item['ProdID']}</td>
-        <td>${item['Product Name']}</td>
-        <td>${item['Rating Method']}</td>
-        <td><input type="text" name="price" value="" ${item['Rating Method'] === 'Formula' || item['Rating Method'] === 'Discount' || item['Rating Method'] === 'Subscription' || item['Rating Method'] === 'One Time Charge' ? '' : 'disabled'}></td>
-        <td>${item['Rating Method'] === 'Usage' || item['Rating Method'] === 'Discount' || item['Rating Method'] === 'Subscription' || item['Rating Method'] === 'One Time Charge' ? '' : '<input type="checkbox" name="tier" class="tier-checkbox">'}</td>
-        <td class="tiered-details" style="display: none;"></td>
-        ${accountStructure === 'multi-ccid-shared-pool' ? `<td>${generateDropdown(ccidArray, 'ccid', 'updateOrgGrpCheckboxes()')}</td>` : ''}
-        ${accountStructure === 'multi-ccid-shared-pool' ? `<td>${generateOrgGrpCheckboxes()}</td>` : ''}
-        ${accountStructure === 'multi-ccid-separate-pool' ? `<td>${generateBillingProfileDropdown()}</td>` : ''}
-        ${accountStructure === 'multi-ccid-separate-pool' ? `<td>${generateDropdown(ccidArray, 'ccid', 'updateOrgGrpCheckboxes()')}</td>` : ''}
-        ${accountStructure === 'multi-ccid-separate-pool' ? `<td>${generateOrgGrpCheckboxes()}</td>` : ''}
-    `;
+row.innerHTML = `
+    <td><input type="checkbox" name="select-product" value="${item['ProdID']}"></td>
+    <td>${item['ProdID']}</td>
+    <td>${item['Product Name']}</td>
+    <td>${item['Rating Method']}</td>
+    <td><input type="text" name="price" value="" ${item['Rating Method'] === 'Formula' || item['Rating Method'] === 'Discount' || item['Rating Method'] === 'Subscription' || item['Rating Method'] === 'One Time Charge' ? '' : 'disabled'}></td>
+    <td>${item['Rating Method'] === 'Usage' || item['Rating Method'] === 'Discount' || item['Rating Method'] === 'Subscription' || item['Rating Method'] === 'One Time Charge' ? '' : '<input type="checkbox" name="tier" class="tier-checkbox">'}</td>
+    <td class="tiered-details" style="display: none;"></td>
+    ${accountStructure === 'multi-ccid-shared-pool' ? `<td>${generateDropdown(ccidArray, 'ccid', 'updateOrgGrpCheckboxes()')}</td>` : ''}
+    ${accountStructure === 'multi-ccid-shared-pool' ? `<td>${generateOrgGrpCheckboxes()}</td>` : ''}
+    ${accountStructure === 'multi-ccid-separate-pool' ? `<td>${generateBillingProfileDropdown()}</td>` : ''}
+    ${accountStructure === 'multi-ccid-separate-pool' ? `<td>${generateDropdown(ccidArray, 'ccid', 'updateOrgGrpCheckboxes()')}</td>` : ''}
+    ${accountStructure === 'multi-ccid-separate-pool' ? `<td>${generateOrgGrpCheckboxes()}</td>` : ''}
+`;
     resultTableBody.appendChild(row);
 });
 
@@ -614,39 +625,40 @@ document.addEventListener('DOMContentLoaded', () => {
             const sessionId = document.getElementById('session-id').value;
              const accountStructure = document.querySelector('input[name="account-structure"]:checked').value;
             // Collect selected products details
-            selectedProductsDetails = Array.from(document.querySelectorAll('input[name="select-product"]:checked')).map(checkbox => {
-                const row = checkbox.closest('tr');
-                const tierCheckbox = row.querySelector('input[name="tier"]');
-                const tieredDetails = Array.from(row.querySelectorAll('.tiered-detail-row')).map(detailRow => ({
-                    upperBand: detailRow.querySelector('input[name="upper-band"]').value,
-                    price: detailRow.querySelector('input[name="tier-price"]').value
-                }));
+selectedProductsDetails = Array.from(document.querySelectorAll('input[name="select-product"]:checked')).map(checkbox => {
+    const row = checkbox.closest('tr');
+    const tierCheckbox = row.querySelector('input[name="tier"]');
+    const discountCheckbox = row.querySelector('input[name="is-discount-required"]');
+    const tieredDetails = Array.from(row.querySelectorAll('.tiered-detail-row')).map(detailRow => ({
+        upperBand: detailRow.querySelector('input[name="upper-band"]').value,
+        price: detailRow.querySelector('input[name="tier-price"]').value
+    }));
 
-                // Add lowerBand values
-                tieredDetails.forEach((detail, index) => {
-                    if (index === 0) {
-                        detail.lowerBand = '0';
-                    } else {
-                        const previousUpperBand = parseFloat(tieredDetails[index - 1]?.upperBand || '0');
-                        detail.lowerBand = (previousUpperBand + 0.0000000001).toString();
-                    }
-                });
+    // Add lowerBand values
+    tieredDetails.forEach((detail, index) => {
+        if (index === 0) {
+            detail.lowerBand = '0';
+        } else {
+            const previousUpperBand = parseFloat(tieredDetails[index - 1]?.upperBand || '0');
+            detail.lowerBand = (previousUpperBand + 0.0000000001).toString();
+        }
+    });
 
-                // Handle the last element's upperBand
-                tieredDetails.forEach(detail => {
-                    if (!detail.upperBand) {
-                        detail.upperBand = '-1';
-                    }
-                });
+    // Handle the last element's upperBand
+    tieredDetails.forEach(detail => {
+        if (!detail.upperBand) {
+            detail.upperBand = '-1';
+        }
+    });
 
-                return {
-                    ProdID: row.cells[1].textContent,
-                    ProductName: row.cells[2].textContent,
-                    Price: row.querySelector('input[name="price"]').value || '0',
-                    Tier: tierCheckbox ? tierCheckbox.checked : false,
-                    TieredDetails: tieredDetails
-                };
-            });
+    return {
+        ProdID: row.cells[1].textContent,
+        ProductName: row.cells[2].textContent,
+        Price: row.querySelector('input[name="price"]').value || '0',
+        Tier: tierCheckbox ? tierCheckbox.checked : false,
+        TieredDetails: tieredDetails
+    };
+});
 
             //console.log('Selected Products Details:', selectedProductsDetails);
             // Collect selected products details by BillingProfile
@@ -656,41 +668,43 @@ let selectedProductsDetailsByBillingProfile = {};
             const billingProfileOptions = ['BillingPortfolioA', 'BillingPortfolioB'];
             for (const billingProfile of billingProfileOptions) {
                 selectedProductsDetailsByBillingProfile[billingProfile] = Array.from(document.querySelectorAll('input[name="select-product"]:checked')).filter(checkbox => {
-                    const row = checkbox.closest('tr');
-                    const billingProfileSelect = row.querySelector('select[name="billingProfile"]');
-                    return billingProfileSelect && (billingProfileSelect.value === billingProfile || billingProfileSelect.value === 'All');
-                }).map(checkbox => {
-                    // ... rest of the mapping logic remains the same
-                    const row = checkbox.closest('tr');
-                    const tierCheckbox = row.querySelector('input[name="tier"]');
-                    const tieredDetails = Array.from(row.querySelectorAll('.tiered-detail-row')).map(detailRow => ({
-                        upperBand: detailRow.querySelector('input[name="upper-band"]').value,
-                        price: detailRow.querySelector('input[name="tier-price"]').value
-                    }));
+    const row = checkbox.closest('tr');
+    const billingProfileSelect = row.querySelector('select[name="billingProfile"]');
+    return billingProfileSelect && (billingProfileSelect.value === billingProfile || billingProfileSelect.value === 'All');
+}).map(checkbox => {
+    const row = checkbox.closest('tr');
+    const tierCheckbox = row.querySelector('input[name="tier"]');
+    const discountCheckbox = row.querySelector('input[name="is-discount-required"]');
+    const tieredDetails = Array.from(row.querySelectorAll('.tiered-detail-row')).map(detailRow => ({
+        upperBand: detailRow.querySelector('input[name="upper-band"]').value,
+        price: detailRow.querySelector('input[name="tier-price"]').value
+    }));
 
-                    tieredDetails.forEach((detail, index) => {
-                        if (index === 0) {
-                            detail.lowerBand = '0';
-                        } else {
-                            const previousUpperBand = parseFloat(tieredDetails[index - 1]?.upperBand || '0');
-                            detail.lowerBand = (previousUpperBand + 0.0000000001).toString();
-                        }
-                    });
+    tieredDetails.forEach((detail, index) => {
+        if (index === 0) {
+            detail.lowerBand = '0';
+        } else {
+            const previousUpperBand = parseFloat(tieredDetails[index - 1]?.upperBand || '0');
+            detail.lowerBand = (previousUpperBand + 0.0000000001).toString();
+        }
+    });
 
-                    tieredDetails.forEach(detail => {
-                        if (!detail.upperBand) {
-                            detail.upperBand = '-1';
-                        }
-                    });
+    tieredDetails.forEach(detail => {
+        if (!detail.upperBand) {
+            detail.upperBand = '-1';
+        }
+    });
 
-                    return {
-                        ProdID: row.cells[1].textContent,
-                        ProductName: row.cells[2].textContent,
-                        Price: row.querySelector('input[name="price"]').value || '0',
-                        Tier: tierCheckbox ? tierCheckbox.checked : false,
-                        TieredDetails: tieredDetails
-                    };
-                });
+    return {
+        ProdID: row.cells[1].textContent,
+        ProductName: row.cells[2].textContent,
+        Price: row.querySelector('input[name="price"]').value || '0',
+        Tier: tierCheckbox ? tierCheckbox.checked : false,
+        TieredDetails: tieredDetails,
+        Discount: discountCheckbox && discountCheckbox.checked ? discountCheckbox.value : null
+    };
+});
+
             }
             console.log('Selected Products Details by BillingProfile:', selectedProductsDetailsByBillingProfile);
         }
@@ -699,85 +713,88 @@ let selectedProductsDetailsByBillingProfile = {};
             selectedProductsDetailsByCCID = {};
             for (const ccid of ccidArray) {
                 if (ccid === 'All') continue; // skip 'All' option
-                selectedProductsDetailsByCCID[ccid] = Array.from(document.querySelectorAll('input[name="select-product"]:checked')).filter(checkbox => {
-                    const row = checkbox.closest('tr');
-                    const ccidSelect = row.querySelector('select[name="ccid"]');
-                    return ccidSelect && (ccidSelect.value === ccid || ccidSelect.value === 'All');
-                }).map(checkbox => {
-                    const row = checkbox.closest('tr');
-                    const tierCheckbox = row.querySelector('input[name="tier"]');
-                    const tieredDetails = Array.from(row.querySelectorAll('.tiered-detail-row')).map(detailRow => ({
-                        upperBand: detailRow.querySelector('input[name="upper-band"]').value,
-                        price: detailRow.querySelector('input[name="tier-price"]').value
-                    }));
+               selectedProductsDetailsByCCID[ccid] = Array.from(document.querySelectorAll('input[name="select-product"]:checked')).filter(checkbox => {
+    const row = checkbox.closest('tr');
+    const ccidSelect = row.querySelector('select[name="ccid"]');
+    return ccidSelect && (ccidSelect.value === ccid || ccidSelect.value === 'All');
+}).map(checkbox => {
+    const row = checkbox.closest('tr');
+    const tierCheckbox = row.querySelector('input[name="tier"]');
+    const discountCheckbox = row.querySelector('input[name="is-discount-required"]');
+    const tieredDetails = Array.from(row.querySelectorAll('.tiered-detail-row')).map(detailRow => ({
+        upperBand: detailRow.querySelector('input[name="upper-band"]').value,
+        price: detailRow.querySelector('input[name="tier-price"]').value
+    }));
 
-                    // Add lowerBand values
-                    tieredDetails.forEach((detail, index) => {
-                        if (index === 0) {
-                            detail.lowerBand = '0';
-                        } else {
-                            const previousUpperBand = parseFloat(tieredDetails[index - 1]?.upperBand || '0');
-                            detail.lowerBand = (previousUpperBand + 0.0000000001).toString();
-                        }
-                    });
+    // Add lowerBand values
+    tieredDetails.forEach((detail, index) => {
+        if (index === 0) {
+            detail.lowerBand = '0';
+        } else {
+            const previousUpperBand = parseFloat(tieredDetails[index - 1]?.upperBand || '0');
+            detail.lowerBand = (previousUpperBand + 0.0000000001).toString();
+        }
+    });
 
-                    // Handle the last element's upperBand
-                    tieredDetails.forEach(detail => {
-                        if (!detail.upperBand) {
-                            detail.upperBand = '-1';
-                        }
-                    });
+    // Handle the last element's upperBand
+    tieredDetails.forEach(detail => {
+        if (!detail.upperBand) {
+            detail.upperBand = '-1';
+        }
+    });
 
-                    return {
-                        ProdID: row.cells[1].textContent,
-                        ProductName: row.cells[2].textContent,
-                        Price: row.querySelector('input[name="price"]').value || '0',
-                        Tier: tierCheckbox ? tierCheckbox.checked : false,
-                        TieredDetails: tieredDetails
-                    };
-                });
+    return {
+        ProdID: row.cells[1].textContent,
+        ProductName: row.cells[2].textContent,
+        Price: row.querySelector('input[name="price"]').value || '0',
+        Tier: tierCheckbox ? tierCheckbox.checked : false,
+        TieredDetails: tieredDetails
+        };
+});
             }
             //console.log('Selected Products Details for CCID2:', selectedProductsDetailsCCID2);
             // Collect selected products details for OrgGrp11
             selectedProductsDetailsByOrgGrp = {};
             for (const orgGrp of orgGrpArray) {
                 selectedProductsDetailsByOrgGrp[orgGrp] = Array.from(document.querySelectorAll('input[name="select-product"]:checked')).filter(checkbox => {
-                    const row = checkbox.closest('tr');
-                    const orgGrpCheckbox = row.querySelector(`input[name="orgGrp"][value="${orgGrp}"]`);
-                    return orgGrpCheckbox && orgGrpCheckbox.checked;
-                }).map(checkbox => {
-                    const row = checkbox.closest('tr');
-                    const tierCheckbox = row.querySelector('input[name="tier"]');
-                    const tieredDetails = Array.from(row.querySelectorAll('.tiered-detail-row')).map(detailRow => ({
-                        upperBand: detailRow.querySelector('input[name="upper-band"]').value,
-                        price: detailRow.querySelector('input[name="tier-price"]').value
-                    }));
+    const row = checkbox.closest('tr');
+    const orgGrpCheckbox = row.querySelector(`input[name="orgGrp"][value="${orgGrp}"]`);
+    return orgGrpCheckbox && orgGrpCheckbox.checked;
+}).map(checkbox => {
+    const row = checkbox.closest('tr');
+    const tierCheckbox = row.querySelector('input[name="tier"]');
+    const discountCheckbox = row.querySelector('input[name="is-discount-required"]');
+    const tieredDetails = Array.from(row.querySelectorAll('.tiered-detail-row')).map(detailRow => ({
+        upperBand: detailRow.querySelector('input[name="upper-band"]').value,
+        price: detailRow.querySelector('input[name="tier-price"]').value
+    }));
 
-                    // Add lowerBand values
-                    tieredDetails.forEach((detail, index) => {
-                        if (index === 0) {
-                            detail.lowerBand = '0';
-                        } else {
-                            const previousUpperBand = parseFloat(tieredDetails[index - 1]?.upperBand || '0');
-                            detail.lowerBand = (previousUpperBand + 0.0000000001).toString();
-                        }
-                    });
+    // Add lowerBand values
+    tieredDetails.forEach((detail, index) => {
+        if (index === 0) {
+            detail.lowerBand = '0';
+        } else {
+            const previousUpperBand = parseFloat(tieredDetails[index - 1]?.upperBand || '0');
+            detail.lowerBand = (previousUpperBand + 0.0000000001).toString();
+        }
+    });
 
-                    // Handle the last element's upperBand
-                    tieredDetails.forEach(detail => {
-                        if (!detail.upperBand) {
-                            detail.upperBand = '-1';
-                        }
-                    });
+    // Handle the last element's upperBand
+    tieredDetails.forEach(detail => {
+        if (!detail.upperBand) {
+            detail.upperBand = '-1';
+        }
+    });
 
-                    return {
-                        ProdID: row.cells[1].textContent,
-                        ProductName: row.cells[2].textContent,
-                        Price: row.querySelector('input[name="price"]').value || '0',
-                        Tier: tierCheckbox ? tierCheckbox.checked : false,
-                        TieredDetails: tieredDetails
-                    };
-                });
+    return {
+        ProdID: row.cells[1].textContent,
+        ProductName: row.cells[2].textContent,
+        Price: row.querySelector('input[name="price"]').value || '0',
+        Tier: tierCheckbox ? tierCheckbox.checked : false,
+        TieredDetails: tieredDetails
+    };
+});
+                
             }
             //console.log('Selected Products Details for OrgGrp22:', selectedProductsDetailsOrgGrp22);
             //console.log('Selected Products Details:', selectedProductsDetails);

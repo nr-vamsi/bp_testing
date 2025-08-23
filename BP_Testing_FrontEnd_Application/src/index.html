@@ -79,7 +79,8 @@
             <input type="text" id="tcid" name="tcid">
 
             <label for="buying-program">Buying Program</label>
-            <select id="buying-program" name="buying-program" onchange="handleBuyingProgramChange()">
+            <!--select id="buying-program" name="buying-program" onchange="handleBuyingProgramChange()"-->
+                <select id="buying-program" name="buying-program">
                 <option value="" selected disabled>Select a Buying Program</option>
                 <option value="SAVINGS">SAVINGS</option>
                 <option value="VOLUME">VOLUME</option>
@@ -121,7 +122,7 @@
                 <!-- Add this after the Synthetics checkbox in your HTML -->
 <label>
     <input type="checkbox" name="product" value="Discount" id="discount-checkbox">
-    Is Discount Required?
+    Discount
 </label>
             </fieldset>
 
@@ -137,7 +138,7 @@
         <fieldset class="fieldset">
             <legend>Contract Fields</legend>
             <div class="savings-plan-container" style="display: flex; gap: 20px;">
-                <div class="savings-plan-column" id="savings-plan-fields" style="flex: 1; display: none;">
+                <div class="savings-plan-column" id="savings-plan-fields" style="flex: 1; ">
                     <label for="total-contract-value">Total Contract Value</label>
                     <input type="text" id="total-contract-value" name="total-contract-value">
                     <label for="initial-commitment">Initial Commitment</label>
@@ -167,10 +168,11 @@
 
                     <label for="last-amendment-number">Last Amendment Number</label>
                     <input type="text" id="last-amendment-number" name="last-amendment-number">
+                    <label for="rollover-funds">Rollover Funds</label>
+                    <input type="text" id="rollover-funds" name="rollover-funds">                    
                     <label for="rollover-credits">Rollover Credits</label>
                     <input type="text" id="rollover-credits" name="rollover-credits">
-                    <label for="rollover-funds">Rollover Funds</label>
-                    <input type="text" id="rollover-funds" name="rollover-funds">
+
                 </div>
                 <div class="savings-plan-column" style="flex: 1;">
                     <label for="marketplace-platform-name">Marketplace Platform Name</label>                    
@@ -444,7 +446,7 @@
 
     <!--p>Server is running...</p-->
     <script type="module" src="app.js"></script>
-    <script>
+    <!--script>
         function handleBuyingProgramChange() {
             const buyingProgram = document.getElementById('buying-program').value;
             const savingsPlanFieldSet = document.getElementById('savings-plan-fields');
@@ -455,7 +457,7 @@
                 savingsPlanFieldSet.style.display = 'none';
             }
         }
-    </script>
+    </script-->
 </body>
 
 </html>

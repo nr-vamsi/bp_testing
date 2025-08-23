@@ -14,57 +14,80 @@ async function readCSV(filePath) {
     });
 }
 
+function getDateRange(start, end) {
+    const dates = [];
+    let current = new Date(start);
+    end = new Date(end);
+    while (current <= end) {
+        dates.push(current.toISOString().split('T')[0]);
+        current.setDate(current.getDate() + 1);
+    }
+    return dates;
+}
+
 async function createUserUsageFile(billingIdentifier, contractStartDate, usageProducts, selectedTcId, accountLevel) {
-    //const usersUsageTemplate = await readCSV('/csv/Users_usage_template.csv');
     const usageMappingUsers = await readCSV('/csv/usageMapping_Users.csv');
-    const data = [['BillingIdentifier', 'UsageDate', 'Quantity', 'UnitOfMeasure','FPUEdition', 'StartDate', 'EndDate', 'SFContractLineId']]; // Header row
-    const endDate = new Date(contractStartDate);
+    const data = [['BillingIdentifier', 'UsageDate', 'Quantity', 'UnitOfMeasure', 'FPUEdition', 'StartDate', 'EndDate', 'SFContractLineId']]; // Header row
+    const startDate = new Date(contractStartDate);
+    const endDate = new Date(startDate);
     endDate.setMonth(endDate.getMonth() + 1);
     endDate.setDate(0); // Last day of the month
 
-    usageProducts.forEach(product => {
-        const mapping = usageMappingUsers.find(item => item.Product === product.ContractRateLabel);
-        if (mapping) {
-            const quantity = Math.floor(Math.random() * 10);
-            data.push({
-                BillingIdentifier: billingIdentifier,
-                UsageDate: contractStartDate,
-                Quantity: quantity,
-                UnitOfMeasure : mapping.nrUnitOfMeasure,
-                FPUEdition: mapping.nrFpuEdition,
-                StartDate: contractStartDate,
-                EndDate: endDate.toISOString().split('T')[0],
-                SFContractLineId: ''
-            });
-        }
+    const dateRange = getDateRange(startDate, endDate);
+
+    dateRange.forEach(dateStr => {
+        usageProducts.forEach(product => {
+            const mapping = usageMappingUsers.find(item => item.Product === product.ContractRateLabel);
+            if (mapping) {
+
+                const quantity = Math.floor(Math.random() * 10);
+                data.push({
+                    BillingIdentifier: billingIdentifier,
+                    UsageDate: dateStr,
+                    Quantity: quantity,
+                    UnitOfMeasure: mapping.nrUnitOfMeasure,
+                    FPUEdition: mapping.nrFpuEdition,
+                    StartDate: contractStartDate,
+                    EndDate: endDate.toISOString().split('T')[0],
+                    SFContractLineId: ''
+                });
+
+            }
+        });
     });
 
-    saveCSV(accountLevel+'_'+selectedTcId+'_'+'Users.csv', data);
+    saveCSV(accountLevel + '_' + selectedTcId + '_' + 'Users.csv', data);
 }
 
 async function createNonUserUsageFile(billingIdentifier, contractStartDate, usageProducts, selectedTcId, accountLevel) {
-    //const usersNonUsageTemplate = await readCSV('/csv/NonUser_usage_template.csv');
     const usageNonMappingUsers = await readCSV('/csv/usageMapping_NonUsers.csv');
-    const data = [['BillingIdentifier','START_TIME','QUANTITY','UOM','FPUEdition']]; // Header row
-    const endDate = new Date(contractStartDate);
+    const data = [['BillingIdentifier', 'START_TIME', 'QUANTITY', 'UOM', 'FPUEdition']]; // Header row
+    const startDate = new Date(contractStartDate);
+    const endDate = new Date(startDate);
     endDate.setMonth(endDate.getMonth() + 1);
     endDate.setDate(0); // Last day of the month
 
-    usageProducts.forEach(product => {
-        const mapping = usageNonMappingUsers.find(item => item.Product === product.ContractRateLabel);
-        if (mapping) {
-            const quantity = Math.floor(Math.random() * 10000);
-            data.push({
-                BillingIdentifier: billingIdentifier,
-                START_TIME: contractStartDate,
-                QUANTITY: quantity,
-                UOM: mapping.nrUnitOfMeasure,
-                FPUEdition: ''
-            });
-        }
+    const dateRange = getDateRange(startDate, endDate);
+
+    dateRange.forEach(dateStr => {
+        usageProducts.forEach(product => {
+            const mapping = usageNonMappingUsers.find(item => item.Product === product.ContractRateLabel);
+            if (mapping) {
+
+                const quantity = Math.floor(Math.random() * 10000);
+                data.push({
+                    BillingIdentifier: billingIdentifier,
+                    START_TIME: dateStr,
+                    QUANTITY: quantity,
+                    UOM: mapping.nrUnitOfMeasure,
+                    FPUEdition: ''
+                });
+
+            }
+        });
     });
 
-    saveCSV(accountLevel+'_'+selectedTcId+'_'+'NonUsers.csv', data);
+    saveCSV(accountLevel + '_' + selectedTcId + '_' + 'NonUsers.csv', data);
 }
 
 function saveCSV(filePath, data) {

@@ -47,8 +47,8 @@ async function createUserUsageFile(billingIdentifier, contractStartDate, usagePr
                     Quantity: quantity,
                     UnitOfMeasure: mapping.nrUnitOfMeasure,
                     FPUEdition: mapping.nrFpuEdition,
-                    StartDate: contractStartDate,
-                    EndDate: endDate.toISOString().split('T')[0],
+                    StartDate: dateStr,
+                    EndDate: dateStr,
                     SFContractLineId: ''
                 });
 

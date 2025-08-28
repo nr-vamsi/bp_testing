@@ -36,7 +36,8 @@ let sfAccId = '';
 let results = '';
 let contractProdIds = [];
 let orgProdIds = [];
-let usageProducts = [];
+let orgGrpusageProducts = [];
+let ccIdusageProducts = [];
 let contractAccProd = [];
 let ccidArray = [];
 let orgGrpArray = [];
@@ -1074,16 +1075,63 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
 
                         }
-                        if (account.level === 'OrgGrp') {
-                            usageProducts = contractProdIds;
-                            usageProducts = usageProducts.filter(item => item['ContractRateLabel'].includes('Usage Quantity'));
-                            contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('Usage Quantity'));
-                            contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('SP1.0'));
-                            contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('SP 1.0'));
-                            contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('New Relic Reseller Fee'));
+                        if (account.level === 'CCID') {
+                            let ccIdcontractProdIds = contractProdIds;
 
-                            console.log('ContractProdIds:', contractProdIds);
-                            for (const product of contractProdIds) {
+                            ccIdusageProducts = contractProdIds;
+                            ccIdusageProducts = ccIdusageProducts.filter(item => item['ContractRateLabel'].includes('Usage Quantity') && item['ContractRateLabel'].includes('Users'));
+                            ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Usage Quantity'));
+                            ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('SP1.0'));
+                            ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('SP 1.0'));
+                            ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('New Relic Reseller Fee'));
+                            ccIdcontractProdIds = ccIdcontractProdIds.filter(item => item['ContractRateLabel'].includes('Users'));
+
+                            console.log('CCId ContractProdIds:', ccIdcontractProdIds);
+                            for (const product of ccIdcontractProdIds) {
+                                accountProductId = await createAccountProduct(sessionId, account.accId, contractId, product, contractStartDateValue, contractEndDateValue);
+                                //console.log('AccountProductId:', accountProductId);
+                                appendResultRow(`OrgGrp AccountProductId (${product.Id})`, accountProductId, resultValuesTableBody3);
+                            }
+                            //billingIdentifier = account.accId;
+                            const ccidGrpAccId = account.accId;
+                            console.log('OrgGrp Account Id:', ccidGrpAccId);
+                            //BIaccountProductId = await createBillingIdentifier(sessionId, account.accId, contractId, billingIdentifier, contractStartDateValue, contractEndDateValue);
+                            //console.log('BIaccountProductId:', BIaccountProductId);
+                            //appendResultRow('BIaccountProductId', BIaccountProductId, resultValuesTableBody3);
+                            const response = await fetch(`${CONFIG.HOSTNAME}//rest/2.0/query?sql=select nrBillingIdentifier from ACCOUNT_PRODUCT where accountid = '${ccidGrpAccId}' and name='BillingIdentifier'`, {
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json; charset=utf-8',
+                                    sessionId: `${sessionId}`
+                                }
+                            });
+                            const data = await response.json();
+                            const biData = data.queryResponse;
+                            let billingIdentifier = '';
+                            if (biData && biData.length > 0) {
+                                console.log('Billing Identifier found:', biData[0].nrBillingIdentifier);
+                                billingIdentifier = biData[0].nrBillingIdentifier;
+                            }
+
+
+                            await showCSVResults();
+                            //Create usage files
+                            await createUserUsageFile(billingIdentifier, contractStartDateValue, ccIdusageProducts, TCId, account.level);
+                        }
+                        
+                        
+                        if (account.level === 'OrgGrp') {
+                            let orgGrpcontractProdIds = contractProdIds;
+                            orgGrpusageProducts = contractProdIds;
+                            orgGrpusageProducts = orgGrpusageProducts.filter(item => item['ContractRateLabel'].includes('Usage Quantity') && !item['ContractRateLabel'].includes('Users'));
+                            orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Usage Quantity'));
+                            orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('SP1.0'));
+                            orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('SP 1.0'));
+                            orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('New Relic Reseller Fee'));
+                            orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Users'));
+
+                            console.log('OrgGrp ContractProdIds:', orgGrpcontractProdIds);
+                            for (const product of orgGrpcontractProdIds) {
                                 accountProductId = await createAccountProduct(sessionId, account.accId, contractId, product, contractStartDateValue, contractEndDateValue);
                                 //console.log('AccountProductId:', accountProductId);
                                 appendResultRow(`OrgGrp AccountProductId (${product.Id})`, accountProductId, resultValuesTableBody3);
@@ -1112,9 +1160,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                             await showCSVResults();
                             //Create usage files
-                            await createUserUsageFile(billingIdentifier, contractStartDateValue, usageProducts, TCId, account.level);
-                            await createNonUserUsageFile(billingIdentifier, contractStartDateValue, usageProducts, TCId, account.level);
+                            await createNonUserUsageFile(billingIdentifier, contractStartDateValue, orgGrpusageProducts, TCId, account.level);
                         }
+
+
 
                     }
                     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1466,7 +1515,7 @@ async function processBillingPortfolio(sessionId, account, accountName, contract
             await createAccountProduct(sessionId, account.accId, contractId, product, contractStartDateValue, contractEndDateValue);
         }
     }
-
+const tieredProducts = selectedProductsDetails.filter(product => product.Tier && product.TieredDetails.length > 0);
     for (const product of tieredProducts) {
         // Get first tier values
         const firstTier = product.TieredDetails[0];

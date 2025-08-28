@@ -47,7 +47,6 @@ export async function createBillingProfile(sessionId, accountId, accountName, sf
                 State: billToState,
                 StatementApprovalFlag: '0',
                 Status: 'ACTIVE',
-                TaxEngineId: '2',
                 TimeZoneId: '351',
                 WeeklyBillingDate: 'Monday - Sunday',
                 YearlyBillingMonth: 'January',

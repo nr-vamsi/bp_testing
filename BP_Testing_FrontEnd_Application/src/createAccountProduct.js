@@ -22,7 +22,9 @@ export async function createAccountProduct(sessionId, accountId, contractId, pro
                 AccountId: accountId,
                 ContractId: contractId,
                 BillingCycleStartDate: contractStartDateValue,
-                Name: productName
+                Name: productName,
+                NRUsageMonthlyMin: 0,
+                nrMonthlyMinCommitment: 0
             }
         })
     });

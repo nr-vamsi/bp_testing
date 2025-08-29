@@ -966,7 +966,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                             }
                             contractProdIds = await queryProductsFromContract(sessionId, contractId);
-                            contractAccProd = contractProdIds.filter(item => item['ContractRateLabel'].includes('SP1.0 - Prepaid Commitment') || item['ContractRateLabel'].includes('VP1.1 - Prepaid Commitment'));
+                            contractAccProd = contractProdIds.filter(
+                                item => item['ContractRateLabel'].includes('SP1.0 - Prepaid Commitment') || 
+                                item['ContractRateLabel'].includes('VP1.1 - Prepaid Commitment') || 
+                                item['ContractRateLabel'].includes('New Relic Volume Plan - Discount'));
                             //contractAccProd = contractProdIds.filter(item => item['ContractRateLabel'].includes('SP1.0 - Commitment Credits'));
                             //contractAccProd = contractProdIds.filter(item => item['ContractRateLabel'].includes('New Relic Reseller Fee'));
                             console.log('ContractProdIds:', contractProdIds);
@@ -977,7 +980,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 //console.log('Product Name:///////////////', productName);
 
                                 if (
-                                    productName === "SP1.0 - Prepaid Commitment" || productName === "VP1.1 - Prepaid Commitment" &&
+                                    productName === "SP1.0 - Prepaid Commitment" || productName === "VP1.1 - Prepaid Commitment" || productName === "New Relic Volume Plan - Discount" &&
                                     (savingsPlanData.initialFlexiPrepaidCommitment ||
                                         savingsPlanData.initialFlexiPrepaidCommitment !== '')
                                 ) {
@@ -1083,6 +1086,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Usage Quantity'));
                             ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('SP1.0'));
                             ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('SP 1.0'));
+                            ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('VP1.1'));
+                            ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Discount'));
                             ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('New Relic Reseller Fee'));
                             ccIdcontractProdIds = ccIdcontractProdIds.filter(item => item['ContractRateLabel'].includes('Users'));
 
@@ -1116,6 +1121,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
                             await showCSVResults();
                             //Create usage files
+                            console.log('Creating user usage file...');
+                            console.log('Billing Identifier:', billingIdentifier);
+                            console.log('Contract Start Date:', contractStartDateValue);
+                            console.log('CCID Usage Products:', ccIdusageProducts);
+                            console.log('TCID:', TCId);
+                            console.log('Account Level:', account.level);
                             await createUserUsageFile(billingIdentifier, contractStartDateValue, ccIdusageProducts, TCId, account.level);
                         }
                         
@@ -1127,6 +1138,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Usage Quantity'));
                             orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('SP1.0'));
                             orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('SP 1.0'));
+                            orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('VP1.1'));
+                            orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Discount'));
                             orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('New Relic Reseller Fee'));
                             orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Users'));
 
@@ -1160,6 +1173,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
                             await showCSVResults();
                             //Create usage files
+                            console.log('Creating non-user usage file...');
+                            console.log('Billing Identifier:', billingIdentifier);
+                            console.log('Contract Start Date:', contractStartDateValue);
+                            console.log('OrgGrp Usage Products:', orgGrpusageProducts);
+                            console.log('TCID:', TCId);
+                            console.log('Account Level:', account.level);
                             await createNonUserUsageFile(billingIdentifier, contractStartDateValue, orgGrpusageProducts, TCId, account.level);
                         }
 

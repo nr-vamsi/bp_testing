@@ -1049,7 +1049,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 const firstTier = product.TieredDetails[0];
                                 const firstTierQuantity = parseFloat(firstTier.upperBand) || 0;
                                 const firstTierPrice = parseFloat(firstTier.price) || 0;
-                                const nrMonthlyMinCommitment = firstTierQuantity * firstTierPrice;
+                                const nrMonthlyMinCommitment = Math.round((firstTierQuantity * firstTierPrice) * 100) / 100;
 
                                 console.log(`Processing tiered product: ${product.ProductName}`);
                                 console.log(`First Tier Quantity: ${firstTierQuantity}`);

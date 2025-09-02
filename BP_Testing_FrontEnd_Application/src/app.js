@@ -243,6 +243,15 @@ async function handleSubmit() {
         combineArrays(arraysListSynthetics, 0, []);
     }
 
+        if (selectedProducts.includes('Live')) {
+        const arraysListLive = [
+            selectedBuyingPrograms,
+            ['Live']
+        ].filter(array => array.length > 0); // Exclude arrays of length 0
+
+        combineArrays(arraysListLive, 0, []);
+    }
+
     if (selectedProducts.includes('Discount')) {
         const arraysListDiscount = [
             selectedBuyingPrograms,

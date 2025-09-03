@@ -979,7 +979,7 @@ contractAccProd = contractProdIds.filter(
     item => item['ContractRateLabel'].includes('SP1.0 - Prepaid Commitment') ||
             item['ContractRateLabel'].includes('VP1.1 - Prepaid Commitment') ||
             item['ContractRateLabel'].includes('SP1.0 - Commitment Credits') ||
-            item['ContractRateLabel'].includes('New Relic Volume Plan - Discount'));
+            item['ContractRateLabel'].includes('Discount'));
                             //contractAccProd = contractProdIds.filter(item => item['ContractRateLabel'].includes('SP1.0 - Commitment Credits'));
                             //contractAccProd = contractProdIds.filter(item => item['ContractRateLabel'].includes('New Relic Reseller Fee'));
                             console.log('ContractProdIds:', contractProdIds);
@@ -989,7 +989,7 @@ contractAccProd = contractProdIds.filter(
                                 let productName = product.ContractRateLabel ? product.ContractRateLabel : product.ProductName;
                                 //console.log('Product Name:///////////////', productName);
                                 if (
-                                    productName === "SP1.0 - Prepaid Commitment" || productName === "VP1.1 - Prepaid Commitment" || productName === "New Relic Volume Plan - Discount" &&
+                                    productName === "SP1.0 - Prepaid Commitment" || productName === "VP1.1 - Prepaid Commitment" || productName === "New Relic Volume Plan - Discount" || productName === "New Relic Volume Plan - One-Time Discount" &&
                                     (savingsPlanData.initialFlexiPrepaidCommitment || savingsPlanData.initialFlexiPrepaidCommitment !== '')
                                 ) {
                                     await createAccountProductWithBillingTerms(sessionId, account.accId, contractId, product, contractStartDateValue, contractEndDateValue, savingsPlanData.billingTerms);
@@ -1476,7 +1476,7 @@ async function processBillingPortfolio(sessionId, account, accountName, contract
     item => item['ContractRateLabel'].includes('SP1.0 - Prepaid Commitment') || 
             item['ContractRateLabel'].includes('VP1.1 - Prepaid Commitment') ||
             item['ContractRateLabel'].includes('SP1.0 - Commitment Credits'));
-            
+
     console.log('ContractProdIds:', contractProdIds);
     console.log('ContractAccProd:', contractAccProd);
 

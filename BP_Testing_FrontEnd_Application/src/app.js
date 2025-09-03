@@ -243,7 +243,7 @@ async function handleSubmit() {
         combineArrays(arraysListSynthetics, 0, []);
     }
 
-        if (selectedProducts.includes('Live')) {
+    if (selectedProducts.includes('Live')) {
         const arraysListLive = [
             selectedBuyingPrograms,
             ['Live']
@@ -867,7 +867,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         commitmentPrice = savingsPlanData.initialCommitment;
                     }
                     // Add the specified product details
-                     console.log('*****Selected Buying Program*****:', selectedBuyingProgram);
+                    console.log('*****Selected Buying Program*****:', selectedBuyingProgram);
                     if (selectedBuyingProgram === 'SAVINGS') {
                         console.log('Savings Plan Selected Buying Program:');
                         selectedProductsDetails.push({
@@ -903,17 +903,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     // Add the specified product details
                     if (selectedBuyingProgram === 'SAVINGS') {
-                    selectedProductsDetails.push({
-                        ProdID: '14120',
-                        ProductName: 'SP1.0 - Commitment Credits',
-                        Price: commitmentCreditPrice,
-                        Tier: false,
-                        TieredDetails: []
-                    });
-                }
-                if (selectedBuyingProgram === 'VOLUME') {
-                    //This will be handled later once Volume commitment credit product available
-                }
+                        selectedProductsDetails.push({
+                            ProdID: '14120',
+                            ProductName: 'SP1.0 - Commitment Credits',
+                            Price: commitmentCreditPrice,
+                            Tier: false,
+                            TieredDetails: []
+                        });
+                    }
+                    if (selectedBuyingProgram === 'VOLUME') {
+                        //This will be handled later once Volume commitment credit product available
+                    }
                 }
                 //
                 /*if (savingsPlanData.resellerFeeBlendedRate !== '') {
@@ -976,9 +976,9 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
                             contractProdIds = await queryProductsFromContract(sessionId, contractId);
                             contractAccProd = contractProdIds.filter(
-                                item => item['ContractRateLabel'].includes('SP1.0 - Prepaid Commitment') || 
-                                item['ContractRateLabel'].includes('VP1.1 - Prepaid Commitment') || 
-                                item['ContractRateLabel'].includes('New Relic Volume Plan - Discount'));
+                                item => item['ContractRateLabel'].includes('SP1.0 - Prepaid Commitment') ||
+                                    item['ContractRateLabel'].includes('VP1.1 - Prepaid Commitment') ||
+                                    item['ContractRateLabel'].includes('New Relic Volume Plan - Discount'));
                             //contractAccProd = contractProdIds.filter(item => item['ContractRateLabel'].includes('SP1.0 - Commitment Credits'));
                             //contractAccProd = contractProdIds.filter(item => item['ContractRateLabel'].includes('New Relic Reseller Fee'));
                             console.log('ContractProdIds:', contractProdIds);
@@ -987,70 +987,16 @@ document.addEventListener('DOMContentLoaded', () => {
                                 // --- Custom logic for SP1.0 - Prepaid Commitment ---
                                 let productName = product.ContractRateLabel ? product.ContractRateLabel : product.ProductName;
                                 //console.log('Product Name:///////////////', productName);
-
                                 if (
-                                    productName === "SP1.0 - Prepaid Commitment" || productName === "VP1.1 - Prepaid Commitment" || productName === "New Relic Volume Plan - Discount" &&
-                                    (savingsPlanData.initialFlexiPrepaidCommitment ||
-                                        savingsPlanData.initialFlexiPrepaidCommitment !== '')
+                                    productName === "SP1.0 - Prepaid Commitment" || productName === "VP1.1 - Prepaid Commitment" &&
+                                    (savingsPlanData.initialFlexiPrepaidCommitment || savingsPlanData.initialFlexiPrepaidCommitment !== '')
                                 ) {
-                                    const billingTerms = savingsPlanData.billingTerms;
-                                    const start = new Date(contractStartDateValue);
-                                    const end = new Date(contractEndDateValue);
-
-                                    if (billingTerms === "Quarterly") {
-                                        let tempStart = new Date(start);
-                                        for (let i = 0; i < 4; i++) {
-                                            let tempEnd = new Date(tempStart);
-                                            tempEnd.setMonth(tempEnd.getMonth() + 3);
-                                            if (tempEnd > end) tempEnd = new Date(end);
-                                            await createAccountProduct(
-                                                sessionId,
-                                                account.accId,
-                                                contractId,
-                                                product,
-                                                tempStart.toISOString().slice(0, 10),
-                                                tempEnd.toISOString().slice(0, 10)
-                                            );
-                                            tempStart = new Date(tempEnd);
-                                        }
-                                    } else if (billingTerms === "Semi-Annual") {
-                                        let tempStart = new Date(start);
-                                        for (let i = 0; i < 2; i++) {
-                                            let tempEnd = new Date(tempStart);
-                                            tempEnd.setMonth(tempEnd.getMonth() + 6);
-                                            if (tempEnd > end) tempEnd = new Date(end);
-                                            await createAccountProduct(
-                                                sessionId,
-                                                account.accId,
-                                                contractId,
-                                                product,
-                                                tempStart.toISOString().slice(0, 10),
-                                                tempEnd.toISOString().slice(0, 10)
-                                            );
-                                            tempStart = new Date(tempEnd);
-                                        }
-                                    } else {
-                                        // Default: just one call for the full period
-                                        await createAccountProduct(
-                                            sessionId,
-                                            account.accId,
-                                            contractId,
-                                            product,
-                                            contractStartDateValue,
-                                            contractEndDateValue
-                                        );
-                                    }
+                                    await createAccountProductWithBillingTerms(sessionId, account.accId, contractId, product, contractStartDateValue, contractEndDateValue, savingsPlanData.billingTerms);
                                 } else {
-                                    // Default behavior for other products
-                                    await createAccountProduct(
-                                        sessionId,
-                                        account.accId,
-                                        contractId,
-                                        product,
-                                        contractStartDateValue,
-                                        contractEndDateValue
-                                    );
+                                    await createAccountProduct(sessionId, account.accId, contractId, product, contractStartDateValue, contractEndDateValue);
                                 }
+
+
                             }
                             const tieredProducts = selectedProductsDetails.filter(product => product.Tier && product.TieredDetails.length > 0);
                             for (const product of tieredProducts) {
@@ -1138,8 +1084,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             console.log('Account Level:', account.level);
                             await createUserUsageFile(billingIdentifier, contractStartDateValue, ccIdusageProducts, TCId, account.level);
                         }
-                        
-                        
+
+
                         if (account.level === 'OrgGrp') {
                             let orgGrpcontractProdIds = contractProdIds;
                             orgGrpusageProducts = contractProdIds;
@@ -1543,7 +1489,7 @@ async function processBillingPortfolio(sessionId, account, accountName, contract
             await createAccountProduct(sessionId, account.accId, contractId, product, contractStartDateValue, contractEndDateValue);
         }
     }
-const tieredProducts = selectedProductsDetails.filter(product => product.Tier && product.TieredDetails.length > 0);
+    const tieredProducts = selectedProductsDetails.filter(product => product.Tier && product.TieredDetails.length > 0);
     for (const product of tieredProducts) {
         // Get first tier values
         const firstTier = product.TieredDetails[0];
@@ -1637,7 +1583,13 @@ async function createAccountProductWithBillingTerms(sessionId, accountId, contra
         for (let i = 0; i < 4; i++) {
             let tempEnd = new Date(tempStart);
             tempEnd.setMonth(tempEnd.getMonth() + 3);
-            if (tempEnd > end) tempEnd = new Date(end);
+            tempEnd.setDate(0); // Set to last day of previous month (end of quarter)
+
+            // For the last quarter, ensure we don't exceed the contract end date
+            if (i === 3 || tempEnd > end) {
+                tempEnd = new Date(end);
+            }
+
             await createAccountProduct(
                 sessionId,
                 accountId,
@@ -1646,14 +1598,23 @@ async function createAccountProductWithBillingTerms(sessionId, accountId, contra
                 tempStart.toISOString().slice(0, 10),
                 tempEnd.toISOString().slice(0, 10)
             );
+
+            // Set next quarter start date
             tempStart = new Date(tempEnd);
+            tempStart.setDate(tempStart.getDate() + 1); // Next day after quarter end
         }
     } else if (billingTerms === "Semi-Annual") {
         let tempStart = new Date(start);
         for (let i = 0; i < 2; i++) {
             let tempEnd = new Date(tempStart);
             tempEnd.setMonth(tempEnd.getMonth() + 6);
-            if (tempEnd > end) tempEnd = new Date(end);
+            tempEnd.setDate(0); // Set to last day of previous month
+
+            // For the last semi-annual period, ensure we don't exceed the contract end date
+            if (i === 1 || tempEnd > end) {
+                tempEnd = new Date(end);
+            }
+
             await createAccountProduct(
                 sessionId,
                 accountId,
@@ -1662,12 +1623,16 @@ async function createAccountProductWithBillingTerms(sessionId, accountId, contra
                 tempStart.toISOString().slice(0, 10),
                 tempEnd.toISOString().slice(0, 10)
             );
+
+            // Set next period start date
             tempStart = new Date(tempEnd);
+            tempStart.setDate(tempStart.getDate() + 1); // Next day after period end
         }
     } else {
         await createAccountProduct(sessionId, accountId, contractId, product, contractStartDateValue, contractEndDateValue);
     }
 }
+
 // JavaScript function to copy Ids from contractProdIds to orgProdIds
 function copyIdsFromContractToOrgProducts(contractProdIds, orgProdIds) {
     // Create a map for faster lookup: ContractRateLabel -> Id

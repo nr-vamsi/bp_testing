@@ -27,7 +27,7 @@ function getDateRange(start, end) {
 
 async function createUserUsageFile(billingIdentifier, contractStartDate, usageProducts, selectedTcId, accountLevel) {
     const usageMappingUsers = await readCSV('/csv/usageMapping_Users.csv');
-    const data = [['BillingIdentifier', 'UsageDate', 'Quantity', 'UnitOfMeasure', 'FPUEdition', 'StartDate', 'EndDate', 'SFContractLineId']]; // Header row
+    const data = [['BillingIdentifier', 'ActivityDate', 'Quantity', 'UnitOfMeasure', 'FullPlatformUserEdition', 'Started', 'Ended', 'SFContractLineId']]; // Header row
     const startDate = new Date(contractStartDate);
     const endDate = new Date(startDate);
     endDate.setMonth(endDate.getMonth() + 1);
@@ -61,7 +61,7 @@ async function createUserUsageFile(billingIdentifier, contractStartDate, usagePr
 
 async function createNonUserUsageFile(billingIdentifier, contractStartDate, usageProducts, selectedTcId, accountLevel) {
     const usageNonMappingUsers = await readCSV('/csv/usageMapping_NonUsers.csv');
-    const data = [['BillingIdentifier', 'START_TIME', 'QUANTITY', 'UOM', 'FPUEdition']]; // Header row
+    const data = [['BillingIdentifier', 'ActivityDate', 'Quantity', 'UnitOfMeasure', 'FullPlatformUserEdition']]; // Header row
     const startDate = new Date(contractStartDate);
     const endDate = new Date(startDate);
     endDate.setMonth(endDate.getMonth() + 1);

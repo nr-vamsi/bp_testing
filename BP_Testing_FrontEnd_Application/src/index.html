@@ -118,6 +118,7 @@
                 <label><input type="checkbox" value="Users" name="product" id="user-checkbox"> Users</label>
                 <label><input type="checkbox" value="Data" name="product"> Data</label>
                 <label><input type="checkbox" value="Compute" name="product" id="compute-checkbox"> Compute</label>
+                <label><input type="checkbox" value="Queries" name="product" id="queries-checkbox"> Queries</label>
                 <label><input type="checkbox" value="Synthetics" name="product"> Synthetics Checks</label>
                 <label><input type="checkbox" value="Live" name="product"> Live Archives</label>
                 <!-- Add this after the Synthetics checkbox in your HTML -->
@@ -126,6 +127,7 @@
     Discount
 </label>
             </fieldset>
+            
 
             <fieldset class="fieldset">
                 <legend>Region:</legend>
@@ -173,6 +175,8 @@
                     <input type="text" id="rollover-funds" name="rollover-funds">                    
                     <label for="rollover-credits">Rollover Credits</label>
                     <input type="text" id="rollover-credits" name="rollover-credits">
+                    <label for="prepaid-credits">Prepaid Credits</label>
+                    <input type="text" id="prepaid-credits" name="prepaid-credits">
 
                 </div>
                 <div class="savings-plan-column" style="flex: 1;">
@@ -213,6 +217,13 @@
             <label><input type="checkbox" value="Pro" name="compute-option"> Pro</label>
             <label><input type="checkbox" value="Enterprise" name="compute-option"> Enterprise</label>
             <label><input type="checkbox" value="Advanced" name="compute-option"> Advanced</label>
+        </fieldset>
+
+        <fieldset class="fieldset" id="queries-options" style="display: none;">
+            <legend>Queries Options:</legend>
+            <label><input type="checkbox" value="Standard" name="queries-option"> Standard</label>
+            <label><input type="checkbox" value="Pro" name="queries-option"> Pro</label>
+            <label><input type="checkbox" value="Enterprise" name="queries-option"> Enterprise</label>
         </fieldset>
 
         <fieldset class="fieldset">

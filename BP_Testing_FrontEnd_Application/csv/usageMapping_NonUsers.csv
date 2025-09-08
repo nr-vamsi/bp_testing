@@ -21,7 +21,7 @@ New Relic PAYG - Enterprise Compute - Additional CCU (US Data Center) Usage Quan
 New Relic PAYG - Enterprise Compute Add On (EU DC) Usage Quantity,EU CCU,,EU CCU
 New Relic PAYG - Enterprise Compute Add On (US DC) Usage Quantity,US CCU,,US CCU
 New Relic PAYG - Enterprise Core Compute (EU DC) Usage Quantity,EU Core CCU,,EU Core CCU
-New Relic PAYG - Enterprise Queries Usage Quantity,Scanned Events (in Billions),,Scanned Events (in Billions)
+New Relic PAYG - Enterprise Queries Usage Quantity,Scanned Events (In Billions),,Scanned Events (In Billions)
 New Relic PAYG - Live Archives (EU Data Center) Usage Quantity,EU GB Months,,EU GB Months
 New Relic PAYG - Live Archives (US Data Center) Usage Quantity,US GB Months,,US GB Months
 New Relic PAYG - Pro Compute (EU Data Center) Usage Quantity,EU CCU,,EU CCU
@@ -34,7 +34,7 @@ New Relic PAYG - Pro Core Compute (EU DC) Usage Quantity,EU Core CCU,,EU Core CC
 New Relic PAYG - Pro Core Compute (US DC) Usage Quantity,US Core CCU,,US Core CCU
 New Relic PAYG - Pro O11y For All (EU DC) Usage Quantity,EU Core CCU,,EU Core CCU
 New Relic PAYG - Pro O11y For All (US DC) Usage Quantity,US Core CCU,,US Core CCU
-New Relic PAYG - Pro Queries Usage Quantity,Scanned Events (in Billions),,Scanned Events (in Billions)
+New Relic PAYG - Pro Queries Usage Quantity,Scanned Events (In Billions),,Scanned Events (In Billions)
 New Relic PAYG - Standard Compute (EU Data Center) Usage Quantity,EU CCU,,EU CCU
 New Relic PAYG - Standard Compute (US Data Center) Usage Quantity,US CCU,,US CCU
 New Relic PAYG - Standard Compute - Additional CCU (EU Data Center) Usage Quantity,EU CCU,,EU CCU
@@ -45,7 +45,7 @@ New Relic PAYG - Standard Core Compute (EU DC) Usage Quantity,EU Core CCU,,EU Co
 New Relic PAYG - Standard Core Compute (US DC) Usage Quantity,US Core CCU,,US Core CCU
 New Relic PAYG - Standard O11y For All (EU DC) Usage Quantity,EU Core CCU,,EU Core CCU
 New Relic PAYG - Standard O11y For All (US DC) Usage Quantity,US Core CCU,,US Core CCU
-New Relic PAYG - Standard Queries Usage Quantity,Scanned Events (in Billions),,Scanned Events (in Billions)
+New Relic PAYG - Standard Queries Usage Quantity,Scanned Events (In Billions),,Scanned Events (In Billions)
 New Relic Pilot Pricing (PAYG) Usage Quantity,Units,,Units
 New Relic Savings Plan - Additional Synthetics Checks Usage Quantity,Checks,,Checks
 New Relic Savings Plan - Advanced Compute (EU DC) Usage Quantity,EU Advanced CCU,,EU Advanced CCU
@@ -66,7 +66,7 @@ New Relic Savings Plan - Enterprise Core Compute (EU DC) Usage Quantity,EU Core 
 New Relic Savings Plan - Enterprise Core Compute (US DC) Usage Quantity,US Core CCU,,US Core CCU
 New Relic Savings Plan - Enterprise O11y For All (EU DC) Usage Quantity,EU Core CCU,,EU Core CCU
 New Relic Savings Plan - Enterprise O11y For All (US DC) Usage Quantity,US Core CCU,,US Core CCU
-New Relic Savings Plan - Enterprise Queries Usage Quantity,Scanned Events (in Billions),,Scanned Events (in Billions)
+New Relic Savings Plan - Enterprise Queries Usage Quantity,Scanned Events (In Billions),,Scanned Events (In Billions)
 New Relic Savings Plan - Live Archives (EU Data Center) Usage Quantity,EU GB Months,,EU GB Months
 New Relic Savings Plan - Live Archives (US Data Center) Usage Quantity,US GB Months,,US GB Months
 New Relic Savings Plan - Pilot Pricing Usage Quantity,Units,,Units
@@ -78,8 +78,8 @@ New Relic Savings Plan - Pro Core Compute (EU DC) Usage Quantity,EU Core CCU,,EU
 New Relic Savings Plan - Pro Core Compute (US DC) Usage Quantity,US Core CCU,,US Core CCU
 New Relic Savings Plan - Pro O11y For All (EU DC) Usage Quantity,EU Core CCU,,EU Core CCU
 New Relic Savings Plan - Pro O11y For All (US DC) Usage Quantity,US Core CCU,,US Core CCU
-New Relic Savings Plan - Pro Queries Usage Quantity,Scanned Events (in Billions),,Scanned Events (in Billions)
-New Relic Savings Plan - Standard Queries Usage Quantity,Scanned Events (in Billions),,Scanned Events (in Billions)
+New Relic Savings Plan - Pro Queries Usage Quantity,Scanned Events (In Billions),,Scanned Events (In Billions)
+New Relic Savings Plan - Standard Queries Usage Quantity,Scanned Events (In Billions),,Scanned Events (In Billions)
 New Relic Savings Plan - Vulnerability Management (EU Data Center) Usage Quantity,EU GB Ingested,,EU GB Ingested
 New Relic Savings Plan - Vulnerability Management (US Data Center) Usage Quantity,US GB Ingested,,US GB Ingested
 New Relic Savings Plan - Vulnerability Management Usage Quantity,GB Ingested,,GB Ingested
@@ -98,7 +98,7 @@ New Relic Volume Plan - Enterprise Core Compute (EU DC) Usage Quantity,EU Core C
 New Relic Volume Plan - Enterprise Core Compute (US DC) Usage Quantity,US Core CCU,,US Core CCU
 New Relic Volume Plan - Enterprise O11y For All (EU DC) Usage Quantity,EU Core CCU,,EU Core CCU
 New Relic Volume Plan - Enterprise O11y For All (US DC) Usage Quantity,US Core CCU,,US Core CCU
-New Relic Volume Plan - Enterprise Queries Usage Quantity,Scanned Events (in Billions),,Scanned Events (in Billions)
+New Relic Volume Plan - Enterprise Queries Usage Quantity,Scanned Events (In Billions),,Scanned Events (In Billions)
 New Relic Volume Plan - Live Archives (EU Data Center) Usage Quantity,EU GB Months,,EU GB Months
 New Relic Volume Plan - Live Archives (US Data Center) Usage Quantity,US GB Months,,US GB Months
 New Relic Volume Plan - Pilot Pricing Usage Quantity,Units,,Units
@@ -108,7 +108,7 @@ New Relic Volume Plan - Pro Core Compute (EU DC) Usage Quantity,EU Core CCU,,EU 
 New Relic Volume Plan - Pro Core Compute (US DC) Usage Quantity,US Core CCU,,US Core CCU
 New Relic Volume Plan - Pro O11y For All (EU DC) Usage Quantity,EU Core CCU,,EU Core CCU
 New Relic Volume Plan - Pro O11y For All (US DC) Usage Quantity,US Core CCU,,US Core CCU
-New Relic Volume Plan - Pro Queries Usage Quantity,Scanned Events (in Billions),,Scanned Events (in Billions)
-New Relic Volume Plan - Standard Queries Usage Quantity,Scanned Events (in Billions),,Scanned Events (in Billions)
+New Relic Volume Plan - Pro Queries Usage Quantity,Scanned Events (In Billions),,Scanned Events (In Billions)
+New Relic Volume Plan - Standard Queries Usage Quantity,Scanned Events (In Billions),,Scanned Events (In Billions)
 Prototype SP1.0 - Additional Synthetics Checks,Checks,,Checks
 Prototype SP1.0 - Data,GB Ingested,,GB Ingested

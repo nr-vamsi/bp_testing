@@ -57,8 +57,11 @@ const productCheckboxes = document.querySelectorAll('input[name="product"]');
 const regionCheckboxes = document.querySelectorAll('input[name="region"]');
 const userCheckbox = document.getElementById('user-checkbox');
 const computeCheckbox = document.getElementById('compute-checkbox');
+const queriesCheckbox = document.getElementById('queries-checkbox');
 const userOptionsFieldset = document.getElementById('user-options');
 const computeOptionsFieldset = document.getElementById('compute-options');
+const queriesOptionsFieldset = document.getElementById('queries-options');
+
 const buyingProgramCheckboxes = document.querySelectorAll('input[name="buying-program"]');
 const contractStartDate = document.getElementById('contract-start-date');
 const contractEndDate = document.getElementById('contract-end-date');
@@ -111,6 +114,18 @@ function handleComputeCheckboxChange() {
         // Clear compute options
         const computeOptions = document.querySelectorAll('input[name="compute-option"]');
         computeOptions.forEach(option => option.checked = false);
+    }
+}
+
+
+function handleQueriesCheckboxChange() {
+    if (queriesCheckbox.checked) {
+        queriesOptionsFieldset.style.display = 'block';
+    } else {
+        queriesOptionsFieldset.style.display = 'none';
+        // Clear queries options
+        const queriesOptions = document.querySelectorAll('input[name="queries-option"]');
+        queriesOptions.forEach(option => option.checked = false);
     }
 }
 
@@ -176,6 +191,10 @@ async function handleSubmit() {
         .filter(checkbox => checkbox.checked)
         .map(checkbox => checkbox.value);
     //console.log('Selected Compute Options:', selectedComputeOptions);
+    const selectedQueriesOptions = Array.from(document.querySelectorAll('input[name="queries-option"]'))
+        .filter(checkbox => checkbox.checked)
+        .map(checkbox => checkbox.value);
+
     let selectedBuyingPrograms = [buyingProgramDropdown.value];
     selectedBuyingProgram = buyingProgramDropdown.value;
     console.log('Selected Buying Programs:', selectedBuyingPrograms);
@@ -222,6 +241,16 @@ async function handleSubmit() {
         ].filter(array => array.length > 0); // Exclude arrays of length 0
 
         combineArrays(arraysListCompute, 0, []);
+    }
+
+    if (selectedProducts.includes('Queries')) {
+        const arraysListQueries = [
+            selectedBuyingPrograms,
+            ['Queries'],
+            selectedQueriesOptions
+        ].filter(array => array.length > 0); // Exclude arrays of length 0
+
+        combineArrays(arraysListQueries, 0, []);
     }
 
     if (selectedProducts.includes('Data')) {
@@ -279,7 +308,7 @@ async function handleSubmit() {
         //console.log('Query Array: ', query); // Debugging information
         results = sequentialSearch(query, productsList);
         if (query.includes('Data')) {
-            results = results.filter(item => !item['Product Name'].includes('Live') && !item['Product Name'].includes('Compute'));
+            results = results.filter(item => !item['Product Name'].includes('Live') && !item['Product Name'].includes('Compute') && !item['Product Name'].includes('Queries'));
         }
         //console.log('Results:', results); // Debugging information
         results = results.filter(item => !item['Product Name'].includes('Usage Quantity'));
@@ -607,6 +636,7 @@ async function showCSVResults() {
 document.addEventListener('DOMContentLoaded', () => {
     const userCheckbox = document.getElementById('user-checkbox');
     const computeCheckbox = document.getElementById('compute-checkbox');
+    const queriesCheckbox = document.getElementById('queries-checkbox');
     const submitButton = document.getElementById('submit');
     const startButton = document.getElementById('startButton');
     const generatePlanButton = document.getElementById('generatePlanButton');
@@ -625,6 +655,12 @@ document.addEventListener('DOMContentLoaded', () => {
         computeCheckbox.addEventListener('change', handleComputeCheckboxChange);
     } else {
         console.error('Compute checkbox not found');
+    }
+
+    if (queriesCheckbox) {
+        queriesCheckbox.addEventListener('change', handleQueriesCheckboxChange);
+    } else {
+        console.error('Queries checkbox not found');
     }
 
     if (submitButton) {
@@ -849,6 +885,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     initialFlexiCredit: document.getElementById('initial-flexi-credit').value,
                     rolloverFunds: document.getElementById('rollover-funds').value,
                     rolloverCredits: document.getElementById('rollover-credits').value,
+                    prepaidCredits: document.getElementById('prepaid-credits').value,
                     resellerFeeRenewalRate: document.getElementById('reseller-fee-renewal-rate').value,
                     resellerFeeNewRate: document.getElementById('reseller-fee-new-rate').value,
                     resellerFeeBlendedRate: document.getElementById('reseller-fee-blended-rate').value,

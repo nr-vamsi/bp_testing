@@ -354,6 +354,7 @@ async function handleSubmit() {
         resultTableBody.appendChild(row);
     });
 
+
     // Add event listeners for tier checkboxes
     document.querySelectorAll('.tier-checkbox').forEach(checkbox => {
         checkbox.addEventListener('change', function () {
@@ -363,14 +364,27 @@ async function handleSubmit() {
             const tieredDetailsHeader = document.getElementById('tiered-details-header');
 
             if (this.checked) {
-                priceInput.readOnly = true;
-                priceInput.display = 'none';
+                // Disable and style the price input
+                priceInput.disabled = true;
                 priceInput.value = '';
+                priceInput.placeholder = 'Disabled - Using Tier Pricing';
+                priceInput.style.backgroundColor = '#f5f5f5';
+                priceInput.style.color = '#999';
+                priceInput.style.cursor = 'not-allowed';
+
+                // Show tiered details
                 tieredDetailsCell.style.display = 'block';
                 addTieredDetailRow(tieredDetailsCell);
                 tieredDetailsHeader.style.display = 'block';
             } else {
-                priceInput.readOnly = false;
+                // Enable and reset the price input
+                priceInput.disabled = false;
+                priceInput.placeholder = '';
+                priceInput.style.backgroundColor = '';
+                priceInput.style.color = '';
+                priceInput.style.cursor = '';
+
+                // Hide tiered details
                 tieredDetailsCell.innerHTML = '';
                 tieredDetailsCell.style.display = 'none';
                 const anyTierChecked = Array.from(document.querySelectorAll('.tier-checkbox')).some(cb => cb.checked);
@@ -671,6 +685,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (startButton) {
         startButton.addEventListener('click', async () => {
+            validateFieldValues();
+
             const sessionId = document.getElementById('session-id').value;
             const accountStructure = document.querySelector('input[name="account-structure"]:checked').value;
             // Collect selected products details
@@ -1012,11 +1028,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
                             }
                             contractProdIds = await queryProductsFromContract(sessionId, contractId);
-contractAccProd = contractProdIds.filter(
-    item => item['ContractRateLabel'].includes('SP1.0 - Prepaid Commitment') ||
-            item['ContractRateLabel'].includes('VP1.1 - Prepaid Commitment') ||
-            item['ContractRateLabel'].includes('SP1.0 - Commitment Credits') ||
-            item['ContractRateLabel'].includes('Discount'));
+                            contractAccProd = contractProdIds.filter(
+                                item => item['ContractRateLabel'].includes('SP1.0 - Prepaid Commitment') ||
+                                    item['ContractRateLabel'].includes('VP1.1 - Prepaid Commitment') ||
+                                    item['ContractRateLabel'].includes('SP1.0 - Commitment Credits') ||
+                                    item['ContractRateLabel'].includes('Discount'));
                             //contractAccProd = contractProdIds.filter(item => item['ContractRateLabel'].includes('SP1.0 - Commitment Credits'));
                             //contractAccProd = contractProdIds.filter(item => item['ContractRateLabel'].includes('New Relic Reseller Fee'));
                             console.log('ContractProdIds:', contractProdIds);
@@ -1509,8 +1525,8 @@ async function processBillingPortfolio(sessionId, account, accountName, contract
 
     // Query products from contract and filter for SP1.0 - Prepaid Commitment
     const contractProdIds = await queryProductsFromContract(sessionId, contractId);
-   const contractAccProd = contractProdIds.filter(
-    item => item['ContractRateLabel'].includes('SP1.0 - Prepaid Commitment') || 
+    const contractAccProd = contractProdIds.filter(
+        item => item['ContractRateLabel'].includes('SP1.0 - Prepaid Commitment') ||
             item['ContractRateLabel'].includes('VP1.1 - Prepaid Commitment') ||
             item['ContractRateLabel'].includes('SP1.0 - Commitment Credits'));
 
@@ -1695,6 +1711,28 @@ function copyIdsFromContractToOrgProducts(contractProdIds, orgProdIds) {
     });
 
     return orgProdIds;
+}
+
+function validateFieldValues() {
+    // Add billing terms validation
+    const billingTermsSelect = document.getElementById('billing-terms');
+    const billingTermsValue = billingTermsSelect.value;
+
+    if (!billingTermsValue || billingTermsValue === '') {
+        alert('Please select a value for Billing Terms before proceeding.');
+        billingTermsSelect.focus(); // Focus on the field to help user
+        return; // Stop execution
+    }
+    //validate Session ID
+    const sessionIdInput = document.getElementById('session-id');
+    const sessionIdValue = sessionIdInput.value;
+
+    if (!sessionIdValue || sessionIdValue === '') {
+        alert('Please enter a value for Session ID before proceeding.');
+        sessionIdInput.focus(); // Focus on the field to help user
+        return; // Stop execution
+    }
+
 }
 
 // Add this line after you populate both arrays

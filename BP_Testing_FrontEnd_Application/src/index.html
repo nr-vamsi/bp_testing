@@ -80,7 +80,7 @@
 
             <label for="buying-program">Buying Program</label>
             <!--select id="buying-program" name="buying-program" onchange="handleBuyingProgramChange()"-->
-                <select id="buying-program" name="buying-program">
+            <select id="buying-program" name="buying-program">
                 <option value="">Select a Buying Program</option>
                 <option value="SAVINGS">SAVINGS</option>
                 <option value="VOLUME">VOLUME</option>
@@ -88,7 +88,6 @@
                 <option value="LEGACY">LEGACY</option>
                 <option value="APOF">APOF</option>
             </select>
-
         </fieldset>
 
         <fieldset id="account-structure">
@@ -108,26 +107,28 @@
             <div id="hierarchy-tree-container"></div>
         </fieldset>
 
-
-
-
         <div class="side-by-side">
-
             <fieldset class="fieldset">
                 <legend>Products:</legend>
-                <label><input type="checkbox" value="Users" name="product" id="user-checkbox"> Users</label>
-                <label><input type="checkbox" value="Data" name="product"> Data</label>
-                <label><input type="checkbox" value="Compute" name="product" id="compute-checkbox"> Compute</label>
-                <label><input type="checkbox" value="Queries" name="product" id="queries-checkbox"> Queries</label>
-                <label><input type="checkbox" value="Synthetics" name="product"> Synthetics Checks</label>
-                <label><input type="checkbox" value="Live" name="product"> Live Archives</label>
-                <!-- Add this after the Synthetics checkbox in your HTML -->
-<label>
-    <input type="checkbox" name="product" value="Discount" id="discount-checkbox">
-    Discount
-</label>
+                <div class="products-container" style="display: flex; gap: 1px;">
+                    <div class="products-column" style="flex: 1;">
+                        <label><input type="checkbox" value="Users" name="product" id="user-checkbox"> Users</label>
+                        <label><input type="checkbox" value="Data" name="product"> Data</label>
+                        <label><input type="checkbox" value="Compute" name="product" id="compute-checkbox">
+                            Compute</label>
+                        <label><input type="checkbox" value="Synthetics" name="product"> Synthetics Checks</label>
+                    </div>
+                    <div class="products-column" style="flex: 1;">
+                        <label><input type="checkbox" value="Queries" name="product" id="queries-checkbox">
+                            Queries</label>
+                        <label><input type="checkbox" value="Live" name="product"> Live Archives</label>
+                        <label><input type="checkbox" name="product" value="Discount" id="discount-checkbox">
+                            Discount</label>
+                    </div>
+
+                </div>
             </fieldset>
-            
+
 
             <fieldset class="fieldset">
                 <legend>Region:</legend>
@@ -135,15 +136,20 @@
                 <label><input type="checkbox" value="US" name="region"> US</label>
                 <label><input type="checkbox" value="EU" name="region"> EU</label>
             </fieldset>
+            <fieldset class="fieldset">
+                <legend>Contract Dates:</legend>
+                <label for="contract-start-date">Contract Start Date:</label>
+                <input type="date" id="contract-start-date" name="contract-start-date">
+                <label for="contract-end-date">Contract End Date:</label>
+                <input type="date" id="contract-end-date" name="contract-end-date">
+            </fieldset>
 
         </div>
 
         <fieldset class="fieldset">
             <legend>Contract Fields</legend>
             <div class="savings-plan-container" style="display: flex; gap: 20px;">
-
                 <div class="savings-plan-column" id="savings-plan-fields" style="flex: 1; ">
-                    
                     <label for="total-contract-value">Total Contract Value #</label>
                     <input type="text" id="total-contract-value" name="total-contract-value">
                     <label for="initial-commitment">Initial Commitment #</label>
@@ -156,9 +162,7 @@
                     <input type="text" id="initial-flexi-prepaid-commitment" name="initial-flexi-prepaid-commitment">
                     <label for="initial-flexi-credit">Initial Credit (Flex)</label>
                     <input type="text" id="initial-flexi-credit" name="initial-flexi-credit">
-
                 </div>
-
                 <div class="savings-plan-column" style="flex: 1;">
                     <label for="billing-terms">Billing Terms</label>
                     <select id="billing-terms" name="billing-terms">
@@ -168,35 +172,37 @@
                         <option value="SemiAnnual">Semi-Annual</option>
                         <option value="Quarterly">Quarterly</option>
                         <option value="Monthly In Arrears (No Pre Pay)">Monthly In Arrears (No Pre Pay)</option>
-                         <option value="Custom">Custom</option>
+                        <option value="Custom">Custom</option>
                     </select>
 
                     <label for="last-amendment-number">Last Amendment Number</label>
                     <input type="text" id="last-amendment-number" name="last-amendment-number">
                     <label for="rollover-funds">Rollover Funds</label>
-                    <input type="text" id="rollover-funds" name="rollover-funds">                    
+                    <input type="text" id="rollover-funds" name="rollover-funds">
                     <label for="rollover-credits">Rollover Credits</label>
                     <input type="text" id="rollover-credits" name="rollover-credits">
                     <label for="prepaid-credits">Prepaid Credits</label>
                     <input type="text" id="prepaid-credits" name="prepaid-credits">
                     <label># In-Arrears </label>
                     <label>#* In-Advance</label>
-
                 </div>
                 <div class="savings-plan-column" style="flex: 1;">
-                    <label for="marketplace-platform-name">Marketplace Platform Name</label>                    
+                    <label for="marketplace-platform-name">Marketplace Platform Name</label>
                     <select id="marketplace-platform-name" name="marketplace-platform-name">
                         <option value="">Select a MP</option>
                         <option value="AWS">AWS</option>
                         <option value="AZURE">AZURE</option>
                         <option value="GCP">GCP</option>
                     </select>
-                    <label for="partner-compensation-method">Partner Compensation Method</label>                    
+                    <label for="partner-compensation-method">Partner Compensation Method</label>
                     <select id="partner-compensation-method" name="partner-compensation-method">
                         <option value="">Select a PCM</option>
                         <option value="Transaction Based (Method1)">Transaction Based (Method1)</option>
                         <option value="Period Based (Method2)">Period Based (Method2)</option>
                     </select>
+
+                    <label for="marketplace-fee-rate"></label>Marketplace Fee Rate</label>
+                    <input type="text" id="marketplace-fee-rate" name="marketplace-fee-rate">
                     <label for="reseller-fee-blended-rate">Reseller Fee Blended Rate</label>
                     <input type="text" id="reseller-fee-blended-rate" name="reseller-fee-blended-rate">
                     <label for="reseller-fee-renewal-rate">Reseller Fee Renewal Rate</label>
@@ -229,72 +235,6 @@
             <label><input type="checkbox" value="Pro" name="queries-option"> Pro</label>
             <label><input type="checkbox" value="Enterprise" name="queries-option"> Enterprise</label>
         </fieldset>
-
-        <fieldset class="fieldset">
-            <legend>Contract Dates:</legend>
-            <label for="contract-start-date">Contract Start Date:</label>
-            <input type="date" id="contract-start-date" name="contract-start-date">
-            <label for="contract-end-date">Contract End Date:</label>
-            <input type="date" id="contract-end-date" name="contract-end-date">
-        </fieldset>
-
-        <!--fieldset class="fieldset">
-            <legend>State:</legend>
-            <label for="state">Select State:</label>
-            <select id="state" name="state">
-                <option value="AL">SelectOne</option>
-                <option value="AL">Alabama</option>
-                <option value="AK">Alaska</option>
-                <option value="AZ">Arizona</option>
-                <option value="AR">Arkansas</option>
-                <option value="CA">California</option>
-                <option value="CO">Colorado</option>
-                <option value="CT">Connecticut</option>
-                <option value="DE">Delaware</option>
-                <option value="FL">Florida</option>
-                <option value="GA">Georgia</option>
-                <option value="HI">Hawaii</option>
-                <option value="ID">Idaho</option>
-                <option value="IL">Illinois</option>
-                <option value="IN">Indiana</option>
-                <option value="IA">Iowa</option>
-                <option value="KS">Kansas</option>
-                <option value="KY">Kentucky</option>
-                <option value="LA">Louisiana</option>
-                <option value="ME">Maine</option>
-                <option value="MD">Maryland</option>
-                <option value="MA">Massachusetts</option>
-                <option value="MI">Michigan</option>
-                <option value="MN">Minnesota</option>
-                <option value="MS">Mississippi</option>
-                <option value="MO">Missouri</option>
-                <option value="MT">Montana</option>
-                <option value="NE">Nebraska</option>
-                <option value="NV">Nevada</option>
-                <option value="NH">New Hampshire</option>
-                <option value="NJ">New Jersey</option>
-                <option value="NM">New Mexico</option>
-                <option value="NY">New York</option>
-                <option value="NC">North Carolina</option>
-                <option value="ND">North Dakota</option>
-                <option value="OH">Ohio</option>
-                <option value="OK">Oklahoma</option>
-                <option value="OR">Oregon</option>
-                <option value="PA">Pennsylvania</option>
-                <option value="RI">Rhode Island</option>
-                <option value="SC">South Carolina</option>
-                <option value="SD">South Dakota</option>
-                <option value="TN">Tennessee</option>
-                <option value="TX">Texas</option>
-                <option value="UT">Utah</option>
-                <option value="VT">Vermont</option>
-                <option value="VA">Virginia</option>
-                <option value="WA">Washington</option>
-                <option value="WV">West Virginia</option>
-                <option value="WI">Wisconsin</option>
-                <option value="WY">Wyoming</option>
-            </select>
-        </fieldset-->
 
         <fieldset class="fieldset">
             <legend>Address:</legend>
@@ -458,22 +398,8 @@
                 </tbody>
             </table>
         </div>
- </div>
-
-    <!--p>Server is running...</p-->
+    </div>
     <script type="module" src="app.js"></script>
-    <!--script>
-        function handleBuyingProgramChange() {
-            const buyingProgram = document.getElementById('buying-program').value;
-            const savingsPlanFieldSet = document.getElementById('savings-plan-fields');
-
-            if (buyingProgram === 'SAVINGS') {
-                savingsPlanFieldSet.style.display = 'block';
-            } else {
-                savingsPlanFieldSet.style.display = 'none';
-            }
-        }
-    </script-->
 </body>
 
 </html>

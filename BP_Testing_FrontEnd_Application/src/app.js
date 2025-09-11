@@ -906,6 +906,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     resellerFeeNewRate: document.getElementById('reseller-fee-new-rate').value,
                     resellerFeeBlendedRate: document.getElementById('reseller-fee-blended-rate').value,
                     marketplacePlatformName: document.getElementById('marketplace-platform-name').value,
+                    marketplaceFeeRate: document.getElementById('marketplace-fee-rate').value,
                     partnerCompensationMethod: document.getElementById('partner-compensation-method').value,
                     buyingProgram: document.getElementById('buying-program').value
                 };

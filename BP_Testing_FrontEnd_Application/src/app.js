@@ -1105,11 +1105,11 @@ document.addEventListener('DOMContentLoaded', () => {
                             for (const product of ccIdcontractProdIds) {
                                 accountProductId = await createAccountProduct(sessionId, account.accId, contractId, product, contractStartDateValue, contractEndDateValue);
                                 //console.log('AccountProductId:', accountProductId);
-                                appendResultRow(`OrgGrp AccountProductId (${product.Id})`, accountProductId, resultValuesTableBody3);
+                                appendResultRow(`CCID AccountProductId (${product.Id})`, accountProductId, resultValuesTableBody3);
                             }
                             //billingIdentifier = account.accId;
                             const ccidGrpAccId = account.accId;
-                            console.log('OrgGrp Account Id:', ccidGrpAccId);
+                            console.log('CCID Account Id:', ccidGrpAccId);
                             //BIaccountProductId = await createBillingIdentifier(sessionId, account.accId, contractId, billingIdentifier, contractStartDateValue, contractEndDateValue);
                             //console.log('BIaccountProductId:', BIaccountProductId);
                             //appendResultRow('BIaccountProductId', BIaccountProductId, resultValuesTableBody3);
@@ -1213,33 +1213,23 @@ document.addEventListener('DOMContentLoaded', () => {
                             );
                         }
                         if (account.level.startsWith('CCID')) {
-                            //displayResultContainer(resultContainer1);
-
                             const contractType = 'Rate Plan';
                             const billingTerms = savingsPlanData.billingTerms;
                             contractId = await createContract1(sessionId, account.accId, accountName, contractStartDateValue, contractEndDateValue, contractName, contractType, savingsPlanData, ccidCount);
-                            //contractCurrencyId = await createContractCurrency(sessionId, contractId);
                             if (ccidArray.includes(account.level)) {
                                 selectedProductsDetails = selectedProductsDetailsByCCID[account.level] || [];
                             }
                             appendResultRow(`${account.level} ContractId`, contractId, resultValuesTableBody1);
                             for (const product of selectedProductsDetails) {
-                                // console.log(`ProdID: ${product.ProdID}, ProductName: ${product.ProductName}, Price: ${product.Price}, TieredDetails: ${JSON.stringify(product.TieredDetails)}`);
                                 contractRateId = await createContractRate(sessionId, contractId, product, contractStartDateValue, contractEndDateValue);
-                                // console.log('ContractRateId:', contractRateId);
-                                // appendResultRow(`Contract: ${contractId} ContractRateId)`, contractRateId, resultValuesTableBody2);
                                 appendResultRow(`${product.ProductName}`, `${product.ProdID}`, resultValuesTableBody4);
                                 appendResultRow(`ContractRateId (${product.ProdID})`, contractRateId, resultValuesTableBody2);
                                 if (product.TieredDetails.length > 0) {
                                     pricingId = await createTieredPricing(sessionId, contractId, contractRateId, product.TieredDetails, contractStartDateValue, contractEndDateValue);
-                                    // console.log('PricingId:', pricingId);
-                                    // appendResultRow(`PricingId (${product.ProdID})`, pricingId, resultValuesTableBody2);
                                 } else {
                                     pricingId = await createPricing(sessionId, contractId, contractRateId, product, contractStartDateValue, contractEndDateValue);
-                                    // console.log('PricingId:', pricingId);
-                                    //  appendResultRow(`PricingId (${product.ProdID})`, pricingId, resultValuesTableBody2);
-                                }
 
+                                }
                             }
                             console.log('CCID Array:', ccidArray);
                             const ccidIndex = ccidArray.indexOf(account.level) + 1;

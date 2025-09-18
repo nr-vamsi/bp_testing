@@ -74,7 +74,7 @@ async function createNonUserUsageFile(billingIdentifier, contractStartDate, usag
             const mapping = usageNonMappingUsers.find(item => item.Product === product.ContractRateLabel);
             if (mapping) {
 
-                const quantity = Math.floor(Math.random() * 10000);
+                const quantity = Math.floor(Math.random() * 100);
                 data.push({
                     BillingIdentifier: billingIdentifier,
                     START_TIME: dateStr,

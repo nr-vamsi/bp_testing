@@ -52,7 +52,7 @@ export async function createBillingProfile(sessionId, accountId, accountName, sf
                 YearlyBillingMonth: 'January',
                 Zip: billToZip,
                 nrBillType: 'Invoice',
-                nrInvoiceEmail: billToEmail,
+                Email: billToEmail,
                 nrSalesforceAccountId: sfAccId
             }
         })

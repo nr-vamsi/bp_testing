@@ -16,9 +16,9 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-let productsList = [];
+/*/let productsList = [];
 
-const csvFilePath = path.join(__dirname, 'csv', 'productList.csv');
+const csvFilePath = path.join(__dirname, 'csv', 'productList_QA.csv');
 
 fs.createReadStream(csvFilePath)
   .pipe(csv())
@@ -28,7 +28,8 @@ fs.createReadStream(csvFilePath)
   .on('end', () => {
     console.log('CSV file successfully processed');
   });
-
+  
+*/
 app.use(express.static(path.join(__dirname, 'src')));
 app.use('/csv', express.static(path.join(__dirname, 'csv')));
 
@@ -36,9 +37,11 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'src', 'index.html'));
 });
 
+/*
 app.get('/products', (req, res) => {
     res.json(productsList);
 });
+*/
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

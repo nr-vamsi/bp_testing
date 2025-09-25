@@ -65,47 +65,188 @@
     <div class="container">
         <img src="newrelic-logo.png" alt="New Relic" class="logo">
         <h1>Frameworks BP FastTrack Testing UI</h1>
+        <div class="side-by-side">
+            <fieldset class="fieldset">
+                <legend>Subscription Type:</legend>
+                <label for="subscription-type">Select Subscription Type:</label>
+                <select id="subscription-type" name="subscription-type">
+                    <option value="New">New</option>
+                    <option value="Amend">Amend</option>
+                    <option value="Cancel">Cancel</option>
+                    <option value="R&R">R&R</option>
+                </select>
+                <label for="tcid">TC#</label>
+                <input type="text" id="tcid" name="tcid">
 
-        <fieldset class="fieldset">
-            <legend>Subscription Type:</legend>
-            <label for="subscription-type">Select Subscription Type:</label>
-            <select id="subscription-type" name="subscription-type">
-                <option value="New">New</option>
-                <option value="Amend">Amend</option>
-                <option value="Cancel">Cancel</option>
-                <option value="R&R">R&R</option>
-            </select>
-            <label for="tcid">TC#</label>
-            <input type="text" id="tcid" name="tcid">
+                <label for="buying-program">Buying Program</label>
+                <!--select id="buying-program" name="buying-program" onchange="handleBuyingProgramChange()"-->
+                <select id="buying-program" name="buying-program">
+                    <option value="">Select a Buying Program</option>
+                    <option value="SAVINGS">SAVINGS</option>
+                    <option value="VOLUME">VOLUME</option>
+                    <option value="PAYG">PAYG</option>
+                    <option value="LEGACY">LEGACY</option>
+                    <option value="APOF">APOF</option>
+                </select>
+            </fieldset>
 
-            <label for="buying-program">Buying Program</label>
-            <!--select id="buying-program" name="buying-program" onchange="handleBuyingProgramChange()"-->
-            <select id="buying-program" name="buying-program">
-                <option value="">Select a Buying Program</option>
-                <option value="SAVINGS">SAVINGS</option>
-                <option value="VOLUME">VOLUME</option>
-                <option value="PAYG">PAYG</option>
-                <option value="LEGACY">LEGACY</option>
-                <option value="APOF">APOF</option>
-            </select>
-        </fieldset>
+            <fieldset class="fieldset">
+                <legend>Account Structure</legend>
+                <label>
+                    <input type="radio" name="account-structure" value="single-ccid">
+                    Single CCID
+                </label>
+                <label>
+                    <input type="radio" name="account-structure" value="multi-ccid-shared-pool">
+                    Multi CCID - Shared Pool
+                </label>
+                <label>
+                    <input type="radio" name="account-structure" value="multi-ccid-separate-pool">
+                    Multi CCID - Separate Pool
+                </label>
+                <div id="hierarchy-tree-container"></div>
+            </fieldset>
+            <fieldset class="fieldset">
+                <legend>Contract Dates:</legend>
+                <label for="contract-start-date">Contract Start Date:</label>
+                <input type="date" id="contract-start-date" name="contract-start-date">
+                <label for="contract-end-date">Contract End Date:</label>
+                <input type="date" id="contract-end-date" name="contract-end-date">
+            </fieldset>
+        </div>
 
-        <fieldset id="account-structure">
-            <legend>Account Structure</legend>
-            <label>
-                <input type="radio" name="account-structure" value="single-ccid">
-                Single CCID
-            </label>
-            <label>
-                <input type="radio" name="account-structure" value="multi-ccid-shared-pool">
-                Multi CCID - Shared Pool
-            </label>
-            <label>
-                <input type="radio" name="account-structure" value="multi-ccid-separate-pool">
-                Multi CCID - Separate Pool
-            </label>
-            <div id="hierarchy-tree-container"></div>
-        </fieldset>
+        <div class="side-by-side">
+            <fieldset class="fieldset">
+                <legend>Contract Fields</legend>
+                <div class="savings-plan-container" style="display: flex; gap: 20px;">
+                    <div class="savings-plan-column" id="savings-plan-fields" style="flex: 1; ">
+                        <label for="total-contract-value">Total Contract Value #</label>
+                        <input type="text" id="total-contract-value" name="total-contract-value">
+                        <label for="initial-commitment">Initial Commitment #</label>
+                        <input type="text" id="initial-commitment" name="initial-commitment">
+                        <label for="initial-commitment-credit">Initial Commitment Credit</label>
+                        <input type="text" id="initial-commitment-credit" name="initial-commitment-credit">
+                        <label for="initial-prepaid-commitment">Initial Prepaid Commitment *</label>
+                        <input type="text" id="initial-prepaid-commitment" name="initial-prepaid-commitment">
+                        <label for="initial-flexi-prepaid-commitment">Initial Commitment (Flex)</label>
+                        <input type="text" id="initial-flexi-prepaid-commitment"
+                            name="initial-flexi-prepaid-commitment">
+                        <label for="initial-flexi-credit">Initial Credit (Flex)</label>
+                        <input type="text" id="initial-flexi-credit" name="initial-flexi-credit">
+                    </div>
+                    <div class="savings-plan-column" style="flex: 1;">
+                        <label for="billing-terms">Billing Terms</label>
+                        <select id="billing-terms" name="billing-terms">
+                            <option value="">Select a Billing Term</option>
+                            <option value="Annual Upfront">Annual Upfront</option>
+                            <option value="Upfront (Full Pre Pay)">Upfront (Full Pre Pay)</option>
+                            <option value="Semi-Annual">Semi-Annual</option>
+                            <option value="Quarterly">Quarterly</option>
+                            <option value="Monthly In Arrears (No Pre Pay)">Monthly In Arrears (No Pre Pay)</option>
+                            <option value="Custom">Custom</option>
+                        </select>
+
+                        <label for="last-amendment-number">Last Amendment Number</label>
+                        <input type="text" id="last-amendment-number" name="last-amendment-number">
+                        <label for="rollover-funds">Rollover Funds</label>
+                        <input type="text" id="rollover-funds" name="rollover-funds">
+                        <label for="rollover-credits">Rollover Credits</label>
+                        <input type="text" id="rollover-credits" name="rollover-credits">
+                        <label for="prepaid-credits">Prepaid Credits</label>
+                        <input type="text" id="prepaid-credits" name="prepaid-credits">
+                        <label># In-Arrears </label>
+                        <label>#* In-Advance</label>
+                    </div>
+                    <div class="savings-plan-column" style="flex: 1;">
+                        <label for="marketplace-platform-name">Marketplace Platform Name</label>
+                        <select id="marketplace-platform-name" name="marketplace-platform-name">
+                            <option value="">Select a MP</option>
+                            <option value="AWS">AWS</option>
+                            <option value="AZURE">AZURE</option>
+                            <option value="GCP">GCP</option>
+                        </select>
+                        <label for="partner-compensation-method">Partner Compensation Method</label>
+                        <select id="partner-compensation-method" name="partner-compensation-method">
+                            <option value="">Select a PCM</option>
+                            <option value="Transaction Based (Method1)">Transaction Based (Method1)</option>
+                            <option value="Period Based (Method2)">Period Based (Method2)</option>
+                        </select>
+
+                        <label for="marketplace-fee-rate"></label>Marketplace Fee Rate</label>
+                        <input type="text" id="marketplace-fee-rate" name="marketplace-fee-rate">
+                        <label for="reseller-fee-blended-rate">Reseller Fee Blended Rate</label>
+                        <input type="text" id="reseller-fee-blended-rate" name="reseller-fee-blended-rate">
+                        <label for="reseller-fee-renewal-rate">Reseller Fee Renewal Rate</label>
+                        <input type="text" id="reseller-fee-renewal-rate" name="reseller-fee-renewal-rate">
+                        <label for="reseller-fee-new-rate">Reseller Fee New Rate</label>
+                        <input type="text" id="reseller-fee-new-rate" name="reseller-fee-new-rate">
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="fieldset">
+                <legend>Address:</legend>
+                <div class="side-by-side">
+                    <fieldset class="fieldset">
+                        <legend>Bill To:</legend>
+                        <div class="address-field">
+                            <label for="bill-to-address1">Address1:</label>
+                            <input type="text" id="bill-to-address1" name="bill-to-address1">
+                        </div>
+                        <div class="address-field">
+                            <label for="bill-to-city">City:</label>
+                            <input type="text" id="bill-to-city" name="bill-to-city">
+                        </div>
+                        <div class="address-field">
+                            <label for="bill-to-state">State:</label>
+                            <input type="text" id="bill-to-state" name="bill-to-state">
+                        </div>
+                        <div class="address-field">
+                            <label for="bill-to-country">Country:</label>
+                            <input type="text" id="bill-to-country" name="bill-to-country">
+                        </div>
+                        <div class="address-field">
+                            <label for="bill-to-zip">Zip:</label>
+                            <input type="text" id="bill-to-zip" name="bill-to-zip">
+                        </div>
+                        <div class="address-field">
+                            <label for="bill-to-email">Email:</label>
+                            <input type="text" id="bill-to-email" name="bill-to-email">
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="fieldset">
+                        <legend>Ship To:</legend>
+                        <div class="address-field">
+                            <label for="ship-to-address1">Address1:</label>
+                            <input type="text" id="ship-to-address1" name="ship-to-address1">
+                        </div>
+                        <div class="address-field">
+                            <label for="ship-to-city">City:</label>
+                            <input type="text" id="ship-to-city" name="ship-to-city">
+                        </div>
+                        <div class="address-field">
+                            <label for="ship-to-state">State:</label>
+                            <input type="text" id="ship-to-state" name="ship-to-state">
+                        </div>
+                        <div class="address-field">
+                            <label for="ship-to-country">Country:</label>
+                            <input type="text" id="ship-to-country" name="ship-to-country">
+                        </div>
+                        <div class="address-field">
+                            <label for="ship-to-zip">Zip:</label>
+                            <input type="text" id="ship-to-zip" name="ship-to-zip">
+                        </div>
+                        <div class="address-field">
+                            <label for="ship-to-email">Email:</label>
+                            <input type="text" id="ship-to-email" name="ship-to-email">
+                        </div>
+                    </fieldset>
+                </div>
+                <label><input type="checkbox" id="same-as-bill-to"> Bill To is same as Ship To?</label>
+            </fieldset>
+
+        </div>
 
         <div class="side-by-side">
             <fieldset class="fieldset">
@@ -129,90 +270,16 @@
                 </div>
             </fieldset>
 
-
             <fieldset class="fieldset">
                 <legend>Region:</legend>
                 <!--label><input type="checkbox" value="Non-Region" name="region"> Non-Region</label-->
                 <label><input type="checkbox" value="US" name="region"> US</label>
                 <label><input type="checkbox" value="EU" name="region"> EU</label>
             </fieldset>
-            <fieldset class="fieldset">
-                <legend>Contract Dates:</legend>
-                <label for="contract-start-date">Contract Start Date:</label>
-                <input type="date" id="contract-start-date" name="contract-start-date">
-                <label for="contract-end-date">Contract End Date:</label>
-                <input type="date" id="contract-end-date" name="contract-end-date">
-            </fieldset>
+
 
         </div>
-
-        <fieldset class="fieldset">
-            <legend>Contract Fields</legend>
-            <div class="savings-plan-container" style="display: flex; gap: 20px;">
-                <div class="savings-plan-column" id="savings-plan-fields" style="flex: 1; ">
-                    <label for="total-contract-value">Total Contract Value #</label>
-                    <input type="text" id="total-contract-value" name="total-contract-value">
-                    <label for="initial-commitment">Initial Commitment #</label>
-                    <input type="text" id="initial-commitment" name="initial-commitment">
-                    <label for="initial-commitment-credit">Initial Commitment Credit</label>
-                    <input type="text" id="initial-commitment-credit" name="initial-commitment-credit">
-                    <label for="initial-prepaid-commitment">Initial Prepaid Commitment *</label>
-                    <input type="text" id="initial-prepaid-commitment" name="initial-prepaid-commitment">
-                    <label for="initial-flexi-prepaid-commitment">Initial Commitment (Flex)</label>
-                    <input type="text" id="initial-flexi-prepaid-commitment" name="initial-flexi-prepaid-commitment">
-                    <label for="initial-flexi-credit">Initial Credit (Flex)</label>
-                    <input type="text" id="initial-flexi-credit" name="initial-flexi-credit">
-                </div>
-                <div class="savings-plan-column" style="flex: 1;">
-                    <label for="billing-terms">Billing Terms</label>
-                    <select id="billing-terms" name="billing-terms">
-                        <option value="">Select a Billing Term</option>
-                        <option value="Annual Upfront">Annual Upfront</option>
-                        <option value="Upfront (Full Pre Pay)">Upfront (Full Pre Pay)</option>
-                        <option value="Semi-Annual">Semi-Annual</option>
-                        <option value="Quarterly">Quarterly</option>
-                        <option value="Monthly In Arrears (No Pre Pay)">Monthly In Arrears (No Pre Pay)</option>
-                        <option value="Custom">Custom</option>
-                    </select>
-
-                    <label for="last-amendment-number">Last Amendment Number</label>
-                    <input type="text" id="last-amendment-number" name="last-amendment-number">
-                    <label for="rollover-funds">Rollover Funds</label>
-                    <input type="text" id="rollover-funds" name="rollover-funds">
-                    <label for="rollover-credits">Rollover Credits</label>
-                    <input type="text" id="rollover-credits" name="rollover-credits">
-                    <label for="prepaid-credits">Prepaid Credits</label>
-                    <input type="text" id="prepaid-credits" name="prepaid-credits">
-                    <label># In-Arrears </label>
-                    <label>#* In-Advance</label>
-                </div>
-                <div class="savings-plan-column" style="flex: 1;">
-                    <label for="marketplace-platform-name">Marketplace Platform Name</label>
-                    <select id="marketplace-platform-name" name="marketplace-platform-name">
-                        <option value="">Select a MP</option>
-                        <option value="AWS">AWS</option>
-                        <option value="AZURE">AZURE</option>
-                        <option value="GCP">GCP</option>
-                    </select>
-                    <label for="partner-compensation-method">Partner Compensation Method</label>
-                    <select id="partner-compensation-method" name="partner-compensation-method">
-                        <option value="">Select a PCM</option>
-                        <option value="Transaction Based (Method1)">Transaction Based (Method1)</option>
-                        <option value="Period Based (Method2)">Period Based (Method2)</option>
-                    </select>
-
-                    <label for="marketplace-fee-rate"></label>Marketplace Fee Rate</label>
-                    <input type="text" id="marketplace-fee-rate" name="marketplace-fee-rate">
-                    <label for="reseller-fee-blended-rate">Reseller Fee Blended Rate</label>
-                    <input type="text" id="reseller-fee-blended-rate" name="reseller-fee-blended-rate">
-                    <label for="reseller-fee-renewal-rate">Reseller Fee Renewal Rate</label>
-                    <input type="text" id="reseller-fee-renewal-rate" name="reseller-fee-renewal-rate">
-                    <label for="reseller-fee-new-rate">Reseller Fee New Rate</label>
-                    <input type="text" id="reseller-fee-new-rate" name="reseller-fee-new-rate">
-                </div>
-            </div>
-        </fieldset>
-
+ <div class="side-by-side">
         <fieldset class="fieldset" id="user-options" style="display: none;">
             <legend>User Options:</legend>
             <label><input type="checkbox" value="Core" name="user-option"> Core</label>
@@ -235,68 +302,8 @@
             <label><input type="checkbox" value="Pro" name="queries-option"> Pro</label>
             <label><input type="checkbox" value="Enterprise" name="queries-option"> Enterprise</label>
         </fieldset>
+</div>
 
-        <fieldset class="fieldset">
-            <legend>Address:</legend>
-            <div class="side-by-side">
-                <fieldset class="fieldset">
-                    <legend>Bill To:</legend>
-                    <div class="address-field">
-                        <label for="bill-to-address1">Address1:</label>
-                        <input type="text" id="bill-to-address1" name="bill-to-address1">
-                    </div>
-                    <div class="address-field">
-                        <label for="bill-to-city">City:</label>
-                        <input type="text" id="bill-to-city" name="bill-to-city">
-                    </div>
-                    <div class="address-field">
-                        <label for="bill-to-state">State:</label>
-                        <input type="text" id="bill-to-state" name="bill-to-state">
-                    </div>
-                    <div class="address-field">
-                        <label for="bill-to-country">Country:</label>
-                        <input type="text" id="bill-to-country" name="bill-to-country">
-                    </div>
-                    <div class="address-field">
-                        <label for="bill-to-zip">Zip:</label>
-                        <input type="text" id="bill-to-zip" name="bill-to-zip">
-                    </div>
-                    <div class="address-field">
-                        <label for="bill-to-email">Email:</label>
-                        <input type="text" id="bill-to-email" name="bill-to-email">
-                    </div>
-                </fieldset>
-
-                <fieldset class="fieldset">
-                    <legend>Ship To:</legend>
-                    <div class="address-field">
-                        <label for="ship-to-address1">Address1:</label>
-                        <input type="text" id="ship-to-address1" name="ship-to-address1">
-                    </div>
-                    <div class="address-field">
-                        <label for="ship-to-city">City:</label>
-                        <input type="text" id="ship-to-city" name="ship-to-city">
-                    </div>
-                    <div class="address-field">
-                        <label for="ship-to-state">State:</label>
-                        <input type="text" id="ship-to-state" name="ship-to-state">
-                    </div>
-                    <div class="address-field">
-                        <label for="ship-to-country">Country:</label>
-                        <input type="text" id="ship-to-country" name="ship-to-country">
-                    </div>
-                    <div class="address-field">
-                        <label for="ship-to-zip">Zip:</label>
-                        <input type="text" id="ship-to-zip" name="ship-to-zip">
-                    </div>
-                    <div class="address-field">
-                        <label for="ship-to-email">Email:</label>
-                        <input type="text" id="ship-to-email" name="ship-to-email">
-                    </div>
-                </fieldset>
-            </div>
-            <label><input type="checkbox" id="same-as-bill-to"> Bill To is same as Ship To?</label>
-        </fieldset>
         <br>
         <button id="submit">GeneratePlan</button>
 

@@ -49,9 +49,53 @@ let selectedBuyingProgram = '';
 ccidArray = ['All', ...generateCCIDArray(ccidCount)];
 orgGrpArray = generateOrgGrpArray(ccidCount, orgGrpPerCcid);
 
-fetchProducts('/csv/productList.csv').then(data => {
-    productsList = data;
-}).catch(error => console.error('Error fetching products:', error));
+// Replace the existing fetchProducts call around line 52 with:
+const hostname = CONFIG.HOSTNAME;
+let csvFile = '';
+
+if (hostname === 'https://sandbox.billingplatform.com/newrelic_dev') {
+    csvFile = 'productList_QA.csv';
+} else if (hostname === 'https://sandbox.billingplatform.com/newrelic2_dev') {
+    csvFile = 'productList_DEV.csv';
+}
+
+// Read CSV file directly in the browser
+fetch(`/csv/${csvFile}`)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.text();
+    })
+    .then(csvText => {
+        // Parse CSV text
+        const lines = csvText.split('\n');
+        const headers = lines[0].split(',');
+        
+        productsList = [];
+        for (let i = 1; i < lines.length; i++) {
+            if (lines[i].trim()) {
+                const values = lines[i].split(',');
+                const row = {};
+                headers.forEach((header, index) => {
+                    row[header.trim()] = values[index] ? values[index].trim() : '';
+                });
+                productsList.push(row);
+            }
+        }
+        
+        console.log(`CSV file ${csvFile} successfully processed`);
+        console.log(`Loaded ${productsList.length} products`);
+    })
+    .catch(error => {
+        console.error('Error fetching or parsing CSV:', error);
+        // Fallback: try to fetch from the original endpoint if available
+        fetchProducts('/csv/productList_QA.csv').then(data => {
+            productsList = data;
+        }).catch(fallbackError => {
+            console.error('Fallback also failed:', fallbackError);
+        });
+    });
 
 const productCheckboxes = document.querySelectorAll('input[name="product"]');
 const regionCheckboxes = document.querySelectorAll('input[name="region"]');

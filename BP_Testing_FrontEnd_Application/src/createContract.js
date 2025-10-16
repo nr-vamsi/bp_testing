@@ -1,6 +1,7 @@
 import CONFIG from './config.js';
 async function createContract(sessionId, accountId, accountName, contractStartDateValue, contractEndDateValue, contractName,contractType, savingsPlanData, ccidCount) {
 console.log('Reseller percentage:', savingsPlanData.resellerFeeBlendedRate);
+console.log('Contract Data:', savingsPlanData);
     const response = await fetch(`${CONFIG.HOSTNAME}/rest/2.0/CONTRACT`, {
         method: 'POST',
         headers: {
@@ -23,6 +24,7 @@ console.log('Reseller percentage:', savingsPlanData.resellerFeeBlendedRate);
                 nrBillingTerms: savingsPlanData.billingTerms,
                 nrLastAmendmentNo: savingsPlanData.lastAmendmentNumber,
                 nrTotalContractValue: savingsPlanData.totalContractValue,
+                nrAnnualContractRevenue: savingsPlanData.initialCommitment, //temporary, need validation later
                 nrInitialCommitment: savingsPlanData.initialCommitment,
                 nrInitialCommitmentCredit: savingsPlanData.initialCommitmentCredit,
                 nrInitialPrepaidCommitment: savingsPlanData.initialPrepaidCommitment,

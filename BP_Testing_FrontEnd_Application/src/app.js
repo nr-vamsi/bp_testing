@@ -45,6 +45,7 @@ let TCId = '';
 let ccidCount = 2; // or get from user input/config
 let orgGrpPerCcid = 2; // or get from user input/config
 let selectedBuyingProgram = '';
+let savingsPlanData = {};
 
 ccidArray = ['All', ...generateCCIDArray(ccidCount)];
 orgGrpArray = generateOrgGrpArray(ccidCount, orgGrpPerCcid);
@@ -71,7 +72,7 @@ fetch(`/csv/${csvFile}`)
         // Parse CSV text
         const lines = csvText.split('\n');
         const headers = lines[0].split(',');
-        
+
         productsList = [];
         for (let i = 1; i < lines.length; i++) {
             if (lines[i].trim()) {
@@ -83,7 +84,7 @@ fetch(`/csv/${csvFile}`)
                 productsList.push(row);
             }
         }
-        
+
         console.log(`CSV file ${csvFile} successfully processed`);
         console.log(`Loaded ${productsList.length} products`);
     })
@@ -205,6 +206,7 @@ function handleSameAsBillToChange() {
             shipToFields[key].value = billToFields[key].value;
             shipToFields[key].disabled = true;
         }
+
     } else {
         for (const key in shipToFields) {
             shipToFields[key].disabled = false;
@@ -241,14 +243,39 @@ async function handleSubmit() {
 
     let selectedBuyingPrograms = [buyingProgramDropdown.value];
     selectedBuyingProgram = buyingProgramDropdown.value;
-    console.log('Selected Buying Programs:', selectedBuyingPrograms);
-    console.log('Selected Buying Program:', selectedBuyingProgram);
+    //console.log('Selected Buying Programs:', selectedBuyingPrograms);
+    //console.log('Selected Buying Program:', selectedBuyingProgram);
+    savingsPlanData = {
+        billingTerms: document.getElementById('billing-terms').value,
+        lastAmendmentNumber: document.getElementById('last-amendment-number').value,
+        totalContractValue: document.getElementById('total-contract-value').value,
+        initialCommitment: document.getElementById('initial-commitment').value,
+        initialCommitmentCredit: document.getElementById('initial-commitment-credit').value,
+        initialPrepaidCommitment: document.getElementById('initial-prepaid-commitment').value,
+        initialFlexiPrepaidCommitment: document.getElementById('initial-flexi-prepaid-commitment').value,
+        initialFlexiCredit: document.getElementById('initial-flexi-credit').value,
+        rolloverFunds: document.getElementById('rollover-funds').value,
+        rolloverCredits: document.getElementById('rollover-credits').value,
+        prepaidCredits: document.getElementById('prepaid-credits').value,
+        resellerFeeRenewalRate: document.getElementById('reseller-fee-renewal-rate').value,
+        resellerFeeNewRate: document.getElementById('reseller-fee-new-rate').value,
+        resellerFeeBlendedRate: document.getElementById('reseller-fee-blended-rate').value,
+        marketplacePlatformName: document.getElementById('marketplace-platform-name').value,
+        marketplaceFeeRate: document.getElementById('marketplace-fee-rate').value,
+        partnerCompensationMethod: document.getElementById('partner-compensation-method').value,
+        buyingProgram: document.getElementById('buying-program').value
+    };
+    console.log('Contract Data:', savingsPlanData);
+
 
     if (selectedBuyingPrograms[0] === 'SAVINGS') {
         selectedBuyingPrograms[0] = 'Savings Plan';
     }
     if (selectedBuyingPrograms[0] === 'VOLUME') {
         selectedBuyingPrograms[0] = 'Volume Plan';
+    }
+    if (selectedBuyingPrograms[0] === 'APOF') {
+        selectedBuyingPrograms[0] = 'APoF';
     }
 
     contractStartDateValue = contractStartDate.value;
@@ -730,6 +757,26 @@ document.addEventListener('DOMContentLoaded', () => {
     if (startButton) {
         startButton.addEventListener('click', async () => {
             validateFieldValues();
+            // Collect addresses
+            const billToAddress = {
+                address1: document.getElementById('bill-to-address1').value,
+                city: document.getElementById('bill-to-city').value,
+                state: document.getElementById('bill-to-state').value,
+                country: document.getElementById('bill-to-country').value,
+                zip: document.getElementById('bill-to-zip').value,
+                email: document.getElementById('bill-to-email').value
+            };
+
+            const shipToAddress = {
+                address1: document.getElementById('ship-to-address1').value,
+                city: document.getElementById('ship-to-city').value,
+                state: document.getElementById('ship-to-state').value,
+                country: document.getElementById('ship-to-country').value,
+                zip: document.getElementById('ship-to-zip').value,
+                email: document.getElementById('ship-to-email').value
+            };
+            console.log('Bill To:', billToAddress);
+            console.log('Ship To:', shipToAddress);
 
             const sessionId = document.getElementById('session-id').value;
             const accountStructure = document.querySelector('input[name="account-structure"]:checked').value;
@@ -933,27 +980,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 //displayHierarchyTree(accountHierarchy);
                 displayResultContainer(resultContainer);
                 const accountIds = await createAccounts(sessionId, accountName, sfAccId, accountHierarchy);
-                //console.log('AccountIds:', accountIds);
-                const savingsPlanData = {
-                    billingTerms: document.getElementById('billing-terms').value,
-                    lastAmendmentNumber: document.getElementById('last-amendment-number').value,
-                    totalContractValue: document.getElementById('total-contract-value').value,
-                    initialCommitment: document.getElementById('initial-commitment').value,
-                    initialCommitmentCredit: document.getElementById('initial-commitment-credit').value,
-                    initialPrepaidCommitment: document.getElementById('initial-prepaid-commitment').value,
-                    initialFlexiPrepaidCommitment: document.getElementById('initial-flexi-prepaid-commitment').value,
-                    initialFlexiCredit: document.getElementById('initial-flexi-credit').value,
-                    rolloverFunds: document.getElementById('rollover-funds').value,
-                    rolloverCredits: document.getElementById('rollover-credits').value,
-                    prepaidCredits: document.getElementById('prepaid-credits').value,
-                    resellerFeeRenewalRate: document.getElementById('reseller-fee-renewal-rate').value,
-                    resellerFeeNewRate: document.getElementById('reseller-fee-new-rate').value,
-                    resellerFeeBlendedRate: document.getElementById('reseller-fee-blended-rate').value,
-                    marketplacePlatformName: document.getElementById('marketplace-platform-name').value,
-                    marketplaceFeeRate: document.getElementById('marketplace-fee-rate').value,
-                    partnerCompensationMethod: document.getElementById('partner-compensation-method').value,
-                    buyingProgram: document.getElementById('buying-program').value
-                };
+                console.log('AccountIds:', accountIds);
+
+
                 //
                 if (savingsPlanData.initialPrepaidCommitment !== '') {
                     let commitmentPrice = 0;
@@ -987,6 +1016,17 @@ document.addEventListener('DOMContentLoaded', () => {
                             TieredDetails: []
                         });
                         console.log('Volume Plan Selected Product Details:', selectedProductsDetails);
+                    }
+                    if (selectedBuyingProgram === 'APOF') {
+                        console.log('APOF Selected Buying Program:');
+                        selectedProductsDetails.push({
+                            ProdID: '15034',
+                            ProductName: 'APoF - Prepaid Commitment',
+                            Price: commitmentPrice,
+                            Tier: false,
+                            TieredDetails: []
+                        });
+                        console.log('APOF Selected Product Details:', selectedProductsDetails);
                     }
                 }
                 //
@@ -1262,6 +1302,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             contractId = await createContract1(sessionId, account.accId, accountName, contractStartDateValue, contractEndDateValue, contractName, contractType, savingsPlanData, ccidCount);
                             if (ccidArray.includes(account.level)) {
                                 selectedProductsDetails = selectedProductsDetailsByCCID[account.level] || [];
+                                console.log(`Selected Products for ${account.level}:`, selectedProductsDetails);
                             }
                             appendResultRow(`${account.level} ContractId`, contractId, resultValuesTableBody1);
                             for (const product of selectedProductsDetails) {
@@ -1278,8 +1319,9 @@ document.addEventListener('DOMContentLoaded', () => {
                             console.log('CCID Array:', ccidArray);
                             const ccidIndex = ccidArray.indexOf(account.level) + 1;
                             console.log('CCID Account Level:', account.level, 'CCID Index:', ccidIndex);
+                            let ccidNum;
                             if (ccidIndex > 0) { // skip 'All'
-                                const ccidNum = ccidIndex; // CCID1 is index 1, CCID2 is index 2, etc.
+                                ccidNum = ccidIndex; // CCID1 index is 1, CCID2 index is 2, etc.
                                 orgGrpArray = [];
                                 for (let j = 1; j <= orgGrpPerCcid; j++) {
                                     orgGrpArray.push(`OrgGrp${ccidNum}${j}`);
@@ -1288,17 +1330,81 @@ document.addEventListener('DOMContentLoaded', () => {
                             console.log('OrgGrpArray:', orgGrpArray);
                             contractProdIds = await queryProductsFromContract(sessionId, contractId);
                             console.log('*************>>>>ContractProdIds:', contractProdIds);
-                            usageProducts = contractProdIds;
-                            contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('Usage Quantity'));
-                            //contractProdIds = contractProdIds.filter(item => !item['ContractRateLabel'].includes('SP1.0'));
-                            usageProducts = usageProducts.filter(item => item['ContractRateLabel'].includes('Usage Quantity'));
-                            //console.log('CCID ContractProdIds:', contractProdIds);
+
+                            let ccIdcontractProdIds = contractProdIds;
+                            ccIdusageProducts = contractProdIds;
+                            ccIdusageProducts = ccIdusageProducts.filter(item => item['ContractRateLabel'].includes('Usage Quantity') && item['ContractRateLabel'].includes('Users'));
+                            ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Usage Quantity'));
+                            ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('SP1.0'));
+                            ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('SP 1.0'));
+                            ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('VP1.1'));
+                            ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Discount'));
+                            ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('New Relic Reseller Fee'));
+                            ccIdcontractProdIds = ccIdcontractProdIds.filter(item => item['ContractRateLabel'].includes('Users'));
+                            console.log('CCId ContractProdIds:', ccIdcontractProdIds);
+                            console.log(`CCID Account IDs:`, accountIds);
+                            console.log(`ccidNum:`, ccidNum);
+                            const ccidGrpEntry = accountIds.find(entry => entry.level === account.level);
+                            console.log(`CCID Group Entry:`, ccidGrpEntry);
+                            const ccidGrpAccId = ccidGrpEntry ? ccidGrpEntry.accId : null;
+                            const response = await fetch(`${CONFIG.HOSTNAME}//rest/2.0/query?sql=select nrBillingIdentifier from ACCOUNT_PRODUCT where accountid = '${ccidGrpAccId}' and name='BillingIdentifier'`, {
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json; charset=utf-8',
+                                    sessionId: `${sessionId}`
+                                }
+                            });
+                            const data = await response.json();
+                            const biData = data.queryResponse;
+                            let billingIdentifier = '';
+                            if (biData && biData.length > 0) {
+                                console.log('Billing Identifier found:', biData[0].nrBillingIdentifier);
+                                billingIdentifier = biData[0].nrBillingIdentifier;
+                            }
+
+                            for (const product of ccIdcontractProdIds) {
+                                accountProductId = await createAccountProduct(sessionId, account.accId, contractId, product, contractStartDateValue, contractEndDateValue);
+                                appendResultRow(`CCID AccountProductId (${product.Id})`, accountProductId, resultValuesTableBody3);
+                            }
+                            console.log('CCID BI:', billingIdentifier);
+                            console.log('CCID Usage:', ccIdusageProducts);
+                            console.log('CCID Account Level:', account.level);
+                            await createUserUsageFile(billingIdentifier, contractStartDateValue, ccIdusageProducts, TCId, account.level);
+
                             for (const orgGrp of orgGrpArray) {
                                 orgProdIds = selectedProductsDetailsByOrgGrp[orgGrp] || [];
-                                orgProdIds = copyIdsFromContractToOrgProducts(contractProdIds, orgProdIds);
-                                console.log(`${orgGrp} ContractProdIds:`, orgProdIds);
+
+                                // Get product names from orgProdIds
+                                const orgProductNames = orgProdIds.map(orgProd => orgProd.ProductName);
+
+                                // Filter contractProdIds to only include matching products
+                                const filteredContractProdIds = contractProdIds.filter(item =>
+                                    orgProductNames.some(productName =>
+                                        item.ContractRateLabel === productName ||
+                                        item.ContractRateLabel === `${productName} Usage Quantity`
+                                    )
+                                );
+
+                                // Apply existing filters on the pre-filtered results
+                                orgGrpusageProducts = filteredContractProdIds.filter(item =>
+                                    item['ContractRateLabel'].includes('Usage Quantity') &&
+                                    !item['ContractRateLabel'].includes('Users')
+                                );
+
+                                let orgGrpcontractProdIds = filteredContractProdIds.filter(item =>
+                                    !item['ContractRateLabel'].includes('Usage Quantity') &&
+                                    !item['ContractRateLabel'].includes('SP1.0') &&
+                                    !item['ContractRateLabel'].includes('SP 1.0') &&
+                                    !item['ContractRateLabel'].includes('VP1.1') &&
+                                    !item['ContractRateLabel'].includes('Discount') &&
+                                    !item['ContractRateLabel'].includes('New Relic Reseller Fee') &&
+                                    !item['ContractRateLabel'].includes('Users')
+                                );
+
+                                console.log(`${orgGrp} ContractProdIds:`, orgGrpcontractProdIds);
                                 const orgGrpEntry = accountIds.find(entry => entry.level === orgGrp);
                                 const orgGrpAccId = orgGrpEntry ? orgGrpEntry.accId : null;
+                                console.log('Org Group Account ID:', orgGrpAccId);
                                 const response = await fetch(`${CONFIG.HOSTNAME}//rest/2.0/query?sql=select nrBillingIdentifier from ACCOUNT_PRODUCT where accountid = '${orgGrpAccId}' and name='BillingIdentifier'`, {
                                     method: 'GET',
                                     headers: {
@@ -1314,24 +1420,19 @@ document.addEventListener('DOMContentLoaded', () => {
                                     billingIdentifier = biData[0].nrBillingIdentifier;
                                 }
 
-                                if (orgProdIds.length > 0) {
-                                    for (const product of orgProdIds) {
+                                if (orgGrpcontractProdIds.length > 0) {
+                                    for (const product of orgGrpcontractProdIds) {
                                         accountProductId = await createAccountProduct(sessionId, orgGrpAccId, contractId, product, contractStartDateValue, contractEndDateValue);
                                         //console.log('AccountProductId:', accountProductId);
                                         //appendResultRow(`${orgGrp} AccountProductId (${product.ProdID})`, accountProductId, resultValuesTableBody3);
                                         appendResultRow(`${orgGrp} AccountProductId (${product.Id})`, accountProductId, resultValuesTableBody3);
 
                                     }
-                                    //billingIdentifier = orgGrpAccId;
-                                    //BIaccountProductId = await createBillingIdentifier(sessionId, orgGrpAccId, contractId, billingIdentifier, contractStartDateValue, contractEndDateValue);
-                                    //console.log('BIaccountProductId:', BIaccountProductId);
-                                    //appendResultRow(`${orgGrp} BIaccountProductId`, BIaccountProductId, resultValuesTableBody3);
-
                                     await showCSVResults();
-                                    //Create usage files
-
-                                    await createUserUsageFile(billingIdentifier, contractStartDateValue, usageProducts, TCId, orgGrp);
-                                    await createNonUserUsageFile(billingIdentifier, contractStartDateValue, usageProducts, TCId, orgGrp);
+                                    //console.log(`${orgGrp} BI:`, billingIdentifier);
+                                    //console.log(`${orgGrp} Usage:`, orgGrpusageProducts);
+                                    //console.log(`${orgGrp} Account Level:`, account.level);
+                                    await createNonUserUsageFile(billingIdentifier, contractStartDateValue, orgGrpusageProducts, TCId, orgGrp);
                                 }
                             }
 

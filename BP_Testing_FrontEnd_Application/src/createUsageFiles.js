@@ -55,7 +55,7 @@ async function createUserUsageFile(billingIdentifier, contractStartDate, usagePr
             }
         });
     });
-
+    console.log(data);
     saveCSV(accountLevel + '_' + selectedTcId + '_' + 'Users.csv', data);
 }
 
@@ -71,7 +71,12 @@ async function createNonUserUsageFile(billingIdentifier, contractStartDate, usag
 
     dateRange.forEach(dateStr => {
         usageProducts.forEach(product => {
-            const mapping = usageNonMappingUsers.find(item => item.Product === product.ContractRateLabel);
+            //let dummyValue = product.ContractRateLabel ? product.ContractRateLabel : product.ProductName;
+            //console.log(`Dummy Value:`, dummyValue);
+            //console.log(`BI:`, billingIdentifier);
+            const mapping = usageNonMappingUsers.find(item => item.Product === (product.ContractRateLabel ? product.ContractRateLabel : product.ProductName));
+            //console.log(`Mapping:`, mapping);
+
             if (mapping) {
 
                 const quantity = Math.floor(Math.random() * 100);
@@ -86,7 +91,7 @@ async function createNonUserUsageFile(billingIdentifier, contractStartDate, usag
             }
         });
     });
-
+console.log(data);
     saveCSV(accountLevel + '_' + selectedTcId + '_' + 'NonUsers.csv', data);
 }
 

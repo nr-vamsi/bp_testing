@@ -1008,24 +1008,46 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     if (selectedBuyingProgram === 'VOLUME') {
                         console.log('Volume Plan Selected Buying Program:');
-                        selectedProductsDetails.push({
-                            ProdID: '14825',
-                            ProductName: 'VP1.1 - Prepaid Commitment',
-                            Price: commitmentPrice,
-                            Tier: false,
-                            TieredDetails: []
-                        });
+                        if (csvFile === 'productList_DEV.csv') {
+                            selectedProductsDetails.push({
+                                ProdID: '14704',
+                                ProductName: 'VP1.1 - Prepaid Commitment',
+                                Price: commitmentPrice,
+                                Tier: false,
+                                TieredDetails: []
+                            });
+                        }
+                        else {
+                            selectedProductsDetails.push({
+                                ProdID: '14825',
+                                ProductName: 'VP1.1 - Prepaid Commitment',
+                                Price: commitmentPrice,
+                                Tier: false,
+                                TieredDetails: []
+                            });
+                        }
                         console.log('Volume Plan Selected Product Details:', selectedProductsDetails);
                     }
                     if (selectedBuyingProgram === 'APOF') {
                         console.log('APOF Selected Buying Program:');
-                        selectedProductsDetails.push({
-                            ProdID: '15034',
-                            ProductName: 'APoF - Prepaid Commitment',
-                            Price: commitmentPrice,
-                            Tier: false,
-                            TieredDetails: []
-                        });
+                        if (csvFile === 'productList_DEV.csv') {
+                            selectedProductsDetails.push({
+                                ProdID: '14635',
+                                ProductName: 'APoF - Prepaid Commitment',
+                                Price: commitmentPrice,
+                                Tier: false,
+                                TieredDetails: []
+                            });
+                        }
+                        else {
+                            selectedProductsDetails.push({
+                                ProdID: '15034',
+                                ProductName: 'APoF - Prepaid Commitment',
+                                Price: commitmentPrice,
+                                Tier: false,
+                                TieredDetails: []
+                            });
+                        }
                         console.log('APOF Selected Product Details:', selectedProductsDetails);
                     }
                 }

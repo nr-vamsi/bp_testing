@@ -79,7 +79,7 @@ async function createNonUserUsageFile(billingIdentifier, contractStartDate, usag
 
             if (mapping) {
 
-                const quantity = Math.floor(Math.random() * 100);
+                const quantity = Math.floor(Math.random() * 1000);
                 data.push({
                     BillingIdentifier: billingIdentifier,
                     START_TIME: dateStr,

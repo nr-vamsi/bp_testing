@@ -1136,9 +1136,9 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
                             contractProdIds = await queryProductsFromContract(sessionId, contractId);
                             contractAccProd = contractProdIds.filter(
-                                item => item['ContractRateLabel'].includes('SP1.0 - Prepaid Commitment') ||
-                                    item['ContractRateLabel'].includes('VP1.1 - Prepaid Commitment') ||
-                                    item['ContractRateLabel'].includes('SP1.0 - Commitment Credits') ||
+                                item => item['ContractRateLabel'].includes('New Relic Savings Plan - Prepaid Commitment') ||
+                                    item['ContractRateLabel'].includes('New Relic Volume Plan - Prepaid Commitment') ||
+                                    item['ContractRateLabel'].includes('New Relic Savings Plan - Commitment Credits') ||
                                     item['ContractRateLabel'].includes('Discount'));
                             //contractAccProd = contractProdIds.filter(item => item['ContractRateLabel'].includes('SP1.0 - Commitment Credits'));
                             //contractAccProd = contractProdIds.filter(item => item['ContractRateLabel'].includes('New Relic Reseller Fee'));
@@ -1149,7 +1149,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 let productName = product.ContractRateLabel ? product.ContractRateLabel : product.ProductName;
                                 //console.log('Product Name:///////////////', productName);
                                 if (
-                                    productName === "SP1.0 - Prepaid Commitment" || productName === "VP1.1 - Prepaid Commitment" || productName === "New Relic Volume Plan - Discount" || productName === "New Relic Volume Plan - One-Time Discount" &&
+                                    productName === "New Relic Savings Plan - Prepaid Commitment" || productName === "New Relic Volume Plan - Prepaid Commitment" || productName === "New Relic Volume Plan - Discount" || productName === "New Relic Volume Plan - One-Time Discount" &&
                                     (savingsPlanData.initialFlexiPrepaidCommitment || savingsPlanData.initialFlexiPrepaidCommitment !== '')
                                 ) {
                                     await createAccountProductWithBillingTerms(sessionId, account.accId, contractId, product, contractStartDateValue, contractEndDateValue, savingsPlanData.billingTerms);
@@ -1200,9 +1200,9 @@ document.addEventListener('DOMContentLoaded', () => {
                             ccIdusageProducts = contractProdIds;
                             ccIdusageProducts = ccIdusageProducts.filter(item => item['ContractRateLabel'].includes('Usage Quantity') && item['ContractRateLabel'].includes('Users'));
                             ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Usage Quantity'));
-                            ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('SP1.0'));
-                            ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('SP 1.0'));
-                            ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('VP1.1'));
+                            ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Prepaid Commitment'));
+                            ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Commitment Credits'));
+                            ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Drawdown'));
                             ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Discount'));
                             ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('New Relic Reseller Fee'));
                             ccIdcontractProdIds = ccIdcontractProdIds.filter(item => item['ContractRateLabel'].includes('Users'));
@@ -1252,9 +1252,9 @@ document.addEventListener('DOMContentLoaded', () => {
                             orgGrpusageProducts = contractProdIds;
                             orgGrpusageProducts = orgGrpusageProducts.filter(item => item['ContractRateLabel'].includes('Usage Quantity') && !item['ContractRateLabel'].includes('Users'));
                             orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Usage Quantity'));
-                            orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('SP1.0'));
-                            orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('SP 1.0'));
-                            orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('VP1.1'));
+                            orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Prepaid Commitment'));
+                            orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Commitment Credits'));
+                            orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Drawdown'));
                             orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Discount'));
                             orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('New Relic Reseller Fee'));
                             orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Users'));
@@ -1357,9 +1357,9 @@ document.addEventListener('DOMContentLoaded', () => {
                             ccIdusageProducts = contractProdIds;
                             ccIdusageProducts = ccIdusageProducts.filter(item => item['ContractRateLabel'].includes('Usage Quantity') && item['ContractRateLabel'].includes('Users'));
                             ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Usage Quantity'));
-                            ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('SP1.0'));
-                            ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('SP 1.0'));
-                            ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('VP1.1'));
+                            ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Prepaid Commitment'));
+                            ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Commitment Credits'));
+                            ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Drawdown'));
                             ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Discount'));
                             ccIdcontractProdIds = ccIdcontractProdIds.filter(item => !item['ContractRateLabel'].includes('New Relic Reseller Fee'));
                             ccIdcontractProdIds = ccIdcontractProdIds.filter(item => item['ContractRateLabel'].includes('Users'));
@@ -1415,9 +1415,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                                 let orgGrpcontractProdIds = filteredContractProdIds.filter(item =>
                                     !item['ContractRateLabel'].includes('Usage Quantity') &&
-                                    !item['ContractRateLabel'].includes('SP1.0') &&
-                                    !item['ContractRateLabel'].includes('SP 1.0') &&
-                                    !item['ContractRateLabel'].includes('VP1.1') &&
+                                    !item['ContractRateLabel'].includes('Prepaid Commitment') &&
+                                    !item['ContractRateLabel'].includes('Commitment Credits') &&
+                                    !item['ContractRateLabel'].includes('Drawdown') &&
                                     !item['ContractRateLabel'].includes('Discount') &&
                                     !item['ContractRateLabel'].includes('New Relic Reseller Fee') &&
                                     !item['ContractRateLabel'].includes('Users')

@@ -1,6 +1,18 @@
 Product,Usage Identifier,nrFpuEdition,nrUnitOfMeasure
 New Relic - Additional Synthetics Checks (PAYG) Usage Quantity,Checks,,Checks
+New Relic - Data (APoF) (EU Data Center) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic - Data (APoF) (US Data Center) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic - Data (PAYG) (EU Data Center) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic - Data (PAYG) (US Data Center) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic - Data Plus (APoF) (EU Data Center) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic - Data Plus (APoF) (US Data Center) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic - Data Plus (APoF) Usage Quantity,GB Ingested,,GB Ingested
+New Relic - Data Plus (PAYG) (EU Data Center) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic - Data Plus (PAYG) (US Data Center) Usage Quantity,US GB Ingested,,US GB Ingested
 New Relic - Data Plus (PAYG) Usage Quantity,GB Ingested,,GB Ingested
+New Relic APOF - Extended Data Retention (EDR) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic APOF - Extended Data Retention (EDR) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic One - Data (APoF) Usage Quantity,GB Ingested,,GB Ingested
 New Relic One - Data (PAYG) Usage Quantity,GB Ingested,,GB Ingested
 New Relic One - Data Nonprofit (PAYG) Usage Quantity,GB Ingested,,GB Ingested
 New Relic One - Enterprise Users (PAYG) Usage Quantity,MPU Enterprise,Enterprise,MPU
@@ -10,10 +22,12 @@ New Relic One - Standard Users (PAYG) Usage Quantity,MPU Standard,Std,MPU
 New Relic One - Standard Users Nonprofit (PAYG) Usage Quantity,MPU Standard,Std,MPU
 New Relic PAYG - Advanced Compute (EU DC) Usage Quantity,EU Advanced CCU,,EU Advanced CCU
 New Relic PAYG - Advanced Compute (US DC) Usage Quantity,US Advanced CCU,,US Advanced CCU
-New Relic PAYG - Data (EU Data Center) Usage Quantity,EU GB Ingested,,EU GB Ingested
-New Relic PAYG - Data (US Data Center) Usage Quantity,US GB Ingested,,US GB Ingested
-New Relic PAYG - Data Plus (EU Data Center) Usage Quantity,EU GB Ingested,,EU GB Ingested
-New Relic PAYG - Data Plus (US Data Center) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic PAYG - CodeStream (NCS) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic PAYG - CodeStream (NCS) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic PAYG - CodeStream (NCS) Usage Quantity,GB Ingested,,GB Ingested
+New Relic PAYG - Distributed Traces (DR) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic PAYG - Distributed Traces (DR) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic PAYG - Distributed Traces (DR) Usage Quantity,GB Ingested,,GB Ingested
 New Relic PAYG - Enterprise Compute (EU Data Center) Usage Quantity,EU CCU,,EU CCU
 New Relic PAYG - Enterprise Compute (US Data Center) Usage Quantity,US CCU,,US CCU
 New Relic PAYG - Enterprise Compute - Additional CCU (EU Data Center) Usage Quantity,EU CCU,,EU CCU
@@ -21,9 +35,45 @@ New Relic PAYG - Enterprise Compute - Additional CCU (US Data Center) Usage Quan
 New Relic PAYG - Enterprise Compute Add On (EU DC) Usage Quantity,EU CCU,,EU CCU
 New Relic PAYG - Enterprise Compute Add On (US DC) Usage Quantity,US CCU,,US CCU
 New Relic PAYG - Enterprise Core Compute (EU DC) Usage Quantity,EU Core CCU,,EU Core CCU
+New Relic PAYG - Enterprise Core Compute (US DC) Usage Quantity,US Core CCU,,US Core CCU
+New Relic PAYG - Enterprise O11y For All (EU DC) Usage Quantity,EU Core CCU,,EU Core CCU
+New Relic PAYG - Enterprise O11y For All (US DC) Usage Quantity,US Core CCU,,US Core CCU
 New Relic PAYG - Enterprise Queries Usage Quantity,Scanned Events (In Billions),,Scanned Events (In Billions)
+New Relic PAYG - Extended Data Retention (EDR) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic PAYG - Extended Data Retention (EDR) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic PAYG - Extended Data Retention (EDR) Usage Quantity,GB Ingested,,GB Ingested
+New Relic PAYG - FedRAMP Compliance (NFR) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic PAYG - FedRAMP Compliance (NFR) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic PAYG - FedRAMP Compliance (NFR) Usage Quantity,GB Ingested,,GB Ingested
+New Relic PAYG - HIPAA Compliance (NHC) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic PAYG - HIPAA Compliance (NHC) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic PAYG - HIPAA Compliance (NHC) Usage Quantity,GB Ingested,,GB Ingested
+New Relic PAYG - Historical Data Export (HDE) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic PAYG - Historical Data Export (HDE) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic PAYG - Historical Data Export (HDE) Usage Quantity,GB Ingested,,GB Ingested
+New Relic PAYG - Increase Mobile API Limit (IML) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic PAYG - Increase Mobile API Limit (IML) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic PAYG - Increase Mobile API Limit (IML) Usage Quantity,GB Ingested,,GB Ingested
+New Relic PAYG - Increased Query Duration (IQD) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic PAYG - Increased Query Duration (IQD) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic PAYG - Increased Query Duration (IQD) Usage Quantity,GB Ingested,,GB Ingested
+New Relic PAYG - Increased Query Limit (IQL) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic PAYG - Increased Query Limit (IQL) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic PAYG - Increased Query Limit (IQL) Usage Quantity,GB Ingested,,GB Ingested
+New Relic PAYG - Infra-Bytes (IGB) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic PAYG - Infra-Bytes (IGB) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic PAYG - Infra-Bytes (IGB) Usage Quantity,GB Ingested,,GB Ingested
+New Relic PAYG - Interactive Application Security Testing (IAST) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic PAYG - Interactive Application Security Testing (IAST) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic PAYG - Interactive Application Security Testing (IAST) Usage Quantity,GB Ingested,,GB Ingested
 New Relic PAYG - Live Archives (EU Data Center) Usage Quantity,EU GB Months,,EU GB Months
 New Relic PAYG - Live Archives (US Data Center) Usage Quantity,US GB Months,,US GB Months
+New Relic PAYG - Logs Obfuscation (NLO) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic PAYG - Logs Obfuscation (NLO) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic PAYG - Logs Obfuscation (NLO) Usage Quantity,GB Ingested,,GB Ingested
+New Relic PAYG - PrivateLink (NPL) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic PAYG - PrivateLink (NPL) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic PAYG - PrivateLink (NPL) Usage Quantity,GB Ingested,,GB Ingested
 New Relic PAYG - Pro Compute (EU Data Center) Usage Quantity,EU CCU,,EU CCU
 New Relic PAYG - Pro Compute (US Data Center) Usage Quantity,US CCU,,US CCU
 New Relic PAYG - Pro Compute - Additional CCU (EU Data Center) Usage Quantity,EU CCU,,EU CCU
@@ -46,16 +96,28 @@ New Relic PAYG - Standard Core Compute (US DC) Usage Quantity,US Core CCU,,US Co
 New Relic PAYG - Standard O11y For All (EU DC) Usage Quantity,EU Core CCU,,EU Core CCU
 New Relic PAYG - Standard O11y For All (US DC) Usage Quantity,US Core CCU,,US Core CCU
 New Relic PAYG - Standard Queries Usage Quantity,Scanned Events (In Billions),,Scanned Events (In Billions)
+New Relic PAYG - Stream Data Export (SDE) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic PAYG - Stream Data Export (SDE) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic PAYG - Stream Data Export (SDE) Usage Quantity,GB Ingested,,GB Ingested
+New Relic PAYG - Vulnerability Management (NVM) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic PAYG - Vulnerability Management (NVM) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic PAYG - Vulnerability Management (NVM) Usage Quantity,GB Ingested,,GB Ingested
 New Relic Pilot Pricing (PAYG) Usage Quantity,Units,,Units
 New Relic Savings Plan - Additional Synthetics Checks Usage Quantity,Checks,,Checks
 New Relic Savings Plan - Advanced Compute (EU DC) Usage Quantity,EU Advanced CCU,,EU Advanced CCU
 New Relic Savings Plan - Advanced Compute (US DC) Usage Quantity,US Advanced CCU,,US Advanced CCU
+New Relic Savings Plan - CodeStream (NCS) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Savings Plan - CodeStream (NCS) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Savings Plan - CodeStream (NCS) Usage Quantity,GB Ingested,,GB Ingested
 New Relic Savings Plan - Data (EU Data Center) Usage Quantity,EU GB Ingested,,EU GB Ingested
 New Relic Savings Plan - Data (US Data Center) Usage Quantity,US GB Ingested,,US GB Ingested
 New Relic Savings Plan - Data Plus (EU Data Center) Usage Quantity,EU GB Ingested,,EU GB Ingested
 New Relic Savings Plan - Data Plus (US Data Center) Usage Quantity,US GB Ingested,,US GB Ingested
 New Relic Savings Plan - Data Plus Usage Quantity,GB Ingested,,GB Ingested
 New Relic Savings Plan - Data Usage Quantity,GB Ingested,,GB Ingested
+New Relic Savings Plan - Distributed Traces (DR) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Savings Plan - Distributed Traces (DR) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Savings Plan - Distributed Traces (DR) Usage Quantity,GB Ingested,,GB Ingested
 New Relic Savings Plan - Enterprise Advanced Compute (EU DC) Usage Quantity,EU Advanced CCU,,EU Advanced CCU
 New Relic Savings Plan - Enterprise Advanced Compute (US DC) Usage Quantity,US Advanced CCU,,US Advanced CCU
 New Relic Savings Plan - Enterprise Compute (EU Data Center) Usage Quantity,EU CCU,,EU CCU
@@ -67,9 +129,41 @@ New Relic Savings Plan - Enterprise Core Compute (US DC) Usage Quantity,US Core 
 New Relic Savings Plan - Enterprise O11y For All (EU DC) Usage Quantity,EU Core CCU,,EU Core CCU
 New Relic Savings Plan - Enterprise O11y For All (US DC) Usage Quantity,US Core CCU,,US Core CCU
 New Relic Savings Plan - Enterprise Queries Usage Quantity,Scanned Events (In Billions),,Scanned Events (In Billions)
+New Relic Savings Plan - Extended Data Retention (EDR) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Savings Plan - Extended Data Retention (EDR) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Savings Plan - Extended Data Retention (EDR) Usage Quantity,GB Ingested,,GB Ingested
+New Relic Savings Plan - FedRAMP Compliance (NFR) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Savings Plan - FedRAMP Compliance (NFR) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Savings Plan - FedRAMP Compliance (NFR) Usage Quantity,GB Ingested,,GB Ingested
+New Relic Savings Plan - HIPAA Compliance (NHC) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Savings Plan - HIPAA Compliance (NHC) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Savings Plan - HIPAA Compliance (NHC) Usage Quantity,GB Ingested,,GB Ingested
+New Relic Savings Plan - Historical Data Export (HDE) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Savings Plan - Historical Data Export (HDE) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Savings Plan - Historical Data Export (HDE) Usage Quantity,GB Ingested,,GB Ingested
+New Relic Savings Plan - Increase Mobile API Limit (IML) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Savings Plan - Increase Mobile API Limit (IML) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Savings Plan - Increase Mobile API Limit (IML) Usage Quantity,GB Ingested,,GB Ingested
+New Relic Savings Plan - Increased Query Duration (IQD) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Savings Plan - Increased Query Duration (IQD) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Savings Plan - Increased Query Duration (IQD) Usage Quantity,GB Ingested,,GB Ingested
+New Relic Savings Plan - Increased Query Limit (IQL) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Savings Plan - Increased Query Limit (IQL) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Savings Plan - Increased Query Limit (IQL) Usage Quantity,GB Ingested,,GB Ingested
+New Relic Savings Plan - Infra-Bytes (IGB) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Savings Plan - Infra-Bytes (IGB) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Savings Plan - Infra-Bytes (IGB) Usage Quantity,GB Ingested,,GB Ingested
+New Relic Savings Plan - Interactive Application Security Testing (IAST) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Savings Plan - Interactive Application Security Testing (IAST) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Savings Plan - Interactive Application Security Testing (IAST) Usage Quantity,GB Ingested,,GB Ingested
 New Relic Savings Plan - Live Archives (EU Data Center) Usage Quantity,EU GB Months,,EU GB Months
 New Relic Savings Plan - Live Archives (US Data Center) Usage Quantity,US GB Months,,US GB Months
+New Relic Savings Plan - Logs Obfuscation (NLO) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Savings Plan - Logs Obfuscation (NLO) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Savings Plan - Logs Obfuscation (NLO) Usage Quantity,GB Ingested,,GB Ingested
 New Relic Savings Plan - Pilot Pricing Usage Quantity,Units,,Units
+New Relic Savings Plan - PrivateLink (NPL) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Savings Plan - PrivateLink (NPL) Usage Quantity,GB Ingested,,GB Ingested
 New Relic Savings Plan - Pro Compute (EU Data Center) Usage Quantity,EU CCU,,EU CCU
 New Relic Savings Plan - Pro Compute (US Data Center) Usage Quantity,US CCU,,US CCU
 New Relic Savings Plan - Pro Compute Add On (EU DC) Usage Quantity,EU CCU,,EU CCU
@@ -80,35 +174,90 @@ New Relic Savings Plan - Pro O11y For All (EU DC) Usage Quantity,EU Core CCU,,EU
 New Relic Savings Plan - Pro O11y For All (US DC) Usage Quantity,US Core CCU,,US Core CCU
 New Relic Savings Plan - Pro Queries Usage Quantity,Scanned Events (In Billions),,Scanned Events (In Billions)
 New Relic Savings Plan - Standard Queries Usage Quantity,Scanned Events (In Billions),,Scanned Events (In Billions)
+New Relic Savings Plan - Stream Data Export (SDE) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Savings Plan - Stream Data Export (SDE) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Savings Plan - Stream Data Export (SDE) Usage Quantity,GB Ingested,,GB Ingested
 New Relic Savings Plan - Vulnerability Management (EU Data Center) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Savings Plan - Vulnerability Management (NVM) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Savings Plan - Vulnerability Management (NVM) Usage Quantity,GB Ingested,,GB Ingested
 New Relic Savings Plan - Vulnerability Management (US Data Center) Usage Quantity,US GB Ingested,,US GB Ingested
 New Relic Savings Plan - Vulnerability Management Usage Quantity,GB Ingested,,GB Ingested
 New Relic Volume Plan - Additional Synthetics Checks Usage Quantity,Checks,,Checks
 New Relic Volume Plan - Advanced Compute (EU DC) Usage Quantity,EU Advanced CCU,,EU Advanced CCU
 New Relic Volume Plan - Advanced Compute (US DC) Usage Quantity,US Advanced CCU,,US Advanced CCU
+New Relic Volume Plan - CodeStream (NCS) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Volume Plan - CodeStream (NCS) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Volume Plan - CodeStream (NCS) Usage Quantity,GB Ingested,,GB Ingested
 New Relic Volume Plan - Data (EU Data Center) Usage Quantity,EU GB Ingested,,EU GB Ingested
 New Relic Volume Plan - Data (US Data Center) Usage Quantity,US GB Ingested,,US GB Ingested
 New Relic Volume Plan - Data Plus (EU Data Center) Usage Quantity,EU GB Ingested,,EU GB Ingested
 New Relic Volume Plan - Data Plus (US Data Center) Usage Quantity,US GB Ingested,,US GB Ingested
 New Relic Volume Plan - Data Plus Usage Quantity,GB Ingested,,GB Ingested
 New Relic Volume Plan - Data Usage Quantity,GB Ingested,,GB Ingested
+New Relic Volume Plan - Distributed Traces (DR) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Volume Plan - Distributed Traces (DR) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Volume Plan - Distributed Traces (DR) Usage Quantity,GB Ingested,,GB Ingested
 New Relic Volume Plan - Enterprise Compute (EU Data Center) Usage Quantity,EU CCU,,EU CCU
 New Relic Volume Plan - Enterprise Compute (US Data Center) Usage Quantity,US CCU,,US CCU
+New Relic Volume Plan - Enterprise Compute Add On (EU DC) Usage Quantity,EU CCU,,EU CCU
+New Relic Volume Plan - Enterprise Compute Add On (US DC) Usage Quantity,US CCU,,US CCU
 New Relic Volume Plan - Enterprise Core Compute (EU DC) Usage Quantity,EU Core CCU,,EU Core CCU
 New Relic Volume Plan - Enterprise Core Compute (US DC) Usage Quantity,US Core CCU,,US Core CCU
 New Relic Volume Plan - Enterprise O11y For All (EU DC) Usage Quantity,EU Core CCU,,EU Core CCU
 New Relic Volume Plan - Enterprise O11y For All (US DC) Usage Quantity,US Core CCU,,US Core CCU
 New Relic Volume Plan - Enterprise Queries Usage Quantity,Scanned Events (In Billions),,Scanned Events (In Billions)
+New Relic Volume Plan - Extended Data Retention (EDR) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Volume Plan - Extended Data Retention (EDR) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Volume Plan - Extended Data Retention (EDR) Usage Quantity,GB Ingested,,GB Ingested
+New Relic Volume Plan - FedRAMP Compliance (NFR) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Volume Plan - FedRAMP Compliance (NFR) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Volume Plan - FedRAMP Compliance (NFR) Usage Quantity,GB Ingested,,GB Ingested
+New Relic Volume Plan - HIPAA Compliance (NHC) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Volume Plan - HIPAA Compliance (NHC) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Volume Plan - HIPAA Compliance (NHC) Usage Quantity,GB Ingested,,GB Ingested
+New Relic Volume Plan - Historical Data Export (HDE) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Volume Plan - Historical Data Export (HDE) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Volume Plan - Historical Data Export (HDE) Usage Quantity,GB Ingested,,GB Ingested
+New Relic Volume Plan - Increase Mobile API Limit (IML) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Volume Plan - Increase Mobile API Limit (IML) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Volume Plan - Increase Mobile API Limit (IML) Usage Quantity,GB Ingested,,GB Ingested
+New Relic Volume Plan - Increased Query Duration (IQD) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Volume Plan - Increased Query Duration (IQD) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Volume Plan - Increased Query Duration (IQD) Usage Quantity,GB Ingested,,GB Ingested
+New Relic Volume Plan - Increased Query Limit (IQL) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Volume Plan - Increased Query Limit (IQL) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Volume Plan - Increased Query Limit (IQL) Usage Quantity,GB Ingested,,GB Ingested
+New Relic Volume Plan - Infra-Bytes (IGB) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Volume Plan - Infra-Bytes (IGB) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Volume Plan - Infra-Bytes (IGB) Usage Quantity,GB Ingested,,GB Ingested
+New Relic Volume Plan - Interactive Application Security Testing (IAST) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Volume Plan - Interactive Application Security Testing (IAST) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Volume Plan - Interactive Application Security Testing (IAST) Usage Quantity,GB Ingested,,GB Ingested
 New Relic Volume Plan - Live Archives (EU Data Center) Usage Quantity,EU GB Months,,EU GB Months
 New Relic Volume Plan - Live Archives (US Data Center) Usage Quantity,US GB Months,,US GB Months
+New Relic Volume Plan - Logs Obfuscation (NLO) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Volume Plan - Logs Obfuscation (NLO) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Volume Plan - Logs Obfuscation (NLO) Usage Quantity,GB Ingested,,GB Ingested
 New Relic Volume Plan - Pilot Pricing Usage Quantity,Units,,Units
+New Relic Volume Plan - PrivateLink (NPL) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Volume Plan - PrivateLink (NPL) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Volume Plan - PrivateLink (NPL) Usage Quantity,GB Ingested,,GB Ingested
 New Relic Volume Plan - Pro Compute (EU Data Center) Usage Quantity,EU CCU,,EU CCU
 New Relic Volume Plan - Pro Compute (US Data Center) Usage Quantity,US CCU,,US CCU
+New Relic Volume Plan - Pro Compute Add On (EU DC) Usage Quantity,EU CCU,,EU CCU
+New Relic Volume Plan - Pro Compute Add On (US DC) Usage Quantity,US CCU,,US CCU
 New Relic Volume Plan - Pro Core Compute (EU DC) Usage Quantity,EU Core CCU,,EU Core CCU
 New Relic Volume Plan - Pro Core Compute (US DC) Usage Quantity,US Core CCU,,US Core CCU
 New Relic Volume Plan - Pro O11y For All (EU DC) Usage Quantity,EU Core CCU,,EU Core CCU
 New Relic Volume Plan - Pro O11y For All (US DC) Usage Quantity,US Core CCU,,US Core CCU
 New Relic Volume Plan - Pro Queries Usage Quantity,Scanned Events (In Billions),,Scanned Events (In Billions)
 New Relic Volume Plan - Standard Queries Usage Quantity,Scanned Events (In Billions),,Scanned Events (In Billions)
+New Relic Volume Plan - Stream Data Export (SDE) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Volume Plan - Stream Data Export (SDE) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Volume Plan - Stream Data Export (SDE) Usage Quantity,GB Ingested,,GB Ingested
+New Relic Volume Plan - Vulnerability Management (NVM) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Volume Plan - Vulnerability Management (NVM) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Volume Plan - Vulnerability Management (NVM) Usage Quantity,GB Ingested,,GB Ingested
+PrivateLink (NPL) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
 Prototype SP1.0 - Additional Synthetics Checks,Checks,,Checks
 Prototype SP1.0 - Data,GB Ingested,,GB Ingested

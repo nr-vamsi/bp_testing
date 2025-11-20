@@ -999,7 +999,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         console.log('Savings Plan Selected Buying Program:');
                         selectedProductsDetails.push({
                             ProdID: '14176',
-                            ProductName: 'SP1.0 - Prepaid Commitment',
+                            ProductName: 'New Relic Savings Plan - Prepaid Commitment',
                             Price: commitmentPrice,
                             Tier: false,
                             TieredDetails: []
@@ -1011,7 +1011,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (csvFile === 'productList_DEV.csv') {
                             selectedProductsDetails.push({
                                 ProdID: '14704',
-                                ProductName: 'VP1.1 - Prepaid Commitment',
+                                ProductName: 'New Relic Volume Plan - Prepaid Commitment',
                                 Price: commitmentPrice,
                                 Tier: false,
                                 TieredDetails: []
@@ -1020,7 +1020,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         else {
                             selectedProductsDetails.push({
                                 ProdID: '14825',
-                                ProductName: 'VP1.1 - Prepaid Commitment',
+                                ProductName: 'New Relic Volume Plan - Prepaid Commitment',
                                 Price: commitmentPrice,
                                 Tier: false,
                                 TieredDetails: []
@@ -1136,8 +1136,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
                             contractProdIds = await queryProductsFromContract(sessionId, contractId);
                             contractAccProd = contractProdIds.filter(
-                                item => item['ContractRateLabel'].includes('New Relic Savings Plan - Prepaid Commitment') ||
-                                    item['ContractRateLabel'].includes('New Relic Volume Plan - Prepaid Commitment') ||
+                                item => item['ContractRateLabel'].includes('Prepaid Commitment') ||
                                     item['ContractRateLabel'].includes('New Relic Savings Plan - Commitment Credits') ||
                                     item['ContractRateLabel'].includes('Discount'));
                             //contractAccProd = contractProdIds.filter(item => item['ContractRateLabel'].includes('SP1.0 - Commitment Credits'));
@@ -1149,7 +1148,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 let productName = product.ContractRateLabel ? product.ContractRateLabel : product.ProductName;
                                 //console.log('Product Name:///////////////', productName);
                                 if (
-                                    productName === "New Relic Savings Plan - Prepaid Commitment" || productName === "New Relic Volume Plan - Prepaid Commitment" || productName === "New Relic Volume Plan - Discount" || productName === "New Relic Volume Plan - One-Time Discount" &&
+                                    productName === "New Relic Savings Plan - Prepaid Commitment" || productName === "New Relic Volume Plan - Prepaid Commitment" || productName === "APoF - Prepaid Commitment" || productName === "New Relic Volume Plan - Discount" || productName === "New Relic Volume Plan - One-Time Discount" &&
                                     (savingsPlanData.initialFlexiPrepaidCommitment || savingsPlanData.initialFlexiPrepaidCommitment !== '')
                                 ) {
                                     await createAccountProductWithBillingTerms(sessionId, account.accId, contractId, product, contractStartDateValue, contractEndDateValue, savingsPlanData.billingTerms);
@@ -1663,7 +1662,7 @@ async function processBillingPortfolio(sessionId, account, accountName, contract
 
     // Create contract rates and pricing for SP1.0 products
     for (const product of billingProfileProducts) {
-        if (`${product.ProductName}` === 'SP1.0 - Prepaid Commitment' || `${product.ProductName}` === 'VP1.1 - Prepaid Commitment' || `${product.ProductName}` === 'SP1.0 - Commitment Credits') {
+        if (`${product.ProductName}` === 'New Relic Savings Plan - Prepaid Commitment' || `${product.ProductName}` === 'New Relic Volume Plan - Prepaid Commitment' || `${product.ProductName}` === 'SP1.0 - Commitment Credits') {
             const contractRateId = await createContractRate(sessionId, contractId, product, contractStartDateValue, contractEndDateValue);
             appendResultRow(`${product.ProductName}`, `${product.ProdID}`, resultValuesTableBody4);
             appendResultRow(`ContractRateId (${product.ProdID})`, contractRateId, resultValuesTableBody2);
@@ -1684,9 +1683,9 @@ async function processBillingPortfolio(sessionId, account, accountName, contract
     // Query products from contract and filter for SP1.0 - Prepaid Commitment
     const contractProdIds = await queryProductsFromContract(sessionId, contractId);
     const contractAccProd = contractProdIds.filter(
-        item => item['ContractRateLabel'].includes('SP1.0 - Prepaid Commitment') ||
-            item['ContractRateLabel'].includes('VP1.1 - Prepaid Commitment') ||
-            item['ContractRateLabel'].includes('SP1.0 - Commitment Credits'));
+        item => item['ContractRateLabel'].includes('New Relic Savings Plan - Prepaid Commitment') ||
+            item['ContractRateLabel'].includes('New Relic Volume Plan - Prepaid Commitment') ||
+            item['ContractRateLabel'].includes('Commitment Credits'));
 
     console.log('ContractProdIds:', contractProdIds);
     console.log('ContractAccProd:', contractAccProd);
@@ -1696,7 +1695,7 @@ async function processBillingPortfolio(sessionId, account, accountName, contract
         const productName = product.ContractRateLabel ? product.ContractRateLabel : product.ProductName;
 
         if (
-            productName === "SP1.0 - Prepaid Commitment" || productName === "VP1.1 - Prepaid Commitment" &&
+            productName === "New Relic Savings Plan - Prepaid Commitment" || productName === "New Relic Volume Plan - Prepaid Commitment" &&
             (savingsPlanData.initialFlexiPrepaidCommitment || savingsPlanData.initialFlexiPrepaidCommitment !== '')
         ) {
             await createAccountProductWithBillingTerms(sessionId, account.accId, contractId, product, contractStartDateValue, contractEndDateValue, savingsPlanData.billingTerms);

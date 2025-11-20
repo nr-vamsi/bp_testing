@@ -2,6 +2,7 @@ Product,Usage Identifier,nrFpuEdition,nrUnitOfMeasure
 New Relic - Standard Tiered Full Platform Users (PAYG) Usage Quantity,FPU Standard,Std,FPU
 New Relic One - Core Users (APoF) Usage Quantity,Core Users,,Core Users
 New Relic One - Core Users (PAYG) Usage Quantity,Core Users,,Core Users
+New Relic One - Enterprise Full Platform Users (APoF) Usage Quantity,FPU Enterprise,Enterprise,FPU
 New Relic One - Enterprise Full Platform Users (PAYG) Usage Quantity,FPU Enterprise,Enterprise,FPU
 New Relic One - Pro Full Platform Users (PAYG) Usage Quantity,FPU Pro,Pro,FPU
 New Relic One - Standard Full Platform Users (PAYG) Usage Quantity,FPU Standard,Std,FPU

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BP User Interface</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="nrblogo.png" type="image/png">
+    <style>
+        /* Add styles for the hierarchy tree */
+        #hierarchy-tree-container {
+            margin-top: 20px;
+        }
+
+        #hierarchy-tree-container ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+
+        #hierarchy-tree-container li {
+            margin: 5px 0;
+            position: relative;
+        }
+
+        #hierarchy-tree-container li::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -20px;
+            width: 20px;
+            height: 1px;
+            background: #000;
+        }
+
+        #hierarchy-tree-container li::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -20px;
+            width: 1px;
+            height: 100%;
+            background: #000;
+        }
+
+        #hierarchy-tree-container li:first-child::after {
+            height: 50%;
+            top: 50%;
+        }
+
+        #hierarchy-tree-container li:last-child::after {
+            height: 50%;
+        }
+
+        .savings-plan-container input[type="text"] {
+            width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.2.1/exceljs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <img src="newrelic-logo.png" alt="New Relic" class="logo">
+        <h1>Frameworks BP FastTrack Testing UI</h1>
+        <div class="side-by-side">
+
+            <fieldset class="fieldset">
+                <legend>Contract</legend>
+                <label for="contract">Contract ID:</label>
+                <input type="text" id="contract" name="contract">
+            </fieldset>
+        </div>
+        <label for="session-id">Enter SessionId:</label>
+        <input type="text" id="session-id" name="session-id"><br>
+        <br>
+        <button id="submit">GeneratePlan</button>
+
+        <div id="result" class="selected-options" style="display: none;">
+            <h3 id="account-name"></h3>
+            <table id="result-table">
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>ProdID</th>
+                        <th>Product Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Results will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+        <!--button id="startButton">Create</button-->
+        <script type="module" src="app.js"></script>
+</body>
+
+</html>

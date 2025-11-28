@@ -73,7 +73,7 @@ async function createNonUserUsageFile(billingIdentifier, contractStartDate, usag
         usageProducts.forEach(product => {
             const mapping = usageNonMappingUsers.find(item => item.Product === product.Name);
             if (mapping) {
-                const quantity = Math.floor(Math.random() * 1000) + 100; // Random quantity 100-1100
+                const quantity = Math.floor(Math.random() * 500) + 100; // Random quantity 100-1100
                 data.push([
                     billingIdentifier,
                     dateStr,

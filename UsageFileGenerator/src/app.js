@@ -7,6 +7,7 @@ import { queryProductsFromContract } from './queryProductsFromContract.js';
 import { queryAccIdFromContract } from './queryAccIdFromContract.js';
 import { queryChildAccId } from './queryChildAccId.js';
 import { queryAccountProducts } from './queryAccountProducts.js';
+import { queryPrice } from './queryPrice.js';
 import CONFIG from './config.js';
 
 let productsList = [];
@@ -372,7 +373,7 @@ function appendUsageQuantityToProducts(products) {
 
 // NEW FUNCTION: Generate date ranges for 10 months from contract start date
 // NEW FUNCTION: Generate date ranges for 10 months from contract start date
-function generateMonthlyDateRanges(contractStartDate, numberOfMonths = 10) {
+function generateMonthlyDateRanges(contractStartDate, numberOfMonths = 12) {
     const dateRanges = [];
     
     // Parse the contract start date properly
@@ -404,9 +405,9 @@ function generateMonthlyDateRanges(contractStartDate, numberOfMonths = 10) {
     return dateRanges;
 }
 
-// NEW FUNCTION: Create usage files for multiple months
+// NEW FUNCTION: Create usage files for multiple months with delays
 async function createMonthlyUsageFiles(billingIdentifier, contractStartDate, products, groupName, contractId, isUserProducts = true) {
-    const monthlyRanges = generateMonthlyDateRanges(contractStartDate, 10);
+    const monthlyRanges = generateMonthlyDateRanges(contractStartDate, 12);
     const folderName = isUserProducts ? 'users' : 'nonusers';
     
     console.log(`Creating ${monthlyRanges.length} monthly usage files for ${groupName} in ${folderName} folder`);
@@ -446,10 +447,16 @@ async function createMonthlyUsageFiles(billingIdentifier, contractStartDate, pro
             
             console.log(`✓ Created ${fileName} for ${monthRange.monthYear}`);
             
+            // Add a 1-second delay between each file creation to prevent browser download issues
+            console.log(`Waiting 1 second before creating next file...`);
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
         } catch (error) {
             console.error(`Error creating usage file for ${monthRange.monthYear}:`, error);
         }
     }
+    
+    console.log(`✓ Completed all ${monthlyRanges.length} files for ${groupName}`);
 }
 
 // UPDATED FUNCTION: Handle Create Usage Files button click with monthly generation
@@ -469,6 +476,13 @@ async function handleCreateUsageFiles() {
         return;
     }
     
+    // Disable the button to prevent multiple clicks
+    const createUsageFilesBtn = document.getElementById('create-usage-files-btn');
+    if (createUsageFilesBtn) {
+        createUsageFilesBtn.disabled = true;
+        createUsageFilesBtn.textContent = 'Creating Files... Please Wait';
+    }
+    
     try {
         let totalFilesCreated = 0;
         
@@ -480,9 +494,14 @@ async function handleCreateUsageFiles() {
                 const billingIdentifier1 = ccIdusageProducts1.find(item => item.Name === 'BillingIdentifier')?.nrBillingIdentifier;
                 const usageProducts1 = ccIdusageProducts1.filter(item => item.Name !== 'BillingIdentifier');
                 
+                console.log('CCID Group 1 - billingIdentifier:', billingIdentifier1);
+                console.log('CCID Group 1 - products count:', usageProducts1.length);
+                console.log('CCID Group 1 - sample products:', usageProducts1.slice(0, 3));
+                
                 if (billingIdentifier1 && usageProducts1.length > 0) {
                     const updatedUsageProducts1 = appendUsageQuantityToProducts(usageProducts1);
-                    console.log('Creating 10 monthly files for CCID Group 1');
+                    console.log('Creating 12 monthly files for CCID Group 1');
+                    console.log('CCID Group 1 - updated products sample:', updatedUsageProducts1.slice(0, 3));
                     
                     await createMonthlyUsageFiles(
                         billingIdentifier1, 
@@ -493,8 +512,12 @@ async function handleCreateUsageFiles() {
                         true // isUserProducts
                     );
                     
-                    totalFilesCreated += 10;
-                    console.log('✓ Created 10 monthly usage files for CCID Group 1');
+                    totalFilesCreated += 12;
+                    console.log('✓ Created 12 monthly usage files for CCID Group 1');
+                    
+                    // Add delay between groups
+                    console.log('Waiting 2 seconds before next group...');
+                    await new Promise(resolve => setTimeout(resolve, 2000));
                 }
             }
             
@@ -502,9 +525,12 @@ async function handleCreateUsageFiles() {
                 const billingIdentifier2 = ccIdusageProducts2.find(item => item.Name === 'BillingIdentifier')?.nrBillingIdentifier;
                 const usageProducts2 = ccIdusageProducts2.filter(item => item.Name !== 'BillingIdentifier');
                 
+                console.log('CCID Group 2 - billingIdentifier:', billingIdentifier2);
+                console.log('CCID Group 2 - products count:', usageProducts2.length);
+                
                 if (billingIdentifier2 && usageProducts2.length > 0) {
                     const updatedUsageProducts2 = appendUsageQuantityToProducts(usageProducts2);
-                    console.log('Creating 10 monthly files for CCID Group 2');
+                    console.log('Creating 12 monthly files for CCID Group 2');
                     
                     await createMonthlyUsageFiles(
                         billingIdentifier2, 
@@ -515,8 +541,12 @@ async function handleCreateUsageFiles() {
                         true // isUserProducts
                     );
                     
-                    totalFilesCreated += 10;
-                    console.log('✓ Created 10 monthly usage files for CCID Group 2');
+                    totalFilesCreated += 12;
+                    console.log('✓ Created 12 monthly usage files for CCID Group 2');
+                    
+                    // Add delay between groups
+                    console.log('Waiting 2 seconds before next group...');
+                    await new Promise(resolve => setTimeout(resolve, 2000));
                 }
             }
             
@@ -524,9 +554,17 @@ async function handleCreateUsageFiles() {
                 const orgGrpBillingIdentifier1 = orgGrpusageProducts1.find(item => item.Name === 'BillingIdentifier')?.nrBillingIdentifier;
                 const orgGrpUsageProducts1 = orgGrpusageProducts1.filter(item => item.Name !== 'BillingIdentifier');
                 
+                console.log('=== OrgGrp Group 1 DEBUG ===');
+                console.log('OrgGrp Group 1 - billingIdentifier:', orgGrpBillingIdentifier1);
+                console.log('OrgGrp Group 1 - products count:', orgGrpUsageProducts1.length);
+                console.log('OrgGrp Group 1 - all products:', orgGrpUsageProducts1);
+                console.log('OrgGrp Group 1 - sample products:', orgGrpUsageProducts1.slice(0, 3));
+                
                 if (orgGrpBillingIdentifier1 && orgGrpUsageProducts1.length > 0) {
                     const updatedOrgGrpUsageProducts1 = appendUsageQuantityToProducts(orgGrpUsageProducts1);
-                    console.log('Creating 10 monthly files for OrgGrp Group 1');
+                    console.log('Creating 12 monthly files for OrgGrp Group 1');
+                    console.log('OrgGrp Group 1 - updated products sample:', updatedOrgGrpUsageProducts1.slice(0, 3));
+                    console.log('OrgGrp Group 1 - isUserProducts: false (NON-USER FILES)');
                     
                     await createMonthlyUsageFiles(
                         orgGrpBillingIdentifier1, 
@@ -534,11 +572,17 @@ async function handleCreateUsageFiles() {
                         updatedOrgGrpUsageProducts1, 
                         'OrgGrp_Group1', 
                         contractId,
-                        false // isUserProducts (non-users)
+                        false // isUserProducts (NON-USERS)
                     );
                     
-                    totalFilesCreated += 10;
-                    console.log('✓ Created 10 monthly usage files for OrgGrp Group 1');
+                    totalFilesCreated += 12;
+                    console.log('✓ Created 12 monthly NON-USER usage files for OrgGrp Group 1');
+                    
+                    // Add delay between groups
+                    console.log('Waiting 2 seconds before next group...');
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                } else {
+                    console.error('OrgGrp Group 1 - Failed to create files. Billing ID or products missing.');
                 }
             }
             
@@ -546,9 +590,15 @@ async function handleCreateUsageFiles() {
                 const orgGrpBillingIdentifier2 = orgGrpusageProducts2.find(item => item.Name === 'BillingIdentifier')?.nrBillingIdentifier;
                 const orgGrpUsageProducts2 = orgGrpusageProducts2.filter(item => item.Name !== 'BillingIdentifier');
                 
+                console.log('=== OrgGrp Group 2 DEBUG ===');
+                console.log('OrgGrp Group 2 - billingIdentifier:', orgGrpBillingIdentifier2);
+                console.log('OrgGrp Group 2 - products count:', orgGrpUsageProducts2.length);
+                console.log('OrgGrp Group 2 - sample products:', orgGrpUsageProducts2.slice(0, 3));
+                
                 if (orgGrpBillingIdentifier2 && orgGrpUsageProducts2.length > 0) {
                     const updatedOrgGrpUsageProducts2 = appendUsageQuantityToProducts(orgGrpUsageProducts2);
-                    console.log('Creating 10 monthly files for OrgGrp Group 2');
+                    console.log('Creating 12 monthly files for OrgGrp Group 2');
+                    console.log('OrgGrp Group 2 - isUserProducts: false (NON-USER FILES)');
                     
                     await createMonthlyUsageFiles(
                         orgGrpBillingIdentifier2, 
@@ -556,20 +606,28 @@ async function handleCreateUsageFiles() {
                         updatedOrgGrpUsageProducts2, 
                         'OrgGrp_Group2', 
                         contractId,
-                        false // isUserProducts (non-users)
+                        false // isUserProducts (NON-USERS)
                     );
-                    
-                    totalFilesCreated += 10;
-                    console.log('✓ Created 10 monthly usage files for OrgGrp Group 2');
+
+                    totalFilesCreated += 12;
+                    console.log('✓ Created 12 monthly NON-USER usage files for OrgGrp Group 2');
+                } else {
+                    console.error('OrgGrp Group 2 - Failed to create files. Billing ID or products missing.');
                 }
             }
         }
         
-        alert(`Successfully created ${totalFilesCreated} usage files for ${selectedGroups.length} selected group(s)!\n\nFiles are organized in separate folders:\n- users_${contractId}/\n- nonusers_${contractId}/\n\nEach file covers one month with naming format: GroupName_MonthName_Year.csv`);
+        alert(`Successfully created ${totalFilesCreated} usage files for ${selectedGroups.length} selected group(s)!\n\nFiles are organized in separate folders:\n- users_${contractId}/\n- nonusers_${contractId}/\n\nEach file covers one month with naming format: GroupName_MonthName_Year.csv\n\nPlease check your Downloads folder.`);
         
     } catch (error) {
         console.error('Error creating usage files:', error);
         alert('Error creating usage files. Please check the console for details.');
+    } finally {
+        // Re-enable the button
+        if (createUsageFilesBtn) {
+            createUsageFilesBtn.disabled = false;
+            createUsageFilesBtn.textContent = 'Create Usage Files';
+        }
     }
 }
 

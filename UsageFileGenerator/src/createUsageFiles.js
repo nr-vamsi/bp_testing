@@ -73,7 +73,12 @@ async function createNonUserUsageFile(billingIdentifier, contractStartDate, usag
         usageProducts.forEach(product => {
             const mapping = usageNonMappingUsers.find(item => item.Product === product.Name);
             if (mapping) {
-                const quantity = Math.floor(Math.random() * 500) + 100; // Random quantity 100-1100
+                let quantity;
+                if (mapping.nrUnitOfMeasure === 'US Core CCU' || mapping.nrUnitOfMeasure === 'EU Core CCU') {
+                    quantity = Math.floor(Math.random() * 100) + 1; // Random 1-100 for Core CCU
+                } else {
+                    quantity = Math.floor(Math.random() * 500) + 100; // Random 100-600 for others
+                }
                 data.push([
                     billingIdentifier,
                     dateStr,

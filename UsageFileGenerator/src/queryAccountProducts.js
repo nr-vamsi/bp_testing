@@ -2,7 +2,7 @@ import CONFIG from './config.js';
 let contractProdIds = [];
 
 export async function queryAccountProducts(sessionId, accId) {
-    const response = await fetch(`${CONFIG.HOSTNAME}//rest/2.0/query?sql=select id,name,nrBillingIdentifier from ACCOUNT_PRODUCT where AccountId=${accId}`, {
+    const response = await fetch(`${CONFIG.HOSTNAME}//rest/2.0/query?sql=select id,name,nrBillingIdentifier from ACCOUNT_PRODUCT where AccountId=${accId} order by id asc`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',

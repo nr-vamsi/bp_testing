@@ -1138,7 +1138,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             contractAccProd = contractProdIds.filter(
                                 item => item['ContractRateLabel'].includes('Prepaid Commitment') ||
                                     item['ContractRateLabel'].includes('New Relic Savings Plan - Commitment Credits') ||
-                                    item['ContractRateLabel'].includes('Discount'));
+                                    item['ContractRateLabel'].includes('Discount') || item['ContractRateLabel'].includes('New Relic Savings Plan - Commitment Fee'));
                             //contractAccProd = contractProdIds.filter(item => item['ContractRateLabel'].includes('SP1.0 - Commitment Credits'));
                             //contractAccProd = contractProdIds.filter(item => item['ContractRateLabel'].includes('New Relic Reseller Fee'));
                             console.log('ContractProdIds:', contractProdIds);
@@ -1257,6 +1257,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Discount'));
                             orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('New Relic Reseller Fee'));
                             orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Users'));
+                            orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('New Relic Savings Plan - Commitment Fee'));
 
                             console.log('OrgGrp ContractProdIds:', orgGrpcontractProdIds);
                             for (const product of orgGrpcontractProdIds) {
@@ -1419,7 +1420,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                     !item['ContractRateLabel'].includes('Drawdown') &&
                                     !item['ContractRateLabel'].includes('Discount') &&
                                     !item['ContractRateLabel'].includes('New Relic Reseller Fee') &&
-                                    !item['ContractRateLabel'].includes('Users')
+                                    !item['ContractRateLabel'].includes('Users') &&
+                                    !item['ContractRateLabel'].includes('New Relic Savings Plan - Commitment Fee')
                                 );
 
                                 console.log(`${orgGrp} ContractProdIds:`, orgGrpcontractProdIds);
@@ -1685,7 +1687,7 @@ async function processBillingPortfolio(sessionId, account, accountName, contract
     const contractAccProd = contractProdIds.filter(
         item => item['ContractRateLabel'].includes('New Relic Savings Plan - Prepaid Commitment') ||
             item['ContractRateLabel'].includes('New Relic Volume Plan - Prepaid Commitment') ||
-            item['ContractRateLabel'].includes('Commitment Credits'));
+            item['ContractRateLabel'].includes('Commitment Credits') || item['ContractRateLabel'].includes('New Relic Savings Plan - Commitment Fee'));
 
     console.log('ContractProdIds:', contractProdIds);
     console.log('ContractAccProd:', contractAccProd);

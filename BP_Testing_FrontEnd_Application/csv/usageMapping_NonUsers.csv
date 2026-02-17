@@ -163,6 +163,7 @@ New Relic Savings Plan - Logs Obfuscation (NLO) (US DC) Usage Quantity,US GB Ing
 New Relic Savings Plan - Logs Obfuscation (NLO) Usage Quantity,GB Ingested,,GB Ingested
 New Relic Savings Plan - Pilot Pricing Usage Quantity,Units,,Units
 New Relic Savings Plan - PrivateLink (NPL) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Savings Plan - PrivateLink (NPL) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
 New Relic Savings Plan - PrivateLink (NPL) Usage Quantity,GB Ingested,,GB Ingested
 New Relic Savings Plan - Pro Compute (EU Data Center) Usage Quantity,EU CCU,,EU CCU
 New Relic Savings Plan - Pro Compute (US Data Center) Usage Quantity,US CCU,,US CCU
@@ -178,6 +179,7 @@ New Relic Savings Plan - Stream Data Export (SDE) (EU DC) Usage Quantity,EU GB I
 New Relic Savings Plan - Stream Data Export (SDE) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
 New Relic Savings Plan - Stream Data Export (SDE) Usage Quantity,GB Ingested,,GB Ingested
 New Relic Savings Plan - Vulnerability Management (EU Data Center) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Savings Plan - Vulnerability Management (NVM) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
 New Relic Savings Plan - Vulnerability Management (NVM) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
 New Relic Savings Plan - Vulnerability Management (NVM) Usage Quantity,GB Ingested,,GB Ingested
 New Relic Savings Plan - Vulnerability Management (US Data Center) Usage Quantity,US GB Ingested,,US GB Ingested
@@ -258,6 +260,5 @@ New Relic Volume Plan - Stream Data Export (SDE) Usage Quantity,GB Ingested,,GB 
 New Relic Volume Plan - Vulnerability Management (NVM) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
 New Relic Volume Plan - Vulnerability Management (NVM) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
 New Relic Volume Plan - Vulnerability Management (NVM) Usage Quantity,GB Ingested,,GB Ingested
-PrivateLink (NPL) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
 Prototype SP1.0 - Additional Synthetics Checks,Checks,,Checks
 Prototype SP1.0 - Data,GB Ingested,,GB Ingested

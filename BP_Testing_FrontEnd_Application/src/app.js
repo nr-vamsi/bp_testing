@@ -400,6 +400,7 @@ async function handleSubmit() {
     // Clear previous results
     resultTableBody.innerHTML = '';
 
+
     // Populate table with sorted results
     // In handleSubmit() function, update the row innerHTML:
     // In handleSubmit() function, update the row innerHTML:
@@ -409,12 +410,12 @@ async function handleSubmit() {
             ccidArray = ['All', ...generateCCIDArray(ccidCount).map(ccid => ccid + 'A'), ...generateCCIDArray(ccidCount).map(ccid => ccid + 'B')];
         }
         row.innerHTML = `
-    <td><input type="checkbox" name="select-product" value="${item['ProdID']}"></td>
+    <td><input type="checkbox" name="select-product" class="selectproduct-checkbox" value="${item['ProdID']}"></td>
     <td>${item['ProdID']}</td>
     <td>${item['Product Name']}</td>
     <td>${item['Rating Method']}</td>
-    <td><input type="text" name="price" value="" ${item['Rating Method'] === 'Formula' || item['Rating Method'] === 'Discount' || item['Rating Method'] === 'Subscription' || item['Rating Method'] === 'One Time Charge' ? '' : 'disabled'}></td>
-    <td>${item['Rating Method'] === 'Usage' || item['Rating Method'] === 'Discount' || item['Rating Method'] === 'Subscription' || item['Rating Method'] === 'One Time Charge' ? '' : '<input type="checkbox" name="tier" class="tier-checkbox">'}</td>
+    <td>${item['Rating Method'] === 'Formula' || item['Rating Method'] === 'Discount' || item['Rating Method'] === 'Subscription' || item['Rating Method'] === 'One Time Charge' ? '' : '<input type="text" name="price" class="selectproduct-checkbox" disabled=true placeholder = "Select the Product To Enter the Price">'}</td>
+    <td>${item['Rating Method'] === 'Usage' || item['Rating Method'] === 'Discount' || item['Rating Method'] === 'Subscription' || item['Rating Method'] === 'One Time Charge' ? '' : '<input type="checkbox" name="tier" class="tier-checkbox" disabled=true>'}</td>
     <td class="tiered-details" style="display: none;"></td>
     ${accountStructure === 'multi-ccid-shared-pool' ? `<td>${generateDropdown(ccidArray, 'ccid', 'updateOrgGrpCheckboxes()')}</td>` : ''}
     ${accountStructure === 'multi-ccid-shared-pool' ? `<td>${generateOrgGrpCheckboxes()}</td>` : ''}
@@ -425,7 +426,34 @@ async function handleSubmit() {
         resultTableBody.appendChild(row);
     });
 
-
+        // Add event listeners Product select checkbox
+    document.querySelectorAll('input[name="select-product"]').forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            const row = this.closest('tr');
+            const priceInput = row.querySelector('input[name="price"]');
+            const tierInput = row.querySelector('input[name="tier"]');
+            if (this.checked) {
+                // Enable price input unless tier-checkbox is checked
+                if (!tierInput || !tierInput.checked) {
+                    priceInput.disabled = false;
+                    priceInput.style.backgroundColor = '';
+                    priceInput.style.color = '';
+                    priceInput.style.cursor = '';
+                }
+                // Enable Tier check box
+                if (tierInput) tierInput.disabled = false;
+            } else {
+                // Disable price input
+                priceInput.disabled = true;
+                priceInput.placeholder = 'Select the Product To Enter the Price';
+                priceInput.style.backgroundColor = '#f5f5f5';
+                priceInput.style.color = '#999';
+                priceInput.style.cursor = 'not-allowed';
+                // Disable Tier check box
+                if (tierInput) tierInput.disabled = true;
+            }
+        });
+    });
     // Add event listeners for tier checkboxes
     document.querySelectorAll('.tier-checkbox').forEach(checkbox => {
         checkbox.addEventListener('change', function () {
@@ -435,7 +463,7 @@ async function handleSubmit() {
             const tieredDetailsHeader = document.getElementById('tiered-details-header');
 
             if (this.checked) {
-                // Disable and style the price input
+                // Disable price input
                 priceInput.disabled = true;
                 priceInput.value = '';
                 priceInput.placeholder = 'Disabled - Using Tier Pricing';
@@ -448,12 +476,16 @@ async function handleSubmit() {
                 addTieredDetailRow(tieredDetailsCell);
                 tieredDetailsHeader.style.display = 'block';
             } else {
-                // Enable and reset the price input
-                priceInput.disabled = false;
-                priceInput.placeholder = '';
-                priceInput.style.backgroundColor = '';
-                priceInput.style.color = '';
-                priceInput.style.cursor = '';
+                // Enable price input only if select-product is checked
+                const selectProductCheckbox = row.querySelector('input[name="select-product"]');
+                if (selectProductCheckbox && selectProductCheckbox.checked) {
+                    priceInput.disabled = false;
+                    priceInput.value = '';
+                    priceInput.placeholder = '';
+                    priceInput.style.backgroundColor = '';
+                    priceInput.style.color = '';
+                    priceInput.style.cursor = '';
+                }
 
                 // Hide tiered details
                 tieredDetailsCell.innerHTML = '';
@@ -465,6 +497,8 @@ async function handleSubmit() {
             }
         });
     });
+
+
 
     // Display the account name
     accountNameElement.textContent = `Account Name: ${accountName}`;
@@ -1065,7 +1099,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (selectedBuyingProgram === 'SAVINGS') {
                         selectedProductsDetails.push({
                             ProdID: '14120',
-                            ProductName: 'SP1.0 - Commitment Credits',
+                            ProductName: 'New Relic Savings Plan - Commitment Credits',
                             Price: commitmentCreditPrice,
                             Tier: false,
                             TieredDetails: []
@@ -1122,7 +1156,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 } else {
                                     console.log(`ProdID: ${product.ProdID}, ProductName: ${product.ProductName}, Price: ${product.Price}, TieredDetails: ${JSON.stringify(product.TieredDetails)}`);
                                     pricingId = await createPricing(sessionId, contractId, contractRateId, product, contractStartDateValue, contractEndDateValue);
-                                    if (pricingId.createResponse[0].ErrorCode !== '0' && `${product.ProductName}` === 'SP1.0 - Commitment Credits') {
+                                    if (pricingId.createResponse[0].ErrorCode !== '0' && `${product.ProductName}` === 'New Relic Savings Plan - Commitment Credits') {
                                         pricingId = await queryPrice(sessionId, contractRateId);
                                         if (pricingId && pricingId.length > 0) {
                                             pricingId = await updatePricing(sessionId, pricingId, product);
@@ -1148,7 +1182,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 let productName = product.ContractRateLabel ? product.ContractRateLabel : product.ProductName;
                                 //console.log('Product Name:///////////////', productName);
                                 if (
-                                    productName === "New Relic Savings Plan - Prepaid Commitment" || productName === "New Relic Volume Plan - Prepaid Commitment" || productName === "APoF - Prepaid Commitment" || productName === "New Relic Volume Plan - Discount" || productName === "New Relic Volume Plan - One-Time Discount" &&
+                                    productName === "New Relic Savings Plan - Commitment Fee" || productName === "New Relic Savings Plan - Prepaid Commitment" || productName === "New Relic Volume Plan - Prepaid Commitment" || productName === "APoF - Prepaid Commitment" || productName === "New Relic Volume Plan - Discount" || productName === "New Relic Volume Plan - One-Time Discount" &&
                                     (savingsPlanData.initialFlexiPrepaidCommitment || savingsPlanData.initialFlexiPrepaidCommitment !== '')
                                 ) {
                                     await createAccountProductWithBillingTerms(sessionId, account.accId, contractId, product, contractStartDateValue, contractEndDateValue, savingsPlanData.billingTerms);
@@ -1251,15 +1285,19 @@ document.addEventListener('DOMContentLoaded', () => {
                             orgGrpusageProducts = contractProdIds;
                             orgGrpusageProducts = orgGrpusageProducts.filter(item => item['ContractRateLabel'].includes('Usage Quantity') && !item['ContractRateLabel'].includes('Users'));
                             orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Usage Quantity'));
-                            orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Prepaid Commitment'));
-                            orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Commitment Credits'));
+                            orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Commitment'));
+                            orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Credit'));
+                            //orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Prepaid Commitment'));
+                            //orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Commitment Credits'));
                             orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Drawdown'));
                             orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Discount'));
                             orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('New Relic Reseller Fee'));
                             orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Users'));
-                            orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('New Relic Savings Plan - Commitment Fee'));
-                            orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('New Relic Savings Plan - Prepaid Commitment'));
-                            orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('New Relic Savings Plan - Remaining Commitment Charge'));
+                            orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('SP 1.0'));
+                            //orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('New Relic Savings Plan - Commitment Fee'));
+                            //orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('New Relic Savings Plan - Prepaid Commitment'));
+                            //orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('New Relic Savings Plan - Remaining Commitment Charge'));
+                            //orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('SP 1.0 - Flex Billing Overage Credit'));
 
                             console.log('OrgGrp ContractProdIds:', orgGrpcontractProdIds);
                             for (const product of orgGrpcontractProdIds) {
@@ -1425,7 +1463,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                     !item['ContractRateLabel'].includes('Users') &&
                                     !item['ContractRateLabel'].includes('New Relic Savings Plan - Commitment Fee') &&
                                     !item['ContractRateLabel'].includes('New Relic Savings Plan - Prepaid Commitment') &&
-                                    !item['ContractRateLabel'].includes('New Relic Savings Plan - Remaining Commitment Charge')
+                                    !item['ContractRateLabel'].includes('New Relic Savings Plan - Remaining Commitment Charge')&&
+                                    !item['ContractRateLabel'].includes('SP 1.0 - Flex Billing Overage Credit')
                                 );
 
                                 console.log(`${orgGrp} ContractProdIds:`, orgGrpcontractProdIds);
@@ -1668,7 +1707,7 @@ async function processBillingPortfolio(sessionId, account, accountName, contract
 
     // Create contract rates and pricing for SP1.0 products
     for (const product of billingProfileProducts) {
-        if (`${product.ProductName}` === 'New Relic Savings Plan - Prepaid Commitment' || `${product.ProductName}` === 'New Relic Volume Plan - Prepaid Commitment' || `${product.ProductName}` === 'SP1.0 - Commitment Credits') {
+        if (`${product.ProductName}` === 'New Relic Savings Plan - Prepaid Commitment' || `${product.ProductName}` === 'New Relic Volume Plan - Prepaid Commitment' || `${product.ProductName}` === 'New Relic Savings Plan - Commitment Credits') {
             const contractRateId = await createContractRate(sessionId, contractId, product, contractStartDateValue, contractEndDateValue);
             appendResultRow(`${product.ProductName}`, `${product.ProdID}`, resultValuesTableBody4);
             appendResultRow(`ContractRateId (${product.ProdID})`, contractRateId, resultValuesTableBody2);
@@ -1676,7 +1715,7 @@ async function processBillingPortfolio(sessionId, account, accountName, contract
             let pricingId = await createPricing(sessionId, contractId, contractRateId, product, contractStartDateValue, contractEndDateValue);
 
             // Handle SP1.0 - Commitment Credits special case
-            if (pricingId.createResponse[0].ErrorCode !== '0' && `${product.ProductName}` === 'SP1.0 - Commitment Credits') {
+            if (pricingId.createResponse[0].ErrorCode !== '0' && `${product.ProductName}` === 'New Relic Savings Plan - Commitment Credits') {
                 pricingId = await queryPrice(sessionId, contractRateId);
                 if (pricingId && pricingId.length > 0) {
                     pricingId = await updatePricing(sessionId, pricingId, product);
@@ -1701,7 +1740,7 @@ async function processBillingPortfolio(sessionId, account, accountName, contract
         const productName = product.ContractRateLabel ? product.ContractRateLabel : product.ProductName;
 
         if (
-            productName === "New Relic Savings Plan - Prepaid Commitment" || productName === "New Relic Volume Plan - Prepaid Commitment" &&
+            productName === "New Relic Savings Plan - Commitment Fee" || productName === "New Relic Savings Plan - Prepaid Commitment" || productName === "New Relic Volume Plan - Prepaid Commitment" &&
             (savingsPlanData.initialFlexiPrepaidCommitment || savingsPlanData.initialFlexiPrepaidCommitment !== '')
         ) {
             await createAccountProductWithBillingTerms(sessionId, account.accId, contractId, product, contractStartDateValue, contractEndDateValue, savingsPlanData.billingTerms);
@@ -1798,12 +1837,17 @@ async function createAccountProductWithBillingTerms(sessionId, accountId, contra
     const start = new Date(contractStartDateValue);
     const end = new Date(contractEndDateValue);
 
+
+
+    
+
     if (billingTerms === "Quarterly") {
         let tempStart = new Date(start);
+        let tempEnd;
         for (let i = 0; i < 4; i++) {
-            let tempEnd = new Date(tempStart);
+            tempEnd = new Date(tempStart);
             tempEnd.setMonth(tempEnd.getMonth() + 3);
-            tempEnd.setDate(0); // Set to last day of previous month (end of quarter)
+            tempEnd.setDate(tempStart.getDate() - 1); // End date is 3 months later, minus 1 day
 
             // For the last quarter, ensure we don't exceed the contract end date
             if (i === 3 || tempEnd > end) {
@@ -1828,7 +1872,8 @@ async function createAccountProductWithBillingTerms(sessionId, accountId, contra
         for (let i = 0; i < 2; i++) {
             let tempEnd = new Date(tempStart);
             tempEnd.setMonth(tempEnd.getMonth() + 6);
-            tempEnd.setDate(0); // Set to last day of previous month
+            tempEnd.setDate(tempStart.getDate() - 1);
+            //tempEnd.setDate(0); // Set to last day of previous month
 
             // For the last semi-annual period, ensure we don't exceed the contract end date
             if (i === 1 || tempEnd > end) {

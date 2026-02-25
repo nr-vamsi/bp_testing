@@ -32,6 +32,7 @@ export async function createAccount(sessionId, accountName, sfAccId) {
                 nrShipToState: shipToState,
                 nrShipToZip: shipToZip,
                 nrTaxId: '86'
+                ActivityTimeZone: 'US/Pacific'
             }
         })
     });

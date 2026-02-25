@@ -4,58 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BP User Interface</title>
+    <title>BP Testing User Interface</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="nrblogo.png" type="image/png">
     <style>
-        /* Add styles for the hierarchy tree */
-        #hierarchy-tree-container {
-            margin-top: 20px;
-        }
 
-        #hierarchy-tree-container ul {
-            list-style-type: none;
-            padding-left: 20px;
-        }
-
-        #hierarchy-tree-container li {
-            margin: 5px 0;
-            position: relative;
-        }
-
-        #hierarchy-tree-container li::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -20px;
-            width: 20px;
-            height: 1px;
-            background: #000;
-        }
-
-        #hierarchy-tree-container li::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -20px;
-            width: 1px;
-            height: 100%;
-            background: #000;
-        }
-
-        #hierarchy-tree-container li:first-child::after {
-            height: 50%;
-            top: 50%;
-        }
-
-        #hierarchy-tree-container li:last-child::after {
-            height: 50%;
-        }
-
-        .savings-plan-container input[type="text"] {
-            width: 100%;
-            box-sizing: border-box;
-        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.2.1/exceljs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
@@ -120,21 +73,6 @@
                 <legend>Contract Fields</legend>
                 <div class="savings-plan-container" style="display: flex; gap: 20px;">
                     <div class="savings-plan-column" id="savings-plan-fields" style="flex: 1; ">
-                        <label for="total-contract-value">Total Contract Value #</label>
-                        <input type="text" id="total-contract-value" name="total-contract-value">
-                        <label for="initial-commitment">Initial Commitment #</label>
-                        <input type="text" id="initial-commitment" name="initial-commitment">
-                        <label for="initial-commitment-credit">Initial Commitment Credit</label>
-                        <input type="text" id="initial-commitment-credit" name="initial-commitment-credit">
-                        <label for="initial-prepaid-commitment">Initial Prepaid Commitment *</label>
-                        <input type="text" id="initial-prepaid-commitment" name="initial-prepaid-commitment">
-                        <label for="initial-flexi-prepaid-commitment">Initial Commitment (Flex)</label>
-                        <input type="text" id="initial-flexi-prepaid-commitment"
-                            name="initial-flexi-prepaid-commitment">
-                        <label for="initial-flexi-credit">Initial Credit (Flex)</label>
-                        <input type="text" id="initial-flexi-credit" name="initial-flexi-credit">
-                    </div>
-                    <div class="savings-plan-column" style="flex: 1;">
                         <label for="billing-terms">Billing Terms</label>
                         <select id="billing-terms" name="billing-terms">
                             <option value="">Select a Billing Term</option>
@@ -145,6 +83,22 @@
                             <option value="Monthly In Arrears (No Pre Pay)">Monthly In Arrears (No Pre Pay)</option>
                             <option value="Custom">Custom</option>
                         </select>
+                        <label for="total-contract-value">Total Contract Value #</label>
+                        <input type="text" id="total-contract-value" name="total-contract-value">
+                        <label for="initial-commitment">Initial Commitment #</label>
+                        <input type="text" id="initial-commitment" name="initial-commitment">
+                        <label for="initial-commitment-credit">Initial Commitment Credit</label>
+                        <input type="text" id="initial-commitment-credit" name="initial-commitment-credit">
+                        <label for="initial-prepaid-commitment">Initial Prepaid Commitment *</label>
+                        <input type="text" id="initial-prepaid-commitment" name="initial-prepaid-commitment" readonly disabled>
+                        <label for="initial-flexi-prepaid-commitment">Initial Commitment (Flex)</label>
+                        <input type="text" id="initial-flexi-prepaid-commitment"
+                            name="initial-flexi-prepaid-commitment" readonly disabled>
+                        <label for="initial-flexi-credit">Initial Credit (Flex)</label>
+                        <input type="text" id="initial-flexi-credit" name="initial-flexi-credit" readonly disabled>
+                    </div>
+                    <div class="savings-plan-column" style="flex: 1;">
+
 
                         <label for="last-amendment-number">Last Amendment Number</label>
                         <input type="text" id="last-amendment-number" name="last-amendment-number">

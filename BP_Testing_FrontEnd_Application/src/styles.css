@@ -35,7 +35,8 @@ input[type="checkbox"] {
     margin-right: 10px;
     width: 16px;
     height: 16px;
-    border-radius: 0; /* Square shape */
+    border-radius: 0;
+    /* Square shape */
 }
 
 button {
@@ -75,11 +76,14 @@ table {
     margin-top: 20px;
 }
 
-table, th, td {
+table,
+th,
+td {
     border: 3px double #333;
 }
 
-th, td {
+th,
+td {
     padding: 10px;
     text-align: left;
 }
@@ -105,4 +109,54 @@ th {
 
 .savings-plan-column input {
     margin-bottom: 10px;
+}
+
+
+/* Add styles for the hierarchy tree */
+#hierarchy-tree-container {
+    margin-top: 20px;
+}
+
+#hierarchy-tree-container ul {
+    list-style-type: none;
+    padding-left: 20px;
+}
+
+#hierarchy-tree-container li {
+    margin: 5px 0;
+    position: relative;
+}
+
+#hierarchy-tree-container li::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -20px;
+    width: 20px;
+    height: 1px;
+    background: #000;
+}
+
+#hierarchy-tree-container li::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -20px;
+    width: 1px;
+    height: 100%;
+    background: #000;
+}
+
+#hierarchy-tree-container li:first-child::after {
+    height: 50%;
+    top: 50%;
+}
+
+#hierarchy-tree-container li:last-child::after {
+    height: 50%;
+}
+
+.savings-plan-container input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
 }

@@ -128,7 +128,92 @@ const resultValuesTableBody4 = document.querySelector('#result-values-table4 tbo
 const sameAsBillToCheckbox = document.getElementById('same-as-bill-to');
 const savingsPlanFieldSet = document.getElementById('savings-plan-fields');
 
+
 const buyingProgramDropdown = document.getElementById('buying-program');
+
+// Auto-populate Initial Commitment (Flex) and Initial Credit (Flex) for Quarterly Billing Terms
+const billingTermsSelect = document.getElementById('billing-terms');
+const totalContractValueInput = document.getElementById('total-contract-value');
+const initialFlexiPrepaidCommitmentInput = document.getElementById('initial-flexi-prepaid-commitment');
+const initialFlexiCreditInput = document.getElementById('initial-flexi-credit');
+const initialCommitmentCreditInput = document.getElementById('initial-commitment-credit');
+const initialPrepaidCommitmentInput = document.getElementById('initial-prepaid-commitment');
+
+// Update values when Billing Terms changes
+billingTermsSelect.addEventListener('change', function () {
+    if (billingTermsSelect.value === 'Annual Upfront' || billingTermsSelect.value === 'Custom') {
+        alert('Billing Term: Annual Upfront OR Custom are not supported by this tool');
+        billingTermsSelect.value = '';
+        initialFlexiPrepaidCommitmentInput.value = '';
+        initialFlexiCreditInput.value = '';
+        initialPrepaidCommitmentInput.value = '';
+        return;
+    }
+    updateCommitmentAndCreditFields();
+});
+
+// Also update if Total Contract Value changes and Billing Terms is Quarterly or Semi-Annual
+totalContractValueInput.addEventListener('input', function () {
+    updateCommitmentAndCreditFields();
+});
+
+// Also update if Total Contract Credit Value changes and Billing Terms is Quarterly or Semi-Annual
+initialCommitmentCreditInput.addEventListener('input', function () {
+    updateCommitmentAndCreditFields();
+});
+
+
+// Optimized: Single function to update all commitment/credit fields
+function updateCommitmentAndCreditFields() {
+    const billingTerm = billingTermsSelect.value;
+    const totalValue = parseFloat(totalContractValueInput.value);
+    const creditValue = parseFloat(initialCommitmentCreditInput.value);
+
+    // Handle unsupported terms
+    if (billingTerm === 'Annual Upfront' || billingTerm === 'Custom') {
+        alert('Billing Term: Annual Upfront OR Custom are not supported by this tool');
+        billingTermsSelect.value = '';
+        initialFlexiPrepaidCommitmentInput.value = '';
+        initialFlexiCreditInput.value = '';
+        initialPrepaidCommitmentInput.value = '';
+        return;
+    }
+
+    // Helper to clear all
+    function clearAll() {
+        initialFlexiPrepaidCommitmentInput.value = '';
+        initialFlexiCreditInput.value = '';
+        initialPrepaidCommitmentInput.value = '';
+    }
+
+    if (billingTerm === 'Quarterly' || billingTerm === 'Semi-Annual') {
+        const divisor = billingTerm === 'Quarterly' ? 4 : 2;
+        if (!isNaN(totalValue)) {
+            const initialCommitmentFlex = totalValue / divisor;
+            initialFlexiPrepaidCommitmentInput.value = initialCommitmentFlex.toFixed(2);
+            initialPrepaidCommitmentInput.value = initialFlexiPrepaidCommitmentInput.value;
+            if (!isNaN(creditValue)) {
+                const initialCommitmentCredit = creditValue / divisor;
+                initialFlexiCreditInput.value = initialCommitmentCredit.toFixed(2);
+                initialPrepaidCommitmentInput.value = (initialFlexiPrepaidCommitmentInput.value - initialFlexiCreditInput.value).toString();
+            } else {
+                initialFlexiCreditInput.value = '';
+            }
+        } else {
+            clearAll();
+        }
+    } else if (billingTerm === 'Upfront (Full Pre Pay)') {
+        clearAll();
+        if (!isNaN(totalValue)) {
+            initialPrepaidCommitmentInput.value = totalContractValueInput.value;
+            if (!isNaN(creditValue)) {
+                initialPrepaidCommitmentInput.value = (totalContractValueInput.value - initialCommitmentCreditInput.value).toString();
+            }
+        }
+    } else {
+        clearAll();
+    }
+}
 
 /* function handleBuyingProgramChange() {
     if (buyingProgramDropdown.value === 'SAVINGS') {
@@ -426,7 +511,7 @@ async function handleSubmit() {
         resultTableBody.appendChild(row);
     });
 
-        // Add event listeners Product select checkbox
+    // Add event listeners Product select checkbox
     document.querySelectorAll('input[name="select-product"]').forEach(checkbox => {
         checkbox.addEventListener('change', function () {
             const row = this.closest('tr');
@@ -1463,7 +1548,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     !item['ContractRateLabel'].includes('Users') &&
                                     !item['ContractRateLabel'].includes('New Relic Savings Plan - Commitment Fee') &&
                                     !item['ContractRateLabel'].includes('New Relic Savings Plan - Prepaid Commitment') &&
-                                    !item['ContractRateLabel'].includes('New Relic Savings Plan - Remaining Commitment Charge')&&
+                                    !item['ContractRateLabel'].includes('New Relic Savings Plan - Remaining Commitment Charge') &&
                                     !item['ContractRateLabel'].includes('SP 1.0 - Flex Billing Overage Credit')
                                 );
 
@@ -1839,7 +1924,7 @@ async function createAccountProductWithBillingTerms(sessionId, accountId, contra
 
 
 
-    
+
 
     if (billingTerms === "Quarterly") {
         let tempStart = new Date(start);

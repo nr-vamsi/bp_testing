@@ -51,6 +51,7 @@ async function createAccount(sessionId, accountName, sfAccId, parentAccId, accou
         body: JSON.stringify({
             brmObjects: {
                 AccountTypeId: `${accountTypeId}`,
+                ActivityTimeZone: '351',
                 Status: 'ACTIVE',
                 Id: '',
                 Name: `${accountName}`,
@@ -94,6 +95,7 @@ async function createBPAccount(sessionId, accountName, sfAccId, parentAccountId,
         body: JSON.stringify({
             brmObjects: {
                 AccountTypeId: `${accountTypeId}`,
+                ActivityTimeZone: '351',
                 Status: 'ACTIVE',
                 Id: '',
                 Name: `${accountName}`,

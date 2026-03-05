@@ -16,6 +16,7 @@ export async function createAccount(sessionId, accountName, sfAccId) {
         body: JSON.stringify({
             brmObjects: {
                 AccountTypeId: '1',
+                ActivityTimeZone: '351',
                 Status: 'ACTIVE',
                 Id: '',
                 Name: accountName,

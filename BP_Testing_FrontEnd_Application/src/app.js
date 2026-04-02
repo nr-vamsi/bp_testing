@@ -1387,6 +1387,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('New Relic Reseller Fee'));
                             orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Users'));
                             orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('SP 1.0'));
+                            orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('Forfeiture Funds'));
                             //orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('New Relic Savings Plan - Commitment Fee'));
                             //orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('New Relic Savings Plan - Prepaid Commitment'));
                             //orgGrpcontractProdIds = orgGrpcontractProdIds.filter(item => !item['ContractRateLabel'].includes('New Relic Savings Plan - Remaining Commitment Charge'));
@@ -1557,7 +1558,9 @@ document.addEventListener('DOMContentLoaded', () => {
                                     !item['ContractRateLabel'].includes('New Relic Savings Plan - Commitment Fee') &&
                                     !item['ContractRateLabel'].includes('New Relic Savings Plan - Prepaid Commitment') &&
                                     !item['ContractRateLabel'].includes('New Relic Savings Plan - Remaining Commitment Charge') &&
-                                    !item['ContractRateLabel'].includes('SP 1.0 - Flex Billing Overage Credit')
+                                    !item['ContractRateLabel'].includes('SP 1.0 - Flex Billing Overage Credit') &&
+                                    !item['ContractRateLabel'].includes('Forfeiture Funds')
+
                                 );
 
                                 console.log(`${orgGrp} ContractProdIds:`, orgGrpcontractProdIds);

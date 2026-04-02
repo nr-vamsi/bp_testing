@@ -494,13 +494,13 @@ async function handleSubmit() {
         if (accountStructure === 'multi-ccid-separate-pool') {
             ccidArray = ['All', ...generateCCIDArray(ccidCount).map(ccid => ccid + 'A'), ...generateCCIDArray(ccidCount).map(ccid => ccid + 'B')];
         }
-        row.innerHTML = `
-    <td><input type="checkbox" name="select-product" class="selectproduct-checkbox" value="${item['ProdID']}"></td>
+    row.innerHTML = `
+    <td><input type="checkbox" name="select-product" value="${item['ProdID']}"></td>
     <td>${item['ProdID']}</td>
     <td>${item['Product Name']}</td>
     <td>${item['Rating Method']}</td>
-    <td>${item['Rating Method'] === 'Formula' || item['Rating Method'] === 'Discount' || item['Rating Method'] === 'Subscription' || item['Rating Method'] === 'One Time Charge' ? '' : '<input type="text" name="price" class="selectproduct-checkbox" disabled=true placeholder = "Select the Product To Enter the Price">'}</td>
-    <td>${item['Rating Method'] === 'Usage' || item['Rating Method'] === 'Discount' || item['Rating Method'] === 'Subscription' || item['Rating Method'] === 'One Time Charge' ? '' : '<input type="checkbox" name="tier" class="tier-checkbox" disabled=true>'}</td>
+    <td><input type="text" name="price" value="" disabled=true style="cursor: not-allowed;" placeholder="Select the Product To Enter the Price" ${item['Rating Method'] === 'Formula' || item['Rating Method'] === 'Discount' || item['Rating Method'] === 'Subscription' || item['Rating Method'] === 'One Time Charge' ? '' : 'disabled'}></td>
+    <td> ${item['Rating Method'] === 'Usage' || item['Rating Method'] === 'Discount' || item['Rating Method'] === 'Subscription' || item['Rating Method'] === 'One Time Charge' ? '' : '<input type="checkbox" name="tier" disabled=true class="tier-checkbox">'}</td>
     <td class="tiered-details" style="display: none;"></td>
     ${accountStructure === 'multi-ccid-shared-pool' ? `<td>${generateDropdown(ccidArray, 'ccid', 'updateOrgGrpCheckboxes()')}</td>` : ''}
     ${accountStructure === 'multi-ccid-shared-pool' ? `<td>${generateOrgGrpCheckboxes()}</td>` : ''}
@@ -511,12 +511,14 @@ async function handleSubmit() {
         resultTableBody.appendChild(row);
     });
 
-    // Add event listeners Product select checkbox
+        // Add event listeners Product select checkbox
     document.querySelectorAll('input[name="select-product"]').forEach(checkbox => {
         checkbox.addEventListener('change', function () {
             const row = this.closest('tr');
             const priceInput = row.querySelector('input[name="price"]');
             const tierInput = row.querySelector('input[name="tier"]');
+            const tieredDetailsCell = row.querySelector('.tiered-details');
+            const tieredDetailsHeader = document.getElementById('tiered-details-header');
             if (this.checked) {
                 // Enable price input unless tier-checkbox is checked
                 if (!tierInput || !tierInput.checked) {
@@ -524,6 +526,7 @@ async function handleSubmit() {
                     priceInput.style.backgroundColor = '';
                     priceInput.style.color = '';
                     priceInput.style.cursor = '';
+                    priceInput.placeholder = '';
                 }
                 // Enable Tier check box
                 if (tierInput) tierInput.disabled = false;
@@ -536,9 +539,18 @@ async function handleSubmit() {
                 priceInput.style.cursor = 'not-allowed';
                 // Disable Tier check box
                 if (tierInput) tierInput.disabled = true;
+                // Hide tiered details
+                tieredDetailsCell.innerHTML = '';
+                tieredDetailsCell.style.display = 'none';
+                tierInput.checked = false;
+                const anyTierChecked = Array.from(document.querySelectorAll('.tier-checkbox')).some(cb => cb.checked);
+                if (!anyTierChecked) {
+                    tieredDetailsHeader.style.display = 'none';
+                }
             }
         });
     });
+
     // Add event listeners for tier checkboxes
     document.querySelectorAll('.tier-checkbox').forEach(checkbox => {
         checkbox.addEventListener('change', function () {
@@ -548,7 +560,7 @@ async function handleSubmit() {
             const tieredDetailsHeader = document.getElementById('tiered-details-header');
 
             if (this.checked) {
-                // Disable price input
+                // Disable and style the price input
                 priceInput.disabled = true;
                 priceInput.value = '';
                 priceInput.placeholder = 'Disabled - Using Tier Pricing';
@@ -561,16 +573,12 @@ async function handleSubmit() {
                 addTieredDetailRow(tieredDetailsCell);
                 tieredDetailsHeader.style.display = 'block';
             } else {
-                // Enable price input only if select-product is checked
-                const selectProductCheckbox = row.querySelector('input[name="select-product"]');
-                if (selectProductCheckbox && selectProductCheckbox.checked) {
-                    priceInput.disabled = false;
-                    priceInput.value = '';
-                    priceInput.placeholder = '';
-                    priceInput.style.backgroundColor = '';
-                    priceInput.style.color = '';
-                    priceInput.style.cursor = '';
-                }
+                // Enable and reset the price input
+                priceInput.disabled = false;
+                priceInput.placeholder = '';
+                priceInput.style.backgroundColor = '';
+                priceInput.style.color = '';
+                priceInput.style.cursor = '';
 
                 // Hide tiered details
                 tieredDetailsCell.innerHTML = '';
@@ -929,7 +937,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return {
                     ProdID: row.cells[1].textContent,
                     ProductName: row.cells[2].textContent,
-                    Price: row.querySelector('input[name="price"]').value || '0',
+                    Price: (row.querySelector('input[name="price"]')?.value) || '0',
                     Tier: tierCheckbox ? tierCheckbox.checked : false,
                     TieredDetails: tieredDetails
                 };
@@ -973,7 +981,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         return {
                             ProdID: row.cells[1].textContent,
                             ProductName: row.cells[2].textContent,
-                            Price: row.querySelector('input[name="price"]').value || '0',
+                            Price: (row.querySelector('input[name="price"]')?.value) || '0',
                             Tier: tierCheckbox ? tierCheckbox.checked : false,
                             TieredDetails: tieredDetails,
                             Discount: discountCheckbox && discountCheckbox.checked ? discountCheckbox.value : null
@@ -1021,7 +1029,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     return {
                         ProdID: row.cells[1].textContent,
                         ProductName: row.cells[2].textContent,
-                        Price: row.querySelector('input[name="price"]').value || '0',
+                        Price: (row.querySelector('input[name="price"]')?.value) || '0',
                         Tier: tierCheckbox ? tierCheckbox.checked : false,
                         TieredDetails: tieredDetails
                     };
@@ -1064,7 +1072,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     return {
                         ProdID: row.cells[1].textContent,
                         ProductName: row.cells[2].textContent,
-                        Price: row.querySelector('input[name="price"]').value || '0',
+                        Price: (row.querySelector('input[name="price"]')?.value) || '0',
                         Tier: tierCheckbox ? tierCheckbox.checked : false,
                         TieredDetails: tieredDetails
                     };

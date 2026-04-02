@@ -41,7 +41,7 @@ New Relic PAYG - Enterprise O11y For All (US DC) Usage Quantity,US Core CCU,,US 
 New Relic PAYG - Enterprise Queries Usage Quantity,Scanned Events (In Billions),,Scanned Events (In Billions)
 New Relic PAYG - Extended Data Retention (EDR) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
 New Relic PAYG - Extended Data Retention (EDR) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
-New Relic PAYG - Extended Data Retention (EDR) Usage Quantity,GB Ingested,,GB Ingested
+New Relic PAYG - Extended Data Retention (EDR) Usage Quantity,US GB Ingested,,US GB Ingested
 New Relic PAYG - FedRAMP Compliance (NFR) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
 New Relic PAYG - FedRAMP Compliance (NFR) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
 New Relic PAYG - FedRAMP Compliance (NFR) Usage Quantity,GB Ingested,,GB Ingested
@@ -99,6 +99,9 @@ New Relic PAYG - Standard Queries Usage Quantity,Scanned Events (In Billions),,S
 New Relic PAYG - Stream Data Export (SDE) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
 New Relic PAYG - Stream Data Export (SDE) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
 New Relic PAYG - Stream Data Export (SDE) Usage Quantity,GB Ingested,,GB Ingested
+New Relic PAYG - Supreme CCU TEST Usage Quantity,US Supreme CCU,,US Supreme CCU
+New Relic PAYG - Supreme Compute TEST (EU DC) Usage Quantity,EU Supreme CCU,,EU Supreme CCU
+New Relic PAYG - Supreme Compute TEST (US DC) Usage Quantity,US Supreme CCU,,US Supreme CCU
 New Relic PAYG - Vulnerability Management (NVM) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
 New Relic PAYG - Vulnerability Management (NVM) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
 New Relic PAYG - Vulnerability Management (NVM) Usage Quantity,GB Ingested,,GB Ingested
@@ -178,11 +181,9 @@ New Relic Savings Plan - Standard Queries Usage Quantity,Scanned Events (In Bill
 New Relic Savings Plan - Stream Data Export (SDE) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
 New Relic Savings Plan - Stream Data Export (SDE) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
 New Relic Savings Plan - Stream Data Export (SDE) Usage Quantity,GB Ingested,,GB Ingested
-New Relic Savings Plan - Vulnerability Management (EU Data Center) Usage Quantity,EU GB Ingested,,EU GB Ingested
 New Relic Savings Plan - Vulnerability Management (NVM) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
 New Relic Savings Plan - Vulnerability Management (NVM) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
 New Relic Savings Plan - Vulnerability Management (NVM) Usage Quantity,GB Ingested,,GB Ingested
-New Relic Savings Plan - Vulnerability Management (US Data Center) Usage Quantity,US GB Ingested,,US GB Ingested
 New Relic Savings Plan - Vulnerability Management Usage Quantity,GB Ingested,,GB Ingested
 New Relic Volume Plan - Additional Synthetics Checks Usage Quantity,Checks,,Checks
 New Relic Volume Plan - Advanced Compute (EU DC) Usage Quantity,EU Advanced CCU,,EU Advanced CCU
@@ -197,8 +198,10 @@ New Relic Volume Plan - Data Plus (US Data Center) Usage Quantity,US GB Ingested
 New Relic Volume Plan - Data Plus Usage Quantity,GB Ingested,,GB Ingested
 New Relic Volume Plan - Data Usage Quantity,GB Ingested,,GB Ingested
 New Relic Volume Plan - Distributed Traces (DR) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
-New Relic Volume Plan - Distributed Traces (DR) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Volume Plan - Distributed Traces (DR) (US DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
 New Relic Volume Plan - Distributed Traces (DR) Usage Quantity,GB Ingested,,GB Ingested
+New Relic Volume Plan - Enterprise Advanced Compute (EU DC) Usage Quantity,EU Advanced CCU,,EU Advanced CCU
+New Relic Volume Plan - Enterprise Advanced Compute (US DC) Usage Quantity,US Advanced CCU,,US Advanced CCU
 New Relic Volume Plan - Enterprise Compute (EU Data Center) Usage Quantity,EU CCU,,EU CCU
 New Relic Volume Plan - Enterprise Compute (US Data Center) Usage Quantity,US CCU,,US CCU
 New Relic Volume Plan - Enterprise Compute Add On (EU DC) Usage Quantity,EU CCU,,EU CCU
@@ -230,7 +233,7 @@ New Relic Volume Plan - Increased Query Limit (IQL) (EU DC) Usage Quantity,EU GB
 New Relic Volume Plan - Increased Query Limit (IQL) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
 New Relic Volume Plan - Increased Query Limit (IQL) Usage Quantity,GB Ingested,,GB Ingested
 New Relic Volume Plan - Infra-Bytes (IGB) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
-New Relic Volume Plan - Infra-Bytes (IGB) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Volume Plan - Infra-Bytes (IGB) (US DC) Usage Quantity,GB Ingested,,GB Ingested
 New Relic Volume Plan - Infra-Bytes (IGB) Usage Quantity,GB Ingested,,GB Ingested
 New Relic Volume Plan - Interactive Application Security Testing (IAST) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
 New Relic Volume Plan - Interactive Application Security Testing (IAST) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
@@ -254,11 +257,15 @@ New Relic Volume Plan - Pro O11y For All (EU DC) Usage Quantity,EU Core CCU,,EU 
 New Relic Volume Plan - Pro O11y For All (US DC) Usage Quantity,US Core CCU,,US Core CCU
 New Relic Volume Plan - Pro Queries Usage Quantity,Scanned Events (In Billions),,Scanned Events (In Billions)
 New Relic Volume Plan - Standard Queries Usage Quantity,Scanned Events (In Billions),,Scanned Events (In Billions)
-New Relic Volume Plan - Stream Data Export (SDE) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Volume Plan - Stream Data Export (SDE) (EU DC) Usage Quantity,US GB Ingested,,US GB Ingested
 New Relic Volume Plan - Stream Data Export (SDE) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
 New Relic Volume Plan - Stream Data Export (SDE) Usage Quantity,GB Ingested,,GB Ingested
+New Relic Volume Plan - Vulnerability Management (EU Data Center) Usage Quantity,EU GB Ingested,,EU GB Ingested
 New Relic Volume Plan - Vulnerability Management (NVM) (EU DC) Usage Quantity,EU GB Ingested,,EU GB Ingested
+New Relic Volume Plan - Vulnerability Management (NVM) (US DC) - DELETE,US GB Ingested,,US GB Ingested
 New Relic Volume Plan - Vulnerability Management (NVM) (US DC) Usage Quantity,US GB Ingested,,US GB Ingested
 New Relic Volume Plan - Vulnerability Management (NVM) Usage Quantity,GB Ingested,,GB Ingested
+New Relic Volume Plan - Vulnerability Management (US Data Center) Usage Quantity,US GB Ingested,,US GB Ingested
+New Relic Volume Plan - Vulnerability Management Usage Quantity,GB Ingested,,GB Ingested
 Prototype SP1.0 - Additional Synthetics Checks,Checks,,Checks
 Prototype SP1.0 - Data,GB Ingested,,GB Ingested

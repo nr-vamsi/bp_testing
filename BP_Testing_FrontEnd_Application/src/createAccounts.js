@@ -64,6 +64,7 @@ async function createAccount(sessionId, accountName, sfAccId, parentAccId, accou
                 nrSalesforceAccountID: `${sfAccId}`,
                 nrCustomerContractId: `${customerContractId}`,
                 nrOrgGroupId: `${orgGroupId}`,
+                ActivityTimeZone: 'US/Pacific'
             }
         })
     });
@@ -112,6 +113,7 @@ async function createBPAccount(sessionId, accountName, sfAccId, parentAccountId,
                 nrShipToState: shipToState,
                 nrShipToZip: shipToZip,
                 nrTaxId: '86'
+                ActivityTimeZone: 'US/Pacific'
             }
         })
     });

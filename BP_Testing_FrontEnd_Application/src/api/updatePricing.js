@@ -1,5 +1,5 @@
 
-import CONFIG from './config.js';
+import CONFIG from '../config.js';
 export async function updatePricing(sessionId, pricingId, product) {
     const response = await fetch(
         `${CONFIG.HOSTNAME}/rest/2.0/PRICING`,

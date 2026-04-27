@@ -1,3 +1,64 @@
+/* ── Contract type selector ───────────────────────────────────────────────── */
+.contract-type-fieldset {
+    display: inline-block;
+    margin-bottom: 12px;
+}
+
+.contract-type-options {
+    display: flex;
+    gap: 0;
+}
+
+.contract-type-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 22px;
+    cursor: pointer;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 14px;
+    margin: 4px 6px 4px 0;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+    user-select: none;
+}
+
+.contract-type-label input[type="radio"] {
+    margin: 0;
+    width: 14px;
+    height: 14px;
+    accent-color: #1ce783;
+}
+
+.contract-type-label.contract-type-selected {
+    border-color: #1ce783;
+    background: #e8fff3;
+    color: #0a6c3a;
+}
+
+/* ── Contract caption & divider ──────────────────────────────────────────── */
+.contract-caption {
+    margin: 10px 0 6px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.net-new-caption  { color: #0a6c3a; }
+.amendment-caption { color: #1a56a0; }
+
+.contract-divider {
+    border: none;
+    border-top: 3px solid #1ce783;
+    margin: 0 0 18px;
+}
+
+.amendment-divider {
+    border-top-color: #3a7bd5;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -159,4 +220,41 @@ th {
 .savings-plan-container input[type="text"] {
     width: 100%;
     box-sizing: border-box;
+}
+
+/* ── Rip & Replace progress bar ───────────────────────────────────────────── */
+.termination-progress-label {
+    margin: 0 0 4px;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.progress-bar-container {
+    width: 100%;
+    background: #e0e0e0;
+    border-radius: 8px;
+    height: 28px;
+    overflow: hidden;
+    margin: 6px 0;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.15);
+}
+
+.progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #1ce783, #28a745);
+    border-radius: 8px;
+    transition: width 0.3s ease;
+}
+
+.termination-success {
+    color: #0a6c3a;
+    font-weight: 600;
+    margin-top: 6px;
+}
+
+.termination-error {
+    color: #c0392b;
+    font-weight: 600;
+    margin-top: 6px;
 }

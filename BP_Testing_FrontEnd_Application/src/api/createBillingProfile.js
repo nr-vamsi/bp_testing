@@ -1,4 +1,4 @@
-import CONFIG from './config.js';
+import CONFIG from '../config.js';
 export async function createBillingProfile(sessionId, accountId, accountName, sfAccId) {
     const billToAddress1 = document.getElementById('bill-to-address1').value;
     const billToCity = document.getElementById('bill-to-city').value;
@@ -52,7 +52,6 @@ export async function createBillingProfile(sessionId, accountId, accountName, sf
                 YearlyBillingMonth: 'January',
                 Zip: billToZip,
                 nrBillType: 'Invoice',
-                Email: billToEmail,
                 nrSalesforceAccountId: sfAccId
             }
         })

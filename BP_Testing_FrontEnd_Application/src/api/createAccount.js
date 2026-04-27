@@ -1,4 +1,4 @@
-import CONFIG from './config.js';
+import CONFIG from '../config.js';
 export async function createAccount(sessionId, accountName, sfAccId) {
     const shipToAddress1 = document.getElementById('ship-to-address1').value;
     const shipToCity = document.getElementById('ship-to-city').value;

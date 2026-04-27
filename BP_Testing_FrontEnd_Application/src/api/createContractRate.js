@@ -1,4 +1,4 @@
-import CONFIG from './config.js';
+import CONFIG from '../config.js';
 export async function createContractRate(sessionId, contractId, product, contractStartDateValue, contractEndDateValue) {
     const response = await fetch(`${CONFIG.HOSTNAME}/rest/2.0/CONTRACT_RATE`, {
         method: 'POST',
@@ -15,7 +15,6 @@ export async function createContractRate(sessionId, contractId, product, contrac
                 RatingMethodId: '',
                 ProductId: `${product.ProdID}`,
                 Name: '',
-                EndDate: '',
                 ContractRateLabel: `${product.ProductName}`
             }
         })

@@ -1,4 +1,5 @@
-import CONFIG from './config.js';
+import CONFIG from '../config.js';
+import { state } from '../modules/state.js';
 async function createContract(sessionId, accountId, accountName, contractStartDateValue, contractEndDateValue, contractName,contractType, savingsPlanData, ccidCount) {
 console.log('Reseller percentage:', savingsPlanData.resellerFeeBlendedRate);
 console.log('Contract Data:', savingsPlanData);
@@ -39,8 +40,13 @@ console.log('Contract Data:', savingsPlanData);
                 nrPartnerCompensationMethod: savingsPlanData.partnerCompensationMethod,
                 nrBuyingProgram : savingsPlanData.buyingProgram,
                 nrMarketplacePlatformName: savingsPlanData.marketplacePlatformName,
-                nrMarketplaceFeeRate: savingsPlanData.marketplaceFeeRate
-
+                nrMarketplaceFeeRate: savingsPlanData.marketplaceFeeRate,
+                nrSFContractStatus: 'Active',
+                ...(state.rippedContractId && {
+                    nrPrepaidCreditEligible: '1',
+                    nrPrepaidCreditContract: state.rippedContractId
+                }),
+                ...(state.isBackdated && { nrBackdatedContract: '1' })
             }
         })
     });

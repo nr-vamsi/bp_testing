@@ -1,5 +1,5 @@
 
-import CONFIG from './config.js';
+import CONFIG from '../config.js';
 export async function createTieredPricing(sessionId, contractId, contractRateId, tieredDetails, contractStartDateValue, contractEndDateValue) {
     const brmObjects = tieredDetails.map((tieredDetail, index) => ({
         ContractId: contractId,

@@ -1,5 +1,5 @@
 
-import CONFIG from './config.js';
+import CONFIG from '../config.js';
 export async function createPricing(sessionId, contractId, contractRateId, product, contractStartDateValue, contractEndDateValue) {
     const response = await fetch(
         `${CONFIG.HOSTNAME}/rest/2.0/PRICING`,

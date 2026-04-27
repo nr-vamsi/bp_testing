@@ -18,16 +18,235 @@
     <div class="container">
         <img src="newrelic-logo.png" alt="New Relic" class="logo">
         <h1>Frameworks BP FastTrack Testing UI</h1>
+
+        <!-- Contract type selector -->
+        <fieldset class="fieldset contract-type-fieldset">
+            <legend>Contract</legend>
+            <div class="contract-type-options">
+                <label class="contract-type-label" id="label-net-new">
+                    <input type="radio" name="contract-type" value="net-new" checked>
+                    Net New
+                </label>
+                <label class="contract-type-label" id="label-amendment">
+                    <input type="radio" name="contract-type" value="amendment">
+                    Amendment
+                </label>
+            </div>
+        </fieldset>
+
+        <!-- Dynamic header caption -->
+        <h2 id="contract-caption" class="contract-caption net-new-caption">New Contract</h2>
+        <hr id="contract-divider" class="contract-divider">
+
+        <!-- Amendment page (hidden by default) -->
+        <div id="amendment-page" style="display: none;">
+            <fieldset class="fieldset">
+                <legend>Contract Amendment</legend>
+                <div style="display: flex; gap: 40px; align-items: flex-start; flex-wrap: wrap;">
+                    <div>
+                        <label for="type-of-amendment">Type Of Amendment?</label><br>
+                        <select id="type-of-amendment" name="type-of-amendment" style="margin-top: 4px;">
+                            <option value="">Select Amendment Type</option>
+                            <option value="Co-Term">Co-Term</option>
+                            <option value="Rip & Replace">Rip &amp; Replace</option>
+                            <!--option value="Add Products">Add Products</option-->
+                            <option value="Top Up">Top Up</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="effective-date">Effective Date</label><br>
+                        <input type="date" id="effective-date" name="effective-date" style="margin-top: 4px;">
+                    </div>
+                    <div style="align-self: center; margin-top: 16px;">
+                        <label style="display: flex; align-items: center; gap: 8px; font-weight: 600; cursor: pointer;">
+                            <input type="checkbox" id="is-backdated" name="is-backdated">
+                            Is Backdated?
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Rip & Replace: contract termination inputs (shown only when Rip & Replace selected) -->
+            <div id="rip-replace-section" style="display:none; margin-top:16px;">
+                <fieldset class="fieldset">
+                    <legend>Contract Termination</legend>
+                    <div style="display:flex; gap:24px; align-items:flex-end; flex-wrap:wrap;">
+                        <div>
+                            <label for="session-id-rip">Session ID</label>
+                            <input type="text" id="session-id-rip" name="session-id-rip" style="width:280px; margin-top:4px;">
+                        </div>
+                        <div>
+                            <label for="contract-to-rip">Enter Contract to be Ripped</label>
+                            <input type="text" id="contract-to-rip" name="contract-to-rip" style="width:200px; margin-top:4px;">
+                        </div>
+                        <div>
+                            <button type="button" id="proceed-rip">Proceed</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+            <!-- Progress bar (shown during / after termination API call) -->
+            <div id="rip-replace-progress" style="display:none; margin-top:16px;">
+                <p class="termination-progress-label"><strong>Terminating Contract…</strong></p>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="termination-progress-bar"></div>
+                </div>
+                <p id="termination-status"></p>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════════════════════
+                 Co-Term section (shown only when Co-Term is selected)
+            ════════════════════════════════════════════════════════════════ -->
+            <div id="co-term-section" style="display:none; margin-top:16px;">
+
+                <!-- Load contract -->
+                <fieldset class="fieldset">
+                    <legend>Co-Term — Contract</legend>
+                    <div style="display:flex; gap:24px; align-items:flex-end; flex-wrap:wrap;">
+                        <div>
+                            <label for="session-id-coterm">Session ID</label>
+                            <input type="text" id="session-id-coterm" name="session-id-coterm" style="width:280px; margin-top:4px;">
+                        </div>
+                        <div>
+                            <label for="contract-id-coterm">Contract ID</label>
+                            <input type="text" id="contract-id-coterm" name="contract-id-coterm" style="width:200px; margin-top:4px;">
+                        </div>
+                        <div>
+                            <button type="button" id="load-contract-coterm">Load Contract</button>
+                        </div>
+                    </div>
+                    <div id="coterm-loading" style="display:none; margin-top:12px;">
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" id="coterm-loading-bar"></div>
+                        </div>
+                        <p id="coterm-loading-text" style="margin:4px 0 0; font-size:0.9rem;"></p>
+                    </div>
+                </fieldset>
+
+                <!-- Section 1: Update price for existing products -->
+                <div id="coterm-existing-section" style="display:none; margin-top:16px;">
+                    <fieldset class="fieldset">
+                        <legend>1. Update Price for Existing Products</legend>
+                        <table id="coterm-products-table">
+                            <thead>
+                                <tr>
+                                    <th>Select</th>
+                                    <th>Product Name</th>
+                                    <th>Current Price</th>
+                                    <th>New Price</th>
+                                    <th>Tier</th>
+                                    <th id="ct-existing-tiered-details-header" style="display:none;">Tiered Details</th>
+                                </tr>
+                            </thead>
+                            <tbody id="coterm-products-tbody"></tbody>
+                        </table>
+                    </fieldset>
+                </div>
+
+                <!-- Section 2: Add new products -->
+                <div id="coterm-new-section" style="display:none; margin-top:16px;">
+                    <fieldset class="fieldset">
+                        <legend>2. Add New Products</legend>
+
+                        <div style="margin-bottom:12px;">
+                            <label>Buying Program (from contract):</label>
+                            <strong id="coterm-buying-program-display" style="margin-left:8px;"></strong>
+                            <input type="hidden" id="coterm-buying-program">
+                        </div>
+
+                        <div class="side-by-side">
+                            <fieldset class="fieldset">
+                                <legend>Products:</legend>
+                                <div class="products-container" style="display:flex; gap:1px;">
+                                    <div class="products-column" style="flex:1;">
+                                        <label><input type="checkbox" value="Users"     name="ct-product" id="ct-user-checkbox">    Users</label>
+                                        <label><input type="checkbox" value="Data"      name="ct-product">                           Data</label>
+                                        <label><input type="checkbox" value="Compute"   name="ct-product" id="ct-compute-checkbox"> Compute</label>
+                                        <label><input type="checkbox" value="Synthetics" name="ct-product">                          Synthetics Checks</label>
+                                    </div>
+                                    <div class="products-column" style="flex:1;">
+                                        <label><input type="checkbox" value="Queries"  name="ct-product" id="ct-queries-checkbox"> Queries</label>
+                                        <label><input type="checkbox" value="Live"     name="ct-product">                           Live Archives</label>
+                                        <label><input type="checkbox" value="Discount" name="ct-product">                           Discount</label>
+                                        <label><input type="checkbox" value="AddOn"    name="ct-product">                           AddOn Products</label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset class="fieldset">
+                                <legend>Region:</legend>
+                                <label><input type="checkbox" value="US" name="ct-region"> US</label>
+                                <label><input type="checkbox" value="EU" name="ct-region"> EU</label>
+                            </fieldset>
+                        </div>
+
+                        <div class="side-by-side">
+                            <fieldset class="fieldset" id="ct-user-options" style="display:none;">
+                                <legend>User Options:</legend>
+                                <label><input type="checkbox" value="Core"         name="ct-user-option"> Core</label>
+                                <label><input type="checkbox" value="Standard FPU" name="ct-user-option"> Standard FPU</label>
+                                <label><input type="checkbox" value="Pro FPU"      name="ct-user-option"> Pro FPU</label>
+                                <label><input type="checkbox" value="Enterprise FPU" name="ct-user-option"> Enterprise FPU</label>
+                            </fieldset>
+                            <fieldset class="fieldset" id="ct-compute-options" style="display:none;">
+                                <legend>Compute Options:</legend>
+                                <label><input type="checkbox" value="Standard"   name="ct-compute-option"> Standard</label>
+                                <label><input type="checkbox" value="Pro"        name="ct-compute-option"> Pro</label>
+                                <label><input type="checkbox" value="Enterprise" name="ct-compute-option"> Enterprise</label>
+                                <label><input type="checkbox" value="Advanced"   name="ct-compute-option"> Advanced</label>
+                            </fieldset>
+                            <fieldset class="fieldset" id="ct-queries-options" style="display:none;">
+                                <legend>Queries Options:</legend>
+                                <label><input type="checkbox" value="Standard"   name="ct-queries-option"> Standard</label>
+                                <label><input type="checkbox" value="Pro"        name="ct-queries-option"> Pro</label>
+                                <label><input type="checkbox" value="Enterprise" name="ct-queries-option"> Enterprise</label>
+                            </fieldset>
+                        </div>
+
+                        <br>
+                        <button type="button" id="coterm-generate-plan">Generate Plan</button>
+
+                        <!-- New products table (shown after Generate Plan) -->
+                        <div id="coterm-new-products-result" style="display:none; margin-top:16px;">
+                            <table id="coterm-new-products-table">
+                                <thead>
+                                    <tr>
+                                        <th>Select</th>
+                                        <th>ProdID</th>
+                                        <th>Product Name</th>
+                                        <th>Rating Method</th>
+                                        <th>Price</th>
+                                        <th>Tier</th>
+                                        <th id="ct-tiered-details-header" style="display:none;">Tiered Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="coterm-new-products-tbody"></tbody>
+                            </table>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <!-- Create button + status -->
+                <div id="coterm-create-section" style="display:none; margin-top:16px;">
+                    <button type="button" id="coterm-create">Create</button>
+                    <p id="coterm-create-status" style="margin-top:8px;"></p>
+                </div>
+
+            </div><!-- /#co-term-section -->
+        </div>
+
+        <!-- Net New page (shown by default) -->
+        <div id="net-new-page">
         <div class="side-by-side">
             <fieldset class="fieldset">
                 <legend>Subscription Type:</legend>
-                <label for="subscription-type">Select Subscription Type:</label>
+                <!--label for="subscription-type">Select Subscription Type:</label>
                 <select id="subscription-type" name="subscription-type">
                     <option value="New">New</option>
                     <option value="Amend">Amend</option>
                     <option value="Cancel">Cancel</option>
                     <option value="R&R">R&R</option>
-                </select>
+                </select-->
                 <label for="tcid">TC#</label>
                 <input type="text" id="tcid" name="tcid">
 
@@ -220,6 +439,10 @@
                         <label><input type="checkbox" name="product" value="Discount" id="discount-checkbox">
                             Discount</label>
                     </div>
+                    <div class="products-column" style="flex: 1;">
+                        <label><input type="checkbox" name="product" value="AddOn" id="addon-checkbox">
+                            AddOn Products</label>
+                    </div>
 
                 </div>
             </fieldset>
@@ -260,6 +483,8 @@
 
         <br>
         <button id="submit">GeneratePlan</button>
+
+        </div><!-- /#net-new-page -->
 
         <div id="result" class="selected-options" style="display: none;">
             <h3 id="account-name"></h3>
@@ -361,6 +586,100 @@
         </div>
     </div>
     <script type="module" src="app.js"></script>
+    <script>
+        function resetNetNewPage() {
+            // ── Clear text / date inputs ──────────────────────────────────────
+            [
+                'tcid', 'contract-start-date', 'contract-end-date',
+                'total-contract-value', 'initial-commitment', 'initial-commitment-credit',
+                'initial-prepaid-commitment', 'initial-flexi-prepaid-commitment', 'initial-flexi-credit',
+                'last-amendment-number', 'rollover-funds', 'rollover-credits', 'prepaid-credits',
+                'marketplace-fee-rate', 'reseller-fee-blended-rate',
+                'reseller-fee-renewal-rate', 'reseller-fee-new-rate',
+                'session-id'
+            ].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) { el.value = ''; el.disabled = false; }
+            });
+
+            // ── Reset selects ─────────────────────────────────────────────────
+            ['buying-program', 'billing-terms', 'marketplace-platform-name', 'partner-compensation-method']
+                .forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.selectedIndex = 0;
+                });
+
+            // ── Uncheck all checkboxes & radios inside net-new-page ───────────
+            document.querySelectorAll(
+                '#net-new-page input[type="checkbox"], #net-new-page input[type="radio"]'
+            ).forEach(el => { el.checked = false; el.disabled = false; });
+
+            // ── Re-enable address fields (may have been disabled by Rip & Replace) ──
+            [
+                'bill-to-address1','bill-to-city','bill-to-state','bill-to-country','bill-to-zip','bill-to-email',
+                'ship-to-address1','ship-to-city','ship-to-state','ship-to-country','ship-to-zip','ship-to-email'
+            ].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) { el.value = ''; el.disabled = false; }
+            });
+
+            // ── Hide conditional sub-option fieldsets ─────────────────────────
+            ['user-options', 'compute-options', 'queries-options'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = 'none';
+            });
+
+            // ── Hide result sections ──────────────────────────────────────────
+            ['result', 'result-container', 'result-container1',
+             'result-container2', 'result-container3', 'result-container4'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = 'none';
+            });
+
+            // ── Clear result table body and account-name heading ──────────────
+            const tbody = document.querySelector('#result-table tbody');
+            if (tbody) tbody.innerHTML = '';
+            const accName = document.getElementById('account-name');
+            if (accName) { accName.textContent = ''; accName.style.display = ''; }
+
+            // ── Reset tiered-details header ───────────────────────────────────
+            const tieredHdr = document.getElementById('tiered-details-header');
+            if (tieredHdr) tieredHdr.style.display = 'none';
+        }
+
+        document.querySelectorAll('input[name="contract-type"]').forEach(radio => {
+            radio.addEventListener('change', function () {
+                const isAmendment = this.value === 'amendment';
+
+                document.getElementById('amendment-page').style.display = isAmendment ? 'block' : 'none';
+                document.getElementById('net-new-page').style.display  = isAmendment ? 'none'  : 'block';
+
+                const caption  = document.getElementById('contract-caption');
+                const divider  = document.getElementById('contract-divider');
+                const lblNew   = document.getElementById('label-net-new');
+                const lblAmend = document.getElementById('label-amendment');
+
+                if (isAmendment) {
+                    caption.textContent = 'Amend Contract';
+                    caption.className   = 'contract-caption amendment-caption';
+                    divider.className   = 'contract-divider amendment-divider';
+                    lblAmend.classList.add('contract-type-selected');
+                    lblNew.classList.remove('contract-type-selected');
+                    resetNetNewPage();
+                } else {
+                    caption.textContent = 'New Contract';
+                    caption.className   = 'contract-caption net-new-caption';
+                    divider.className   = 'contract-divider';
+                    lblNew.classList.add('contract-type-selected');
+                    lblAmend.classList.remove('contract-type-selected');
+                    resetNetNewPage();
+                }
+            });
+        });
+
+        // Set initial selected state
+        document.getElementById('label-net-new').classList.add('contract-type-selected');
+    </script>
 </body>
 
 </html>

@@ -1,5 +1,5 @@
 
-import CONFIG from './config.js';
+import CONFIG from '../config.js';
 export async function createContractCurrency(sessionId, contractId) {
     const response = await fetch(`${CONFIG.HOSTNAME}/rest/2.0/CONTRACT_CURRENCY`, {
         method: 'POST',

@@ -1,5 +1,5 @@
 import { createBillingProfile } from './createBillingProfile.js';
-import CONFIG from './config.js';
+import CONFIG from '../config.js';
 
 async function createAccounts(sessionId, accountName, sfAccId, hierarchy) {
     const parentIds = [];
@@ -10,6 +10,7 @@ async function createAccounts(sessionId, accountName, sfAccId, hierarchy) {
         const level = hierarchy[i];
         let accId;
         let parentAccId = 1; // Default parentAccId for UltimateParent
+        
 
         if (level === 'UltimateParent') {
             accId = await createAccount(sessionId, `UP_${accountName}`, `UP_${sfAccId}`, parentAccId, 721);

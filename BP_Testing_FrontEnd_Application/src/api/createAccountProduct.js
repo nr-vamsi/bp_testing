@@ -1,6 +1,10 @@
+import CONFIG from '../config.js';
+export async function createAccountProduct(sessionId, accountId, contractId, product, contractStartDateValue, contractEndDateValue) {
+    let productName = product.ContractRateLabel ? product.ContractRateLabel : product.ProductName;
+    let productId = product.ProductId ? product.ProductId : product.ProdID;
+    console.log("Prod Id: ", productId);
+    console.log("Product Name: ", productName);
 
-import CONFIG from './config.js';
-export async function createBillingIdentifier(sessionId, accountId, contractId, billingIdentifier, contractStartDateValue, contractEndDateValue) {
     const response = await fetch(`${CONFIG.HOSTNAME}/rest/2.0/ACCOUNT_PRODUCT`, {
         method: 'POST',
         headers: {
@@ -9,7 +13,7 @@ export async function createBillingIdentifier(sessionId, accountId, contractId, 
         },
         body: JSON.stringify({
             brmObjects: {
-                ProductId: 13985,
+                ProductId: productId,
                 Id: '',
                 Quantity: '1',
                 StartDate: contractStartDateValue,
@@ -17,8 +21,10 @@ export async function createBillingIdentifier(sessionId, accountId, contractId, 
                 Status: 'ACTIVE',
                 AccountId: accountId,
                 ContractId: contractId,
-                Name: 'BillingIdentifier',
-                nrBillingIdentifier: billingIdentifier
+                BillingCycleStartDate: contractStartDateValue,
+                Name: productName,
+                NRUsageMonthlyMin: 0,
+                nrMonthlyMinCommitment: 0
             }
         })
     });
